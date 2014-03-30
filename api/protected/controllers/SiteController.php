@@ -29,7 +29,11 @@ class SiteController extends Controller
 	{
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('index');
+		//$this->render('index');
+            $response = array("HelloWorld");
+            $this->sendResponse(200, CJSON::encode($response));
+            Yii::app()->end();
+            
 	}
 
 	/**
