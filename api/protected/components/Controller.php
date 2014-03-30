@@ -5,30 +5,31 @@
  */
 class Controller extends CController
 {
-	/**
-	 * @var string the default layout for the controller view. Defaults to '//layouts/column1',
-	 * meaning using a single column layout. See 'protected/views/layouts/column1.php'.
-	 */
-	public $layout='//layouts/column1';
-	/**
-	 * @var array context menu items. This property will be assigned to {@link CMenu::items}.
-	 */
-	public $menu=array();
-	/**
-	 * @var array the breadcrumbs of the current page. The value of this property will
-	 * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
-	 * for more details on how to specify this property.
-	 */
-	public $breadcrumbs=array();
+    
+    private function _checkAuth()
+    {
+        // Check if we have the USERNAME and PASSWORD HTTP headers set?
+        if(!(isset($_SERVER['HTTP_X_USERNAME']) and isset($_SERVER['HTTP_X_PASSWORD']))) {
+            // Error: Unauthorized
+            $this->_sendResponse(401);
+        }
+        $username = $_SERVER['HTTP_X_USERNAME'];
+        $password = $_SERVER['HTTP_X_PASSWORD'];
+        // Find the user
+        $user=User::model()->find('LOWER(username)=?',array(strtolower($username)));
+        if($user===null) {
+            // Error: Unauthorized
+            $this->_sendResponse(401, 'Error: User Name is invalid');
+        } else if(!$user->validatePassword($password)) {
+            // Error: Unauthorized
+            $this->_sendResponse(401, 'Error: User Password is invalid');
+        }
+    }
 	
-	/**
-	 * Gets RestFul data and decodes its JSON request
-	 * @return mixed
-	 */
-	protected function getInputAsJson()
-	{
-		return CJSON::decode(file_get_contents('php://input'));
-	}
+    protected function getInputAsJson()
+    {
+            return CJSON::decode(file_get_contents('php://input'));
+    }
 
     /**
      * Send raw HTTP response

@@ -21,17 +21,21 @@ class AdminModule extends CWebModule
             ));
 
         Yii::app()->language = 'ru';
-        Yii::app()->getUrlManager()->addRules(
-            array(
-                'admin' => 'admin',
-                'admin/<controller:\w+>' => 'admin/<controller>',
-                'admin/<controller:\w+>/<action:\w+>' => 'admin/<controller>/<action>',
-            ));
+        
         Yii::app()->setComponents(
             array(
                 'errorHandler' => array(
                     'errorAction' => '/' . $this->getId() . '/default/error',
                 ),
+                'urlManager'=>array(
+			'urlFormat'=>'path',
+			'rules'=>array(
+                            'admin' => 'admin',
+                            'admin/<controller:\w+>' => 'admin/<controller>',
+                            'admin/<controller:\w+>/<action:\w+>' => 'admin/<controller>/<action>',
+                        ),
+                        'showScriptName' => false,
+		),
                 'user' => array(
                     'class' => 'AdminWebUser',
                     'allowAutoLogin' => true,
