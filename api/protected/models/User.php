@@ -12,9 +12,9 @@
  */
 class User extends CActiveRecord
 {
-    /**
-     * @return string the associated database table name
-     */
+
+    private $_identity;
+    
     public function tableName()
     {
         return '{{user}}';
@@ -111,5 +111,18 @@ class User extends CActiveRecord
                 'setUpdateOnCreate' => false,  
             )
         );  
-    } 
+    }
+    
+    public function login()
+    {
+        $this->_identity = new UserIdentity( $this->username, $this->password );
+        if($this->_identity->authenticate()){ 
+            Yii::app()->user->login($this->_identity);
+            return TRUE;
+        }
+        else
+            echo $this->_identity->errorMessage;
+    }
+    
+    
 }
