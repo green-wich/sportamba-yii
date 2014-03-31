@@ -22,10 +22,8 @@ function allMatches2(){
         type: 'POST',
         url: apiURL+'/user',
         dataType: "json", // data type of response
-        success: function(data, textStatus, jqXHR){
+        success: function(data){
             console.log( data );
-            console.log( textStatus );
-            console.log( jqXHR );
             window.location.reload();
         }
     });
