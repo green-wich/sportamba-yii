@@ -13,9 +13,8 @@ class AdminUserIdentity extends CUserIdentity
      */
     public function authenticate()
     {
-        $user = AdminUser::model()->findByAttributes(['username' => $this->username]);
+        $user = User::model()->findByAttributes(['username' => $this->username]);
         
-        /** @var AdminUser $user */
         if (isset($user)) {
             if (md5($this->password) == $user->password) {
                 $this->errorCode = self::ERROR_NONE;
