@@ -15,30 +15,56 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
-	<?php echo $form->errorSummary($model); ?>
-
 	<div class="row">
 		<?php echo $form->labelEx($model,'name'); ?>
 		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>200)); ?>
 		<?php echo $form->error($model,'name'); ?>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'description'); ?>
-		<?php echo $form->textArea($model,'description',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'description'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'img'); ?>
-		<?php echo $form->textField($model,'img',array('size'=>60,'maxlength'=>255)); ?>
-		<?php echo $form->error($model,'img'); ?>
-	</div>
+    
+        <?php if(empty($model->img)): ?>
+        <div class="row" id="single-photo-upload">
+        <?php echo $form->labelEx($model,'img'); ?>
+            <?php
+            $this->widget( 'xupload.XUpload', array(
+                'url' => Yii::app( )->createUrl("admin/commands/upload", array('upload' => 'single')),
+                //our XUploadForm
+                'model' => $photos,
+                'showForm'=> false,
+                //We set this for the widget to be able to target our own form
+                'htmlOptions' => array('id'=>'single-photo-upload'),
+                'attribute' => 'img',
+                'multiple' => false,
+                )    
+            );
+            ?>
+        </div>
+        <?php endif; ?>
+            
+        <?php if(!empty($model->img)): ?>
+        <table class="table table-striped" id="single">
+                <tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery">
+                    <tr class="template-download fade in">
+                        <td class="preview">
+                            <?php echo CHtml::image("/uploads/commands/" . $model->id . "/thumb/180_140_" . $model->img, '', array("width"=> "200px")); ?>
+                        </td>
+                        <td class="delete">
+                           <?php  echo CHtml::ajaxLink(
+                                'Удалить',
+                                $this->createUrl('deleteimg', array('id'=>$model->id)),
+                                array(
+                                    'update'=>'.form'
+                                ),
+                                array('class'=>'btn btn-danger')
+                            ); 
+                           ?>
+                        </td>
+                    </tr>
+                </tbody>
+        </table>
+        <?php endif; ?>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class"=>"btn-danger")); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

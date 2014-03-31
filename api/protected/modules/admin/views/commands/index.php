@@ -12,8 +12,13 @@
                     'filter' => false
                 ),
 		'name',
-		'description',
-		'img',
+                array(
+                    'name'=>'img',
+                    'type'=>'image',
+                    'value'=> '"/uploads/commands/" . $data->id . "/thumb/180_140_" . $data->img',
+                    'filter'=>'',
+                    'headerHtmlOptions'=>array('width'=>'180px'),
+                ),
 		array(
 			'class'=>'CButtonColumn',
                         'template' => '{update} {delete}',

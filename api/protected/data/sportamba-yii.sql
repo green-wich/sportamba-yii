@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Мар 31 2014 г., 23:04
+-- Время создания: Апр 01 2014 г., 02:15
 -- Версия сервера: 5.5.35-0ubuntu0.13.10.2
 -- Версия PHP: 5.5.3-1ubuntu2.2
 
@@ -29,19 +29,14 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `sport_commands` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
-  `description` text NOT NULL,
   `img` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
 -- Дамп данных таблицы `sport_commands`
 --
 
-INSERT INTO `sport_commands` (`id`, `name`, `description`, `img`) VALUES
-(1, 'Динамо', 'Динамо', 'Динамо'),
-(2, 'Шахтер', 'Шахтер', 'Шахтер'),
-(3, 'Манчестер', 'Манчестер', 'Манчестер');
 
 -- --------------------------------------------------------
 
@@ -85,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `sport_user` (
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Дамп данных таблицы `sport_user`
@@ -96,7 +91,8 @@ INSERT INTO `sport_user` (`id`, `username`, `password`, `session_data`, `created
 (2, 'asdasd', 'asdasd', '', '2014-03-31 13:37:05', '', 1),
 (3, 'qwer', '1q1q', '', '2014-03-31 13:53:34', '', 1),
 (4, 'ttttt444', 'desc2', '', '2014-03-31 13:56:13', '', 1),
-(5, '100003101458147', '42f15b6970f231a659c24a3613fd3a14', 'a:2:{s:35:"hauth_session.facebook.is_logged_in";s:4:"i:1;";s:41:"hauth_session.facebook.token.access_token";s:193:"s:184:"CAAU8OR2Due8BADkCeE0dDy8u9ZCiqoLa1xoJ4C3uVsVK58uaqucnHPDHQ9v3NGTLcb3BTe7pJUps06hd0aZAZC1E6Lhl4QqC7VWf4pAAZCZCQBVgJbHdWUJMmZCge46vUq78oZBvTFoIFPt64dDJEfubms1qJYncTqHW5tMAwlX9oG8tdCfWGO9";";}', '2014-03-31 22:54:29', 'Facebook', 1);
+(5, '100003101458147', '42f15b6970f231a659c24a3613fd3a14', 'a:2:{s:35:"hauth_session.facebook.is_logged_in";s:4:"i:1;";s:41:"hauth_session.facebook.token.access_token";s:193:"s:184:"CAAU8OR2Due8BADkCeE0dDy8u9ZCiqoLa1xoJ4C3uVsVK58uaqucnHPDHQ9v3NGTLcb3BTe7pJUps06hd0aZAZC1E6Lhl4QqC7VWf4pAAZCZCQBVgJbHdWUJMmZCge46vUq78oZBvTFoIFPt64dDJEfubms1qJYncTqHW5tMAwlX9oG8tdCfWGO9";";}', '2014-03-31 22:54:29', 'Facebook', 1),
+(8, '132747192', '215b1294238c575662687206552b6402', 'a:6:{s:42:"hauth_session.vkontakte.token.access_token";s:93:"s:85:"337bf4b4f0cdae71970bc361b0a71cbad9b2ebc09e29f4864a6639f4e07d8d821c4ef1cfa21c31120ee7a";";s:43:"hauth_session.vkontakte.token.refresh_token";s:7:"s:0:"";";s:40:"hauth_session.vkontakte.token.expires_in";s:8:"i:86397;";s:40:"hauth_session.vkontakte.token.expires_at";s:13:"i:1396383759;";s:31:"hauth_session.vkontakte.user_id";s:12:"i:132747192;";s:36:"hauth_session.vkontakte.is_logged_in";s:4:"i:1;";}', '2014-03-31 23:25:00', 'Vkontakte', 1);
 
 -- --------------------------------------------------------
 
@@ -109,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `sport_user_profile` (
   `user_id` int(11) NOT NULL,
   `profileUrl` varchar(200) NOT NULL,
   `photoUrl` varchar(200) NOT NULL,
-  `displayName` varchar(100) NOT NULL,
+  `displayName` varchar(100) DEFAULT NULL,
   `firstName` varchar(60) NOT NULL,
   `lastName` varchar(60) NOT NULL,
   `gender` varchar(30) NOT NULL,
@@ -117,14 +113,15 @@ CREATE TABLE IF NOT EXISTS `sport_user_profile` (
   `email` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Дамп данных таблицы `sport_user_profile`
 --
 
 INSERT INTO `sport_user_profile` (`id`, `user_id`, `profileUrl`, `photoUrl`, `displayName`, `firstName`, `lastName`, `gender`, `region`, `email`) VALUES
-(1, 5, 'https://www.facebook.com/grischuk.sasha', 'https://graph.facebook.com/100003101458147/picture?width=150&height=150', 'Саша Грищук', 'Саша', 'Грищук', 'male', 'Krolevets', 'alexander.grischuk@yandex.ua');
+(1, 5, 'https://www.facebook.com/grischuk.sasha', 'https://graph.facebook.com/100003101458147/picture?width=150&height=150', 'Саша Грищук', 'Саша', 'Грищук', 'male', 'Krolevets', 'alexander.grischuk@yandex.ua'),
+(2, 8, 'http://vk.com/grischuk_sasha', 'http://cs312618.vk.me/v312618192/3a70/8eNp6bxOFAg.jpg', '', 'Саша', 'Грищук', 'male', NULL, NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

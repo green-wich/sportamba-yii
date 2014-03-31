@@ -17,6 +17,10 @@ return array(
 		'application.models.*',
 		'application.components.*',
 	),
+    
+        'aliases' => array(
+            'xupload' => 'ext.xupload'
+        ),
 
 	'modules'=>array(
             
@@ -37,6 +41,12 @@ return array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
+            
+                'image'=>array(
+                    'class'=>'application.extensions.image.CImageComponent',
+                    'driver'=>'GD',
+                    'params'=>array('directory'=>'/opt/local/bin'),
+                ),
 		// uncomment the following to enable URLs in path-format
 		
                 'hybridAuth'=>array(

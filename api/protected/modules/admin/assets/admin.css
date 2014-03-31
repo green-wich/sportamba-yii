@@ -90,3 +90,12 @@
         border-radius: 0;
     }
 }
+
+span.required{
+    color: red;
+}
+#single-photo-upload{
+    width: 550px;
+}
+#single{ width: 550px;}
+
