@@ -39,6 +39,30 @@ return array(
 		),
 		// uncomment the following to enable URLs in path-format
 		
+                'hybridAuth'=>array(
+                    'class'=>'ext.hybridAuth.CHybridAuth',
+                    'enabled'=>true, // enable or disable this component
+                    'config'=>array(
+                         "base_url" => "http://". $_SERVER['HTTP_HOST'] ."/api/user/endpoint/", 
+                         "providers" => array(
+                               "Facebook" => array(
+                                    "enabled" => true,
+                                    "keys" => array("id" => "1473590889527791", "secret" => "3aae795dbaca2c02b735ac998ec5900c"),
+                                ),
+                               "Twitter" => array(
+                                    "enabled" => true,
+                                    "keys" => array("key" => "fWtblSRusCXOmu2K7kXVhw", "secret" => "MclNDKsjSXd0tJrgZ157DtRWr2BwNAFEURMg0zo0k4Y")
+                               ),
+                               "Vkontakte" => array ( 
+                                        "enabled" => true,
+                                        "keys"    => array ( "id" => "4210391", "secret" => "b2IAUDo82cBGiUw2zI8r" ), 
+                                ),
+                         ),
+                         "debug_mode" => false,
+                         "debug_file" => "",
+                     ),
+                 ),//end hybridAuth
+            
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>require(dirname(__FILE__).'/routes.php'),

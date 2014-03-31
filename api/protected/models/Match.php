@@ -118,4 +118,11 @@ class Match extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+        
+        protected function afterFind()
+        {
+            parent::afterFind();
+            $this->id_command1 = Commands::model()->findByPk($this->id_command1)->name;
+            $this->id_command2 = Commands::model()->findByPk($this->id_command2)->name;
+        }
 }
