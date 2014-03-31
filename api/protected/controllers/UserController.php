@@ -2,164 +2,74 @@
 
 class UserController extends Controller
 {
-//    public function actionCreate(){
-//       // $user = $this->getInputAsJson();
-//        $userInput = $_REQUEST;
-//        $username = $userInput['username'];
-//        
-//        $user = User::model()->findByAttributes(['username' => $username]);
-//        
-//        if($user){
-//            return $user->login();
-//        }else{
-//            $model = new User;
-//            $model->username = $username;
-//            $model->password = $userInput['password'];
-//            $model->status = 1;
-//            if($model->save()){
-//                return $model->login ();
-//            }
-//            else 
-//                return false;
-//        }
-//    }
-    
     public function actionGet($id){
         $user = User::model()->findByPk($id);
-        echo '{"user": ' . CJSON::encode($user) . '}';
+        echo '{"user": ' . CJSON::encode($user) . ', "userProfile":'. CJSON::encode($user->profile) .'}';
         Yii::app()->end();
     }
     
     public function actionLogout()
     {
         Yii::app()->user->logout();
+        $this->sendResponse(200, "User not active");
     }
-    
-    public $defaultAction='authenticate';
-    public $debugMode=true;
  
-    // important! all providers will access this action, is the route of 'base_url' in config
     public function actionEndpoint(){
         Yii::app()->hybridAuth->endPoint();
     }
- // Twitter Facebook
-    public function actionCreate(){
-        
-      //  $provider = $_REQUEST['provider'];
-        
-        $provider = 'Facebook';
-        
-        if(!Yii::app()->user->isGuest || !Yii::app()->hybridAuth->isAllowedProvider($provider))
-            $this->redirect(Yii::app()->homeUrl);
- 
-        if($this->debugMode)
-            Yii::app()->hybridAuth->showError=true;
- 
-        if(Yii::app()->hybridAuth->isAdapterUserConnected($provider)){
-            $socialUser = Yii::app()->hybridAuth->getAdapterUserProfile($provider);
-            if(isset($socialUser)){
-                // find user from db model with social user info
-                $user = Users::model()->findBySocial($provider, $socialUser->identifier);
-                if(empty($user)){ 
-                    // if not exist register new user with social user info.
-                    // 'identifier, profileUrl, photoUrl, displayName, firstName, lastName, gender, email, region, provider'
-                    $model = new Users();
-                    $model->provider = $provider;
-                    $model->identifier = $socialUser->identifier;
-                    $model->profileUrl = $socialUser->profileURL;
-                    $model->photoUrl = $socialUser->photoURL;
-                    $model->displayName = $socialUser->displayName;
-                    $model->firstName = $socialUser->firstName;
-                    $model->lastName = $socialUser->lastName;
-                    $model->gender = $socialUser->gender;
-                    $model->password = md5($socialUser->identifier);
-                    $model->role = 'user';
-                    if($provider == 'Facebook'){
-                        $model->region = $socialUser->region;
-                        $model->email = $socialUser->email;
-                    }
-                    if($model->save()){
-                       $user=$model; 
-                    }else{
-                       $user=false;
-                    }
-                }
- 
-                if($user){
-                    $identity = new UserIdentity($user->firstName, $user->password);
-                    $identity->authenticate('social');
-                    switch ($identity->errorCode) {
-//                      ...... 
-                      case UserIdentity::ERROR_NONE:
-                           Yii::app()->user->login($identity);
-                           $this->redirect(Yii::app()->user->returnUrl);
-                           break;
-//                      ...... 
-                    }
-                }
-            }
-        }
-        $this->redirect(Yii::app()->homeUrl);
-    }
     
-    public function actionList(){
+    public function actionLogin($provider){
         
-      //  $provider = $_REQUEST['provider'];
-        
-        $provider = 'Facebook';
-        
-        if(!Yii::app()->user->isGuest || !Yii::app()->hybridAuth->isAllowedProvider($provider))
-            $this->redirect(Yii::app()->homeUrl);
- 
-        if($this->debugMode)
-            Yii::app()->hybridAuth->showError=true;
- 
+        if(!Yii::app()->user->isGuest || !Yii::app()->hybridAuth->isAllowedProvider($provider)){
+            $this->sendResponse(401, 'Error: User is active');
+        }
+  
         if(Yii::app()->hybridAuth->isAdapterUserConnected($provider)){
             $socialUser = Yii::app()->hybridAuth->getAdapterUserProfile($provider);
-            if(isset($socialUser)){
-                // find user from db model with social user info
-                $user = Users::model()->findBySocial($provider, $socialUser->identifier);
+            $sessionData = Yii::app()->hybridAuth->getSessionData();
+            
+            if(isset($socialUser) && isset($sessionData)){
+                $user = User::model()->findByAuthUser($provider, $socialUser->identifier);
                 if(empty($user)){ 
-                    // if not exist register new user with social user info.
-                    // 'identifier, profileUrl, photoUrl, displayName, firstName, lastName, gender, email, region, provider'
-                    $model = new Users();
-                    $model->provider = $provider;
-                    $model->identifier = $socialUser->identifier;
-                    $model->profileUrl = $socialUser->profileURL;
-                    $model->photoUrl = $socialUser->photoURL;
-                    $model->displayName = $socialUser->displayName;
-                    $model->firstName = $socialUser->firstName;
-                    $model->lastName = $socialUser->lastName;
-                    $model->gender = $socialUser->gender;
-                    $model->password = md5($socialUser->identifier);
-                    $model->role = 'user';
+                    $user = new User();
+                    $user->username = $socialUser->identifier;
+                    $user->password = md5($socialUser->identifier);
+                    $user->session_data = $sessionData;
+                    $user->provider = $provider;
+                    $user->save();
+                    
+                    $userProfile = new UserProfile();
+                    $userProfile->user_id = $user->id;
+                    $userProfile->profileUrl = $socialUser->profileURL;
+                    $userProfile->photoUrl = $socialUser->photoURL;
+                    $userProfile->displayName = $socialUser->displayName;
+                    $userProfile->firstName = $socialUser->firstName;
+                    $userProfile->lastName = $socialUser->lastName;
+                    $userProfile->gender = $socialUser->gender;
                     if($provider == 'Facebook'){
-                        $model->region = $socialUser->region;
-                        $model->email = $socialUser->email;
+                        $userProfile->region = $socialUser->region;
+                        $userProfile->email = $socialUser->email;
                     }
-                    if($model->save()){
-                       $user=$model; 
-                    }else{
-                       $user=false;
+                    
+                    if(!$userProfile->save()){
+                       $user = false;
                     }
                 }
  
                 if($user){
-                    $identity = new UserIdentity($user->firstName, $user->password);
-                    $identity->authenticate('social');
-                    switch ($identity->errorCode) {
-//                      ...... 
-                      case UserIdentity::ERROR_NONE:
-                           Yii::app()->user->login($identity);
-                           $this->redirect(Yii::app()->user->returnUrl);
-                           break;
-//                      ...... 
+                    $identity = new UserIdentity($user->username, $user->password);
+                    $identity->authenticate();
+                    if ($identity->errorCode === UserIdentity::ERROR_NONE) {
+                        Yii::app()->user->login($identity);
+                        $this->sendResponse(200, 'User is active');
                     }
+                }else{
+                    $this->sendResponse(401, 'Error: User not find');
                 }
             }
+        }else{
+            $this->sendResponse(401, 'Error: User not connected');
         }
-        $this->redirect(Yii::app()->homeUrl);
     }
     
 }
-
