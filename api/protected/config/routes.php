@@ -5,5 +5,4 @@ return [
     array('<controller>/list', 'pattern'=>'<controller:\w+>', 'verb'=>'GET'),
     array('<controller>/get', 'pattern'=>'<controller:\w+>/<id:\d+>', 'verb'=>'GET'),
     array('<controller>/create', 'pattern'=>'<controller:\w+>', 'verb'=>'POST'),
-    
 ];
