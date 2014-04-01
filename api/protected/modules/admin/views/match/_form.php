@@ -35,7 +35,7 @@
 	<div class="row">
 		<?php echo $form->labelEx($model,'command_1'); ?>
             <?php
-                $all_post = Commands::All();
+                $all_post = Command::All();
             
                 $this->widget('ext.select2.ESelect2',array(
                     'model'=>$model,
