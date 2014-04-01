@@ -73,7 +73,7 @@ class CommandsController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		$t = $this->loadModel($id)->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -122,9 +122,9 @@ class CommandsController extends Controller
 	}
         
         public function actionDeleteImg($id) {
-            Commands::model()->updateByPk($id, array(
-                        'img' => "",
-                    ));
+            $command = Commands::model()->findByPk($id);
+            $command->img = '';
+            $command->save();
             $this->redirect(array('update', 'id' => $id));
         }
         

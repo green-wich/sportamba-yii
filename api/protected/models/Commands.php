@@ -11,17 +11,12 @@
  */
 class Commands extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
+    
+        public function tableName()
 	{
 		return '{{commands}}';
 	}
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
 	public function rules()
 	{
 		// NOTE: you should only define rules for those attributes that
@@ -35,9 +30,6 @@ class Commands extends CActiveRecord
 		);
 	}
 
-	/**
-	 * @return array relational rules.
-	 */
 	public function relations()
 	{
 		// NOTE: you may need to adjust the relation name and the related
@@ -46,9 +38,6 @@ class Commands extends CActiveRecord
 		);
 	}
 
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
 	public function attributeLabels()
 	{
 		return array(
@@ -58,18 +47,6 @@ class Commands extends CActiveRecord
 		);
 	}
 
-	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
-	 *
-	 * Typical usecase:
-	 * - Initialize the model fields with values from filter form.
-	 * - Execute this method to get CActiveDataProvider instance which will filter
-	 * models according to data in model fields.
-	 * - Pass data provider to CGridView, CListView or any similar widget.
-	 *
-	 * @return CActiveDataProvider the data provider that can return the models
-	 * based on the search/filter conditions.
-	 */
 	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
@@ -85,12 +62,6 @@ class Commands extends CActiveRecord
 		));
 	}
 
-	/**
-	 * Returns the static model of the specified AR class.
-	 * Please note that you should have this exact method in all your CActiveRecord descendants!
-	 * @param string $className active record class name.
-	 * @return Commands the static model class
-	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -104,6 +75,13 @@ class Commands extends CActiveRecord
         public function afterSave() {
             $this->addImages();
             return parent::afterSave();
+        }
+        
+        public function beforeSave() {
+            if (!$this->isNewRecord){
+                self::deleteImages(Yii::app( )->getBasePath( )."/../../uploads/commands/" . $this->id . '/');
+            }
+            return parent::beforeSave();
         }
         
         public function addImages( ) 
@@ -161,7 +139,35 @@ class Commands extends CActiveRecord
             foreach ($thumbs_images as $img){
                 $image = Yii::app()->image->load($path);
                 $image->smart_resize($img['width'], $img['height'])->quality(95)->sharpen(20);
-                $image->save($img['folder']); // or $image->save('images/small.jpg');
+                $image->save($img['folder']);
+                chmod( $img['folder'], 0777 );
             }
+        }
+        
+        public function beforeDelete()
+        {
+            self::deleteImages(Yii::app( )->getBasePath( )."/../../uploads/commands/" . $this->id . '/', TRUE);
+            return parent::beforeDelete();
+        }
+        
+        public static function deleteImages($dir, $deleteDir = FALSE){
+            if (is_dir($dir)) {
+                $list = self::Scandir($dir);
+                foreach ($list as $file)
+                {
+                    if (is_dir($dir.$file)){
+                        self::deleteImages($dir.$file.'/', $deleteDir);
+                    }else{
+                        unlink($dir.$file);
+                    }
+                }
+                if($deleteDir) rmdir($dir);
+            }
+        }
+        
+        public static function Scandir($dir){
+            $list = scandir($dir);
+            unset($list[0],$list[1]);
+            return array_values($list);
         }
 }
