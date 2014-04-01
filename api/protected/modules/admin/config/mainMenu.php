@@ -7,16 +7,16 @@ return array(
         'items' => array(
             array(
                 'label' => 'Список команд',
-                'url' => array('/admin/commands/index'),
+                'url' => array('/admin/command/index'),
                 'activateOn' => array(
-                    array('route' => '/admin\/commands\/index/',),
+                    array('route' => '/admin\/command\/index/',),
                 ),
             ),
             array(
                 'label' => 'Создание команды',
-                'url' => array('/admin/commands/create'),
+                'url' => array('/admin/command/create'),
                 'activateOn' => array(
-                    array('route' => '/admin\/commands\/create/',),
+                    array('route' => '/admin\/command\/create/',),
                 ),
             ),
         ),

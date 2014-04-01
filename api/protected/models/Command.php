@@ -1,26 +1,15 @@
 <?php
 
-/**
- * This is the model class for table "{{commands}}".
- *
- * The followings are the available columns in table '{{commands}}':
- * @property integer $id
- * @property string $name
- * @property string $description
- * @property string $img
- */
-class Commands extends CActiveRecord
+class Command extends CActiveRecord
 {
     
         public function tableName()
 	{
-		return '{{commands}}';
+		return '{{command}}';
 	}
 
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('name', 'required'),
 			array('name', 'length', 'max'=>200),
@@ -32,8 +21,6 @@ class Commands extends CActiveRecord
 
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 		);
 	}
@@ -69,7 +56,7 @@ class Commands extends CActiveRecord
         
         public static function all()
         {
-            return CHtml::listData(self::model()->findAll(array('order'=>'id DESC')), 'id', 'name');
+            return CHtml::listData(self::model()->findAll(array('order'=>'id DESC')), 'name', 'name');
         }
         
         public function afterSave() {

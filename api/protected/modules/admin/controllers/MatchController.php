@@ -101,4 +101,9 @@ class MatchController extends Controller
 			Yii::app()->end();
 		}
 	}
+        
+        public function actionUpdateStatus($id, $status){
+             Match::model()->updateByPk($id, array('status' => $status));
+             $this->redirect(array('index'));
+         }
 }

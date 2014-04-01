@@ -1,5 +1,4 @@
-
-<h1>Комманды</h1>
+<h1>Команды</h1>
 <?php $this->widget('BGridView',
     array(
         'id' => 'command-grid',

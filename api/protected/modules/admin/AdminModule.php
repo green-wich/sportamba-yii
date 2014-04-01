@@ -86,11 +86,6 @@ class AdminModule extends CWebModule
             return $this->_sectionMenu;
         }
 
-        /**
-         * @param $item array Menu item
-         * @param $route string current route
-         * @return bool Does item active
-         */
         protected function isItemActive($item, $route)
         {
             if (isset($item['activateOn'])) {

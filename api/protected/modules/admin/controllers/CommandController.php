@@ -1,6 +1,6 @@
 <?php
 
-class CommandsController extends Controller
+class CommandController extends Controller
 {
         public $layout = 'crud_layout';
 	
@@ -17,7 +17,7 @@ class CommandsController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Commands;
+		$model=new Command;
                 
                 Yii::import( "xupload.models.XUploadForm" );
                 $photos = new XUploadForm;
@@ -25,9 +25,9 @@ class CommandsController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Commands']))
+		if(isset($_POST['Command']))
 		{
-			$model->attributes=$_POST['Commands'];
+			$model->attributes=$_POST['Command'];
 			if($model->save())
 				$this->redirect(array('index'));
 		}
@@ -38,11 +38,6 @@ class CommandsController extends Controller
 		));
 	}
 
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
@@ -53,9 +48,9 @@ class CommandsController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Commands']))
+		if(isset($_POST['Command']))
 		{
-			$model->attributes=$_POST['Commands'];
+			$model->attributes=$_POST['Command'];
 			if($model->save())
 				$this->redirect(array('index'));
 		}
@@ -66,14 +61,9 @@ class CommandsController extends Controller
 		));
 	}
 
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
 	public function actionDelete($id)
 	{
-		$t = $this->loadModel($id)->delete();
+		$this->loadModel($id)->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -83,38 +73,27 @@ class CommandsController extends Controller
 	
 	public function actionIndex()
 	{
-		$model=new Commands('search');
+		$model=new Command('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Commands']))
-			$model->attributes=$_GET['Commands'];
+		if(isset($_GET['Command']))
+			$model->attributes=$_GET['Command'];
 
 		$this->render('index',array(
 			'model'=>$model,
 		));
 	}
-
-	/**
-	 * Returns the data model based on the primary key given in the GET variable.
-	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer $id the ID of the model to be loaded
-	 * @return Commands the loaded model
-	 * @throws CHttpException
-	 */
+        
 	public function loadModel($id)
 	{
-		$model=Commands::model()->findByPk($id);
+		$model=Command::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
 
-	/**
-	 * Performs the AJAX validation.
-	 * @param Commands $model the model to be validated
-	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='commands-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='command-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
@@ -122,7 +101,7 @@ class CommandsController extends Controller
 	}
         
         public function actionDeleteImg($id) {
-            $command = Commands::model()->findByPk($id);
+            $command = Command::model()->findByPk($id);
             $command->img = '';
             $command->save();
             $this->redirect(array('update', 'id' => $id));

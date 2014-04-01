@@ -15,45 +15,9 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
 	<?php //echo $form->errorSummary($model); ?>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'id_command1'); ?>
-            <?php
-                $all_post = Commands::All();
-            
-                $this->widget('ext.select2.ESelect2',array(
-                    'model'=>$model,
-                    'attribute'=>'id_command1',
-                    'data'=>$all_post,
-                    'options'  => array(
-                        'width' => '300px',
-                        'display'=> 'inline-block',
-                    )
-                ));     
-                ?>
-		<?php echo $form->error($model,'id_command1'); ?> <br />
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'id_command2'); ?>
-                <?php
-                $this->widget('ext.select2.ESelect2',array(
-                    'model'=>$model,
-                    'attribute'=>'id_command2',
-                    'data'=>$all_post,
-                    'options'  => array(
-                        'width' => '300px',
-                        'display'=> 'inline-block',
-                    )
-                ));     
-                ?>
-		<?php echo $form->error($model,'id_command2'); ?><br />
-	</div>
-
-	<div class="row">
+    
+        <div class="row">
 		<?php echo $form->labelEx($model,'date'); ?>
                 <?php
                     Yii::import('application.extensions.CJuiDateTimePicker.CJuiDateTimePicker');
@@ -67,33 +31,49 @@
                 ?>
 		<?php echo $form->error($model,'date'); ?>
 	</div>
-        
-        <div class="row">
-            <?php echo $form->labelEx($model,'url'); ?>
-            <?php echo $form->textField($model,'url',array('size'=>60,'maxlength'=>255)); ?>
-            <?php echo $form->error($model,'url'); ?>
-        </div>
 
-        <div class="row">
-            <?php echo $form->labelEx($model,'title'); ?>
-            <?php echo $form->textField($model,'title',array('size'=>60,'maxlength'=>255)); ?>
-            <?php echo $form->error($model,'title'); ?>
-        </div>
+	<div class="row">
+		<?php echo $form->labelEx($model,'command_1'); ?>
+            <?php
+                $all_post = Commands::All();
+            
+                $this->widget('ext.select2.ESelect2',array(
+                    'model'=>$model,
+                    'attribute'=>'command_1',
+                    'data'=>$all_post,
+                    'options'  => array(
+                        'width' => '300px',
+                        'display'=> 'inline-block',
+                    )
+                ));     
+                ?>
+		<?php echo $form->error($model,'command_1'); ?> <br />
+	</div>
 
-        <div class="row">
-            <?php echo $form->labelEx($model,'text'); ?>
-            <?php echo $form->textArea($model,'text',array('rows'=>6, 'cols'=>50)); ?>
-            <?php echo $form->error($model,'text'); ?>
-        </div>
-
-        <div class="row">
-            <?php echo $form->labelEx($model,'img'); ?>
-            <?php echo $form->textField($model,'img',array('size'=>60,'maxlength'=>255)); ?>
-            <?php echo $form->error($model,'img'); ?>
-        </div>
+	<div class="row">
+		<?php echo $form->labelEx($model,'command_2'); ?>
+                <?php
+                $this->widget('ext.select2.ESelect2',array(
+                    'model'=>$model,
+                    'attribute'=>'command_2',
+                    'data'=>$all_post,
+                    'options'  => array(
+                        'width' => '300px',
+                        'display'=> 'inline-block',
+                    )
+                ));     
+                ?>
+		<?php echo $form->error($model,'command_2'); ?><br />
+	</div>
+    
+         <div class="row">
+		<?php echo $form->labelEx($model,'status'); ?>
+		<?php echo $form->dropDownList($model,'status',array('1'=> 'Опубликовано','0'=>'Неопубликовано')); ?>
+		<?php echo $form->error($model,'status'); ?>
+	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class"=>"btn-danger")); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

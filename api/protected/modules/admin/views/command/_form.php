@@ -7,7 +7,7 @@
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'commands-form',
+	'id'=>'command-form',
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
 	// There is a call to performAjaxValidation() commented in generated controller code.
@@ -26,7 +26,7 @@
         <?php echo $form->labelEx($model,'img'); ?>
             <?php
             $this->widget( 'xupload.XUpload', array(
-                'url' => Yii::app( )->createUrl("admin/commands/upload", array('upload' => 'single')),
+                'url' => Yii::app( )->createUrl("admin/command/upload", array('upload' => 'single')),
                 //our XUploadForm
                 'model' => $photos,
                 'showForm'=> false,
