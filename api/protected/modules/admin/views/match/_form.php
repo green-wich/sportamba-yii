@@ -33,13 +33,13 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'command_1'); ?>
+		<?php echo $form->labelEx($model,'id_command_1'); ?>
             <?php
                 $all_post = Command::All();
             
                 $this->widget('ext.select2.ESelect2',array(
                     'model'=>$model,
-                    'attribute'=>'command_1',
+                    'attribute'=>'id_command_1',
                     'data'=>$all_post,
                     'options'  => array(
                         'width' => '300px',
@@ -47,15 +47,15 @@
                     )
                 ));     
                 ?>
-		<?php echo $form->error($model,'command_1'); ?> <br />
+		<?php echo $form->error($model,'id_command_1'); ?> <br />
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'command_2'); ?>
+		<?php echo $form->labelEx($model,'id_command_2'); ?>
                 <?php
                 $this->widget('ext.select2.ESelect2',array(
                     'model'=>$model,
-                    'attribute'=>'command_2',
+                    'attribute'=>'id_command_2',
                     'data'=>$all_post,
                     'options'  => array(
                         'width' => '300px',
@@ -63,7 +63,7 @@
                     )
                 ));     
                 ?>
-		<?php echo $form->error($model,'command_2'); ?><br />
+		<?php echo $form->error($model,'id_command_2'); ?><br />
 	</div>
     
          <div class="row">

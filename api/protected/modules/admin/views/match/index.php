@@ -13,8 +13,16 @@
                     'headerHtmlOptions' => array('width' => '30px'),
                     'filter' => false
                 ),
-		'command_1',
-		'command_2',
+		'id_command_1' => array(
+                    'name' => 'id_command_1',
+                    'value'=> '$data->command_1->name',
+                    'filter' => false
+                ),
+		'id_command_2' => array(
+                    'name' => 'id_command_2',
+                    'value'=> '$data->command_2->name',
+                    'filter' => false
+                ),
 		'date' => array(
                     'name' => 'date',
                     'value'=> $model->date,

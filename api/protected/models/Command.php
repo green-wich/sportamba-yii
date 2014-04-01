@@ -56,7 +56,7 @@ class Command extends CActiveRecord
         
         public static function all()
         {
-            return CHtml::listData(self::model()->findAll(array('order'=>'id DESC')), 'name', 'name');
+            return CHtml::listData(self::model()->findAll(array('order'=>'id DESC')), 'id', 'name');
         }
         
         public function afterSave() {
