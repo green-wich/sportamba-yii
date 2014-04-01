@@ -8,9 +8,6 @@ class MatchController extends Controller
 	{
 		$model=new Match;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
 		if(isset($_POST['Match']))
 		{
 			$model->attributes=$_POST['Match'];
@@ -23,11 +20,6 @@ class MatchController extends Controller
 		));
 	}
 
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
@@ -47,11 +39,6 @@ class MatchController extends Controller
 		));
 	}
 
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
 	public function actionDelete($id)
 	{
 		$this->loadModel($id)->delete();
@@ -68,19 +55,12 @@ class MatchController extends Controller
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Match']))
 			$model->attributes=$_GET['Match'];
-
+                
 		$this->render('index',array(
 			'model'=>$model,
 		));
 	}
 
-	/**
-	 * Returns the data model based on the primary key given in the GET variable.
-	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer $id the ID of the model to be loaded
-	 * @return Match the loaded model
-	 * @throws CHttpException
-	 */
 	public function loadModel($id)
 	{
 		$model=Match::model()->findByPk($id);
@@ -89,10 +69,6 @@ class MatchController extends Controller
 		return $model;
 	}
 
-	/**
-	 * Performs the AJAX validation.
-	 * @param Match $model the model to be validated
-	 */
 	protected function performAjaxValidation($model)
 	{
 		if(isset($_POST['ajax']) && $_POST['ajax']==='match-form')
