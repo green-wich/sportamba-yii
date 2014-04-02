@@ -1,5 +1,5 @@
 <?php
 
-class AdminWebUser extends CWebUser
+class AdminWebUser extends WebUser
 {
 }

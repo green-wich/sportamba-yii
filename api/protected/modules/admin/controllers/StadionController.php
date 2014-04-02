@@ -1,6 +1,6 @@
 <?php
 
-class StadionController extends Controller
+class StadionController extends AdminController
 {
 	public $layout = 'crud_layout';
         

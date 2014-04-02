@@ -1,6 +1,6 @@
 <?php
 
-class CommandController extends Controller
+class CommandController extends AdminController
 {
         public $layout = 'crud_layout';
 	

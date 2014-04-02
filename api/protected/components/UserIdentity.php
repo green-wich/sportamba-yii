@@ -7,7 +7,7 @@
  */
 class UserIdentity extends CUserIdentity
 {
-    private $_id;
+    protected $_id;
     
     public function authenticate()
     {

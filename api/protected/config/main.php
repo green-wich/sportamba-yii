@@ -33,10 +33,17 @@ return array(
 
 	// application components
 	'components'=>array(
-		'user'=>array(
+                'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
+                        'class' => 'WebUser',
+                        'loginUrl'=>array('site/index'),
 		),
+            
+                'authManager' => array(
+                    'class' => 'AuthManager',
+                    'defaultRoles' => array('user'),
+                ),
             
                 'image'=>array(
                     'class'=> 'ext.image.CImageComponent',

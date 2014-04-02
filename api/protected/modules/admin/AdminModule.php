@@ -47,13 +47,6 @@ class AdminModule extends CWebModule
                     'loginUrl' => array('/' . $this->getId() . '/default/login'),
                     'returnUrl' => array('/' . $this->getId() . '/default/index'),
                 ),
-                'authManager' => array(
-                    'class' => 'CDbAuthManager',
-                    'defaultRoles' => array('authenticated', 'guest'),
-                    'itemTable' => 'admin_auth_item',
-                    'assignmentTable' => 'admin_auth_assignment',
-                    'itemChildTable' => 'admin_auth_item_child',
-                ),
                 'clientScript'=>array(
                     'packages'=>array(
                         'jquery'=>array(

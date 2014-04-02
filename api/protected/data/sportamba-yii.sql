@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS `sport_user` (
   `session_data` text NOT NULL,
   `created_at` datetime NOT NULL,
   `provider` varchar(20) NOT NULL,
+  `role` varchar(10) NOT NULL,
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
@@ -85,8 +86,8 @@ CREATE TABLE IF NOT EXISTS `sport_user_profile` (
   KEY `ifk_user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
-INSERT INTO `sport_user` (`id`, `username`, `password`, `session_data`, `created_at`, `provider`, `status`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', '', '2014-03-31 00:00:00', '', 1);
+INSERT INTO `sport_user` (`id`, `username`, `password`, `session_data`, `created_at`, `provider`, `role`, `status`) VALUES
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', '', '2014-03-31 00:00:00', '', 'admin', 1);
 
 DROP TABLE IF EXISTS `sport_stadion`;
 

@@ -18,7 +18,7 @@ class DefaultController extends AdminController
             ),
             array('allow',
                 'actions' => array('index', 'logout'),
-                'users' => array('@'),
+                'roles' => array('admin'),
             ),
             array('deny',
                 'users' => array('*'),

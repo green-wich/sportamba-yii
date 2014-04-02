@@ -5,9 +5,7 @@
  * @var string $message
  */
 $this->pageTitle = 'Панель управления - Ошибка!';
-$this->breadcrumbs = array(
-    'Ошибка',
-);
+
 ?>
 
 <h1>Ошибка! <?php echo $code; ?></h1>

@@ -2,6 +2,26 @@
 
 class UserController extends Controller
 {
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'actions'=>array('login', 'endpoint'),
+                'users'=>array('*'),
+            ),
+            array('deny',
+                'users'=>array('?'),
+            ),
+        );
+    }
+    
     public function actionGet($id){
         $user = User::model()->findByPk($id);
         echo '{"user": ' . CJSON::encode($user) . ', "userProfile":'. CJSON::encode($user->profile) .'}';
@@ -20,9 +40,11 @@ class UserController extends Controller
     
     public function actionLogin($provider){
         
-        if(!Yii::app()->user->isGuest || !Yii::app()->hybridAuth->isAllowedProvider($provider)){
+        if(!Yii::app()->user->isGuest){
             $this->sendResponse(401, 'Error: User is active');
         }
+        if(!$provider || !Yii::app()->hybridAuth->isAllowedProvider($provider))
+            $this->sendResponse(401, 'Error: Provider not found');
   
         if(Yii::app()->hybridAuth->isAdapterUserConnected($provider)){
             $socialUser = Yii::app()->hybridAuth->getAdapterUserProfile($provider);
@@ -36,6 +58,7 @@ class UserController extends Controller
                     $user->password = md5($socialUser->identifier);
                     $user->session_data = $sessionData;
                     $user->provider = $provider;
+                    $user->role = 'user';
                     $user->save();
                     
                     $userProfile = new UserProfile();
@@ -61,7 +84,7 @@ class UserController extends Controller
                     $identity->authenticate();
                     if ($identity->errorCode === UserIdentity::ERROR_NONE) {
                         Yii::app()->user->login($identity);
-                        $this->sendResponse(200, 'User is active');
+                        $this->sendResponse(200, TRUE);
                     }
                 }else{
                     $this->sendResponse(401, 'Error: User not find');

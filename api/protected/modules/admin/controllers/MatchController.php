@@ -1,6 +1,6 @@
 <?php
 
-class MatchController extends Controller
+class MatchController extends AdminController
 {
 	public $layout = 'crud_layout';
 

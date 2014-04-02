@@ -5,27 +5,7 @@
  */
 class Controller extends CController
 {
-    
-    private function _checkAuth()
-    {
-        // Check if we have the USERNAME and PASSWORD HTTP headers set?
-        if(!(isset($_SERVER['HTTP_X_USERNAME']) and isset($_SERVER['HTTP_X_PASSWORD']))) {
-            // Error: Unauthorized
-            $this->_sendResponse(401);
-        }
-        $username = $_SERVER['HTTP_X_USERNAME'];
-        $password = $_SERVER['HTTP_X_PASSWORD'];
-        // Find the user
-        $user=User::model()->find('LOWER(username)=?',array(strtolower($username)));
-        if($user===null) {
-            // Error: Unauthorized
-            $this->_sendResponse(401, 'Error: User Name is invalid');
-        } else if(!$user->validatePassword($password)) {
-            // Error: Unauthorized
-            $this->_sendResponse(401, 'Error: User Password is invalid');
-        }
-    }
-	
+    	
     protected function getInputAsJson()
     {
             return CJSON::decode(file_get_contents('php://input'));
@@ -101,5 +81,22 @@ class Controller extends CController
             505 => 'HTTP Version Not Supported',
         );
         return (isset($codes[$status])) ? $codes[$status] : '';
+    }
+    
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'users'=>array('@'),
+            ),
+            array('deny'),
+        );
     }
 }

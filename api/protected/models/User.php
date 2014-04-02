@@ -1,15 +1,5 @@
 <?php
 
-/**
- * This is the model class for table "{{user}}".
- *
- * The followings are the available columns in table '{{user}}':
- * @property string $id
- * @property string $username
- * @property string $password
- * @property string $created_at
- * @property integer $status
- */
 class User extends CActiveRecord
 {
     
@@ -18,21 +8,16 @@ class User extends CActiveRecord
         return '{{user}}';
     }
 
-    /**
-     * @return array validation rules for model attributes.
-     */
     public function rules()
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
         return array(
-            array('username, password, session_data, provider', 'required'),
+            array('username, password, session_data, provider, role', 'required'),
             array('status', 'numerical', 'integerOnly'=>true),
             array('username, password', 'length', 'max'=>100),
             array('provider', 'length', 'max'=>20),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, username, password, session_data, provider', 'safe', 'on'=>'search'),
+            array('id, username, password, session_data, provider, role', 'safe', 'on'=>'search'),
         );
     }
     
@@ -52,6 +37,7 @@ class User extends CActiveRecord
             'session_data' => 'Session Data',
             'created_at' => 'Created At',
             'provider' => 'Provider',
+            'role' => 'Role',
             'status' => 'Status',
         );
     }
@@ -68,6 +54,7 @@ class User extends CActiveRecord
         $criteria->compare('session_data',$this->session_data,true);
         $criteria->compare('created_at',$this->created_at,true);
         $criteria->compare('provider',$this->provider,true);
+        $criteria->compare('role',$this->role,true);
         $criteria->compare('status',$this->status);
 
         return new CActiveDataProvider($this, array(
