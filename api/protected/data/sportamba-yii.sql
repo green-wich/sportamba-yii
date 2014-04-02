@@ -26,12 +26,12 @@ SET time_zone = "+00:00";
 -- Структура таблицы `sport_command`
 --
 
---  ALTER TABLE `sport_match` DROP FOREIGN KEY `fk_id_command_1`;
---  ALTER TABLE `sport_match` DROP KEY `fk_id_command_1`;
---  ALTER TABLE `sport_match` DROP FOREIGN KEY `fk_id_command_2`;
---  ALTER TABLE `sport_match` DROP KEY `fk_id_command_2`;
---  ALTER TABLE `sport_user_profile` DROP FOREIGN KEY `fk_user_id`;
---  ALTER TABLE `sport_user_profile` DROP KEY `fk_user_id`;
+  ALTER TABLE `sport_match` DROP FOREIGN KEY `fk_id_command_1`;
+  ALTER TABLE `sport_match` DROP KEY `fk_id_command_1`;
+  ALTER TABLE `sport_match` DROP FOREIGN KEY `fk_id_command_2`;
+  ALTER TABLE `sport_match` DROP KEY `fk_id_command_2`;
+  ALTER TABLE `sport_user_profile` DROP FOREIGN KEY `fk_user_id`;
+  ALTER TABLE `sport_user_profile` DROP KEY `fk_user_id`;
 
 
 DROP TABLE IF EXISTS `sport_command`;
@@ -115,3 +115,15 @@ ALTER TABLE `sport_user_profile`
 
 INSERT INTO `sport_user` (`id`, `username`, `password`, `session_data`, `created_at`, `provider`, `status`) VALUES
 (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', '', '2014-03-31 00:00:00', '', 1);
+
+
+DROP TABLE IF EXISTS `sport_stadion`;
+
+CREATE TABLE IF NOT EXISTS `sport_stadion` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(60) NOT NULL,
+  `address` varchar(200) NOT NULL,
+  `lat` varchar(75) NOT NULL,
+  `long` varchar(75) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

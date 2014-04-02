@@ -9,7 +9,7 @@ $( document ).ready(function() {
 function allMatches(){
     $.ajax({
         type: 'GET',
-        url: apiURL+'/match',
+        url: apiURL+'/user/status',
         dataType: "json", // data type of response
         success: function(data){
             console.log( data );

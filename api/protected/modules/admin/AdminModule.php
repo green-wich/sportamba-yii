@@ -19,6 +19,9 @@ class AdminModule extends CWebModule
                 $this->getId() . '.models.*',
                 $this->getId() . '.components.*',
                 $this->getId() . '.components.widgets.*',
+                $this->getId() . '.extensions.yiistrap.helpers.*',
+                $this->getId() . '.extensions.yiistrap.behaviors.TbWidget',
+                $this->getId() . '.extensions.yiistrap.widgets.*',
             ));
 
         Yii::app()->language = 'ru';

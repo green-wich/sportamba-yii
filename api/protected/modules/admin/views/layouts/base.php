@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="<?php echo $this->getModule()->assets . '/css/admin.css'?>"/>
     <title><?php echo $this->pageTitle;?></title>
     <link rel="shortcut icon" href="<?php echo $this->getModule()->assets;?>/favicon.ico"/>
-
+    <base href="<?php echo Yii::app()->createAbsoluteUrl('/'); ?>/">
 </head>
 <body>
 <div class="navbar navbar-fixed-top" style="z-index: 1031;">
@@ -71,7 +71,10 @@
     ?>
 </div>
     <?php endif;?>
-
-<?php echo $content ?>
+    
+    <div class="container">
+        <?php echo $content; ?>
+    </div>
+    
 </body>
 </html>

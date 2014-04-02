@@ -41,5 +41,25 @@ return array(
             ),
         ),
     ),
+    array(
+        'label' => 'Стадионы',
+        'plain' => false,
+        'items' => array(
+            array(
+                'label' => 'Список стадионов',
+                'url' => array('/admin/stadion/index'),
+                'activateOn' => array(
+                    array('route' => '/admin\/stadion\/index/',),
+                ),
+            ),
+            array(
+                'label' => 'Добавить стадион',
+                'url' => array('/admin/stadion/create'),
+                'activateOn' => array(
+                    array('route' => '/admin\/stadion\/create/',),
+                ),
+            ),
+        ),
+    ),
     
 );
