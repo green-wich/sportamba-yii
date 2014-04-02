@@ -13,8 +13,8 @@ class Match extends CActiveRecord
 	public function rules()
         {
             return array(
-                array('id_command_1, id_command_2, date, status', 'required'),
-                array('id, id_command_1, id_command_2, date, status', 'safe', 'on'=>'search'),
+                array('id_command_1, id_command_2, date, status, stadion_id', 'required'),
+                array('id, id_command_1, id_command_2, date, stadion_id, status', 'safe', 'on'=>'search'),
             );
         }
         
@@ -23,6 +23,7 @@ class Match extends CActiveRecord
             return array(
                 'command_1' => array(self::BELONGS_TO, 'Command', 'id_command_1'),
                 'command_2' => array(self::BELONGS_TO, 'Command', 'id_command_2'),
+                'stadion' => array(self::BELONGS_TO, 'Stadion', 'stadion_id'),
             );
 	}
         
@@ -32,6 +33,7 @@ class Match extends CActiveRecord
                 'id' => 'ID',
                 'id_command_1' => 'Команда 1',
                 'id_command_2' => 'Команда 2',
+                'stadion_id' => 'Стадион',
                 'date' => 'Дата проведения матча',
                 'status' => 'Статус',
             );
@@ -42,8 +44,9 @@ class Match extends CActiveRecord
             $criteria=new CDbCriteria;
 
             $criteria->compare('id',$this->id);
-            $criteria->compare('id_command_1',$this->command_1,true);
-            $criteria->compare('id_command_1',$this->command_2,true);
+            $criteria->compare('id_command_1',$this->id_command_1,true);
+            $criteria->compare('id_command_2',$this->id_command_2,true);
+            $criteria->compare('stadion_id',$this->stadion_id,true);
             $criteria->compare('date',$this->date,true);
             $criteria->compare('status',$this->status);
 

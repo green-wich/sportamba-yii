@@ -2,6 +2,7 @@
 
 <?php $this->widget('bootstrap.widgets.TbGridView', array(
 	'id'=>'stadion-grid',
+        'type' => TbHtml::GRID_TYPE_BORDERED,
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(

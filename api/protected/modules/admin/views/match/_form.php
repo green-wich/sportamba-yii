@@ -66,6 +66,22 @@
 		<?php echo $form->error($model,'id_command_2'); ?><br />
 	</div>
     
+        <div class="row">
+                <?php echo $form->labelEx($model,'stadion_id'); ?>
+                <?php
+                $this->widget('admin.extensions.select2.ESelect2',array(
+                    'model'=>$model,
+                    'attribute'=>'stadion_id',
+                    'data'=> Stadion::all(),
+                    'options'  => array(
+                        'width' => '300px',
+                        'display'=> 'inline-block',
+                    )
+                ));     
+                ?>
+		<?php echo $form->error($model,'id_command_2'); ?><br />
+        </div>
+    
          <div class="row">
 		<?php echo $form->labelEx($model,'status'); ?>
 		<?php echo $form->dropDownList($model,'status',array('1'=> 'Опубликовано','0'=>'Неопубликовано')); ?>

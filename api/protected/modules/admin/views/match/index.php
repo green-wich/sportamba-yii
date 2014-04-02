@@ -2,9 +2,10 @@
 
 <h1>Матчи</h1>
 
-<?php $this->widget('BGridView',
+<?php $this->widget('bootstrap.widgets.TbGridView',
     array(
         'id' => 'employee-grid',
+        'type' => TbHtml::GRID_TYPE_BORDERED,
         'dataProvider' => $model->search(),
         'filter' => $model,
         'columns'=>array(
@@ -16,12 +17,17 @@
 		'id_command_1' => array(
                     'name' => 'id_command_1',
                     'value'=> '$data->command_1->name',
-                    'filter' => false
+                    'filter' => Command::all(),
                 ),
 		'id_command_2' => array(
                     'name' => 'id_command_2',
                     'value'=> '$data->command_2->name',
-                    'filter' => false
+                    'filter' => Command::all(),
+                ),
+                'stadion_id' => array(
+                    'name' => 'stadion_id',
+                    'value'=> '$data->stadion->name',
+                    'filter' => Stadion::all(),
                 ),
 		'date' => array(
                     'name' => 'date',

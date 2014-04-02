@@ -1,7 +1,8 @@
 <h1>Команды</h1>
-<?php $this->widget('BGridView',
+<?php $this->widget('bootstrap.widgets.TbGridView',
     array(
         'id' => 'command-grid',
+        'type' => TbHtml::GRID_TYPE_BORDERED,
         'dataProvider' => $model->search(),
         'filter' => $model,
         'columns'=>array(

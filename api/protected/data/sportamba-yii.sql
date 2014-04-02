@@ -1,20 +1,5 @@
 -- phpMyAdmin SQL Dump
 -- version 4.0.6deb1
--- http://www.phpmyadmin.net
---
--- Хост: localhost
--- Время создания: Апр 01 2014 г., 02:15
--- Версия сервера: 5.5.35-0ubuntu0.13.10.2
--- Версия PHP: 5.5.3-1ubuntu2.2
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
 
 --
 -- База данных: `sportamba-yii`
@@ -26,12 +11,14 @@ SET time_zone = "+00:00";
 -- Структура таблицы `sport_command`
 --
 
-  ALTER TABLE `sport_match` DROP FOREIGN KEY `fk_id_command_1`;
-  ALTER TABLE `sport_match` DROP KEY `fk_id_command_1`;
-  ALTER TABLE `sport_match` DROP FOREIGN KEY `fk_id_command_2`;
-  ALTER TABLE `sport_match` DROP KEY `fk_id_command_2`;
-  ALTER TABLE `sport_user_profile` DROP FOREIGN KEY `fk_user_id`;
-  ALTER TABLE `sport_user_profile` DROP KEY `fk_user_id`;
+--  ALTER TABLE `sport_match` DROP FOREIGN KEY `fk_id_command_1`;
+--  ALTER TABLE `sport_match` DROP KEY `fk_id_command_1`;
+--  ALTER TABLE `sport_match` DROP FOREIGN KEY `fk_id_command_2`;
+--  ALTER TABLE `sport_match` DROP KEY `fk_id_command_2`;
+--  ALTER TABLE `sport_user_profile` DROP FOREIGN KEY `fk_user_id`;
+--  ALTER TABLE `sport_user_profile` DROP KEY `fk_user_id`;
+--  ALTER TABLE `sport_user_profile` DROP FOREIGN KEY `fk_stadion_id`;
+--  ALTER TABLE `sport_user_profile` DROP KEY `fk_stadion_id`;
 
 
 DROP TABLE IF EXISTS `sport_command`;
@@ -53,16 +40,15 @@ CREATE TABLE IF NOT EXISTS `sport_match` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `id_command_1` int(11) unsigned NOT NULL,
   `id_command_2` int(11) unsigned NOT NULL,
+  `stadion_id` int(11) unsigned NOT NULL,
   `date` datetime NOT NULL,
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_id_command_1` (`id_command_1`),
-  KEY `fk_id_command_2` (`id_command_2`)
+  KEY `fk_id_command_2` (`id_command_2`),
+  KEY `fk_stadion_id` (`stadion_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-ALTER TABLE `sport_match`
-  ADD CONSTRAINT `fk_id_command_1` FOREIGN KEY (`id_command_1`) REFERENCES `sport_command` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_id_command_2` FOREIGN KEY (`id_command_2`) REFERENCES `sport_command` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Структура таблицы `sport_user`
@@ -127,3 +113,8 @@ CREATE TABLE IF NOT EXISTS `sport_stadion` (
   `long` varchar(75) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `sport_match`
+  ADD CONSTRAINT `fk_id_command_1` FOREIGN KEY (`id_command_1`) REFERENCES `sport_command` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_id_command_2` FOREIGN KEY (`id_command_2`) REFERENCES `sport_command` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_stadion_id` FOREIGN KEY (`stadion_id`) REFERENCES `sport_stadion` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;

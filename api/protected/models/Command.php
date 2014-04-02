@@ -28,9 +28,9 @@ class Command extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'name' => 'Name',
-			'img' => 'Img',
+			'id' => '#',
+			'name' => 'Название команды',
+			'img' => 'Логотип',
 		);
 	}
 

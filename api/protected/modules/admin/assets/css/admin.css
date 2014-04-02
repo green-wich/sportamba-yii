@@ -115,3 +115,11 @@ span.required{
     display: none
 }
 
+footer {
+  background-color: #e5e5e5;
+  border-top: solid 1px #cccccc;
+}
+footer p {
+  margin: 5px;
+}
+

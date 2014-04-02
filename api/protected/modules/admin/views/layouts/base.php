@@ -10,7 +10,7 @@
     <style type="text/css">
         body {
             padding-top: <?php echo empty($this->module->sectionMenu) ? '60px' : '96px'?>;
-            /* 60px to make the container go all the way to the bottom of the topbar */
+            padding-bottom: 30px;
         }
     </style>
     <link rel="stylesheet" href="<?php echo $this->getModule()->assets . '/css/admin.css'?>"/>
@@ -75,6 +75,12 @@
     <div class="container">
         <?php echo $content; ?>
     </div>
+    
+<footer class="navbar-fixed-bottom">
+    <div class="container">
+        <p class="text-center">&copy; SPORTAMBA <?php echo date('Y'); ?></p>
+    </div>
+</footer>
     
 </body>
 </html>
