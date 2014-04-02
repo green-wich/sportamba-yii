@@ -20,7 +20,7 @@
         <div class="row">
 		<?php echo $form->labelEx($model,'date'); ?>
                 <?php
-                    Yii::import('application.extensions.CJuiDateTimePicker.CJuiDateTimePicker');
+                    Yii::import('admin.extensions.CJuiDateTimePicker.CJuiDateTimePicker');
                     $this->widget('CJuiDateTimePicker',array(
                         'model'=>$model, 
                         'attribute'=>'date', 
@@ -37,7 +37,7 @@
             <?php
                 $all_post = Command::All();
             
-                $this->widget('ext.select2.ESelect2',array(
+                $this->widget('admin.extensions.select2.ESelect2',array(
                     'model'=>$model,
                     'attribute'=>'id_command_1',
                     'data'=>$all_post,
@@ -53,7 +53,7 @@
 	<div class="row">
 		<?php echo $form->labelEx($model,'id_command_2'); ?>
                 <?php
-                $this->widget('ext.select2.ESelect2',array(
+                $this->widget('admin.extensions.select2.ESelect2',array(
                     'model'=>$model,
                     'attribute'=>'id_command_2',
                     'data'=>$all_post,

@@ -1,23 +1,16 @@
 <?php
-/**
- * @var AdminController $this
- * @var AdminUser $model
- */
 $this->pageTitle = 'Вход в систему управления сайтом';
 $cs = Yii::app()->getClientScript();
 $cs->registerCss('login_styles', "
 .login{
         position: absolute;
-        top: 50%;
+        top: 40%;
         left: 50%;
         margin-top: -135px;
         margin-left: -180px;
     }
 ");
-$cs->registerCssFile($this->getModule()->assets . '/bootstrap/css/bootstrap.css');
-$cs->registerCssFile($this->getModule()->assets . '/bootstrap/css/bootstrap-responsive.css');
 ?>
-
 <div class="container-fluid">
     <?php
     /**

@@ -7,17 +7,18 @@ class AdminModule extends CWebModule
     public $assets = null;
     
     
-   public function init()
-    {
-        // publish our assets folder
+   public function init(){
+       
         $this->assets = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('admin.assets'));
-
+                
+        Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/extensions/yiistrap');
+        Yii::setPathOfAlias('xupload', dirname(__FILE__).'/extensions/xupload');
+        
         $this->setImport(
             array(
                 $this->getId() . '.models.*',
                 $this->getId() . '.components.*',
                 $this->getId() . '.components.widgets.*',
-                $this->getId() . '.models.*'
             ));
 
         Yii::app()->language = 'ru';
@@ -49,6 +50,17 @@ class AdminModule extends CWebModule
                     'itemTable' => 'admin_auth_item',
                     'assignmentTable' => 'admin_auth_assignment',
                     'itemChildTable' => 'admin_auth_item_child',
+                ),
+                'clientScript'=>array(
+                    'packages'=>array(
+                        'jquery'=>array(
+                            'baseUrl'=>'//ajax.googleapis.com/ajax/libs/jquery/',
+                            'js'=>array('1.10.2/jquery.min.js'),
+                        )
+                    ),
+                ),
+                'bootstrap' => array(
+                    'class' => 'bootstrap.components.TbApi',
                 ),
             ));
     }

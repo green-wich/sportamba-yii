@@ -17,10 +17,6 @@ return array(
 		'application.models.*',
 		'application.components.*',
 	),
-    
-        'aliases' => array(
-            'xupload' => 'ext.xupload'
-        ),
 
 	'modules'=>array(
             
@@ -43,12 +39,11 @@ return array(
 		),
             
                 'image'=>array(
-                    'class'=>'application.extensions.image.CImageComponent',
+                    'class'=> 'ext.image.CImageComponent',
                     'driver'=>'GD',
                     'params'=>array('directory'=>'/opt/local/bin'),
                 ),
-		// uncomment the following to enable URLs in path-format
-		
+            
                 'hybridAuth'=>array(
                     'class'=>'ext.hybridAuth.CHybridAuth',
                     'enabled'=>true, // enable or disable this component
