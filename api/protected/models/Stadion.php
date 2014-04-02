@@ -18,14 +18,19 @@ class Stadion extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name, address, lat, long', 'required'),
-            array('name', 'length', 'max'=>60),
-            array('address', 'length', 'max'=>200),
-            array('lat, long', 'length', 'max'=>75),
+            array('name, address', 'required'),
+            array('lat, long', 'validAdress'),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, name, address, lat, long', 'safe', 'on'=>'search'),
         );
+    }
+    
+    public function validAdress($attribute,$params)
+    {
+        if($this->$attribute == '')
+            $this->addError($attribute, 'Нужно локализовать стадион на карте!');
+        
     }
 
     /**

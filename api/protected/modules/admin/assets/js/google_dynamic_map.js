@@ -19,7 +19,7 @@ function initialize(lat, lon)
 		mapTypeId: google.maps.MapTypeId.ROADMAP
 	}
 	// Create map object with options
-	map = new google.maps.Map(document.getElementById("map_canvas_post"), myOptions);
+	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	// Create and set the marker
 	marker = new google.maps.Marker({
 		map: map,
@@ -36,6 +36,6 @@ function initialize(lat, lon)
 		map.panTo(point);
 		// Update the textbox
 		document.getElementById('lat').value=point.lat();
-		document.getElementById('lng').value=point.lng();
+		document.getElementById('long').value=point.lng();
 	});
 }

@@ -99,3 +99,19 @@ span.required{
 }
 #single{ width: 550px;}
 
+.form .row{
+    margin-bottom: 20px;
+}
+#loading{
+    background: white url('img/loading.gif') right center no-repeat; 
+    height: 44px; 
+    width: 44px;
+}
+
+#map_canvas{
+    width:450px;
+    height:300px;
+    border:solid black 1px;
+    display: none
+}
+

@@ -5,13 +5,16 @@
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'id',
+		array(
+                    'name' => 'id',
+                    'headerHtmlOptions' => array('width' => '20px'),
+                    'filter' => false
+                ),
 		'name',
 		'address',
-		'lat',
-		'long',
 		array(
 			'class'=>'CButtonColumn',
+                        'template' => '{update} {delete}',
 		),
 	),
 )); ?>
