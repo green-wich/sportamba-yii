@@ -5,7 +5,7 @@ sportamba-yii
 1. api/user/login?provider=Vkontakte [GET] - авторизация Vkontakte
 2. api/user/login?provider=Facebook  [GET] - авторизация Facebook
 3. api/user/logout                   [GET] - logout
-3. api/user/status                   [GET] - logout
+3. api/user/status                   [GET] - проверяет залогинен пользаватель или нет
 
 Матчи:
 1. /api/match     [GET] - список всех матчей
