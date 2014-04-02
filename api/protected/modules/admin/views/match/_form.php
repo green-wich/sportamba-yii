@@ -73,7 +73,7 @@
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save', array("class"=>"btn-danger")); ?>
+		<?php echo TbHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить', array("class"=>"btn-primary")); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
