@@ -4,19 +4,9 @@ class StadionController extends Controller
 {
 	public $layout = 'crud_layout';
         
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
-
 	public function actionCreate()
 	{
 		$model=new Stadion;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Stadion']))
 		{
@@ -33,9 +23,6 @@ class StadionController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Stadion']))
 		{
@@ -70,13 +57,6 @@ class StadionController extends Controller
 		));
 	}
 
-	/**
-	 * Returns the data model based on the primary key given in the GET variable.
-	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer $id the ID of the model to be loaded
-	 * @return Stadion the loaded model
-	 * @throws CHttpException
-	 */
 	public function loadModel($id)
 	{
 		$model=Stadion::model()->findByPk($id);
@@ -85,10 +65,6 @@ class StadionController extends Controller
 		return $model;
 	}
 
-	/**
-	 * Performs the AJAX validation.
-	 * @param Stadion $model the model to be validated
-	 */
 	protected function performAjaxValidation($model)
 	{
 		if(isset($_POST['ajax']) && $_POST['ajax']==='stadion-form')

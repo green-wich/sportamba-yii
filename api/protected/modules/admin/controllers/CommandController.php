@@ -4,26 +4,12 @@ class CommandController extends Controller
 {
         public $layout = 'crud_layout';
 	
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
-
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
 	public function actionCreate()
 	{
 		$model=new Command;
                 
                 Yii::import( "xupload.models.XUploadForm" );
                 $photos = new XUploadForm;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Command']))
 		{
@@ -44,9 +30,6 @@ class CommandController extends Controller
                 
                 Yii::import( "xupload.models.XUploadForm" );
                 $photos = new XUploadForm;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Command']))
 		{
