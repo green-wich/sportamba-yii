@@ -10,17 +10,25 @@
 --
 -- Структура таблицы `sport_command`
 --
+/*
+  ALTER TABLE `sport_match` DROP FOREIGN KEY `fk_id_command_1`;
+  ALTER TABLE `sport_match` DROP KEY         `fk_id_command_1`;
+  ALTER TABLE `sport_match` DROP FOREIGN KEY `fk_id_command_2`;
+  ALTER TABLE `sport_match` DROP KEY         `fk_id_command_2`;
+  ALTER TABLE `sport_match` DROP FOREIGN KEY `fk_stadion_id`;
+  ALTER TABLE `sport_match` DROP KEY         `fk_stadion_id`;
 
---  ALTER TABLE `sport_match` DROP FOREIGN KEY `fk_id_command_1`;
---  ALTER TABLE `sport_match` DROP KEY `fk_id_command_1`;
---  ALTER TABLE `sport_match` DROP FOREIGN KEY `fk_id_command_2`;
---  ALTER TABLE `sport_match` DROP KEY `fk_id_command_2`;
---  ALTER TABLE `sport_user_profile` DROP FOREIGN KEY `fk_user_id`;
---  ALTER TABLE `sport_user_profile` DROP KEY `fk_user_id`;
---  ALTER TABLE `sport_user_profile` DROP FOREIGN KEY `fk_stadion_id`;
---  ALTER TABLE `sport_user_profile` DROP KEY `fk_stadion_id`;
-
-
+  ALTER TABLE `sport_user_profile` DROP FOREIGN KEY `ifk_user_id`;
+  ALTER TABLE `sport_user_profile` DROP KEY         `ifk_user_id`;
+  
+  ALTER TABLE `sport_user_match` DROP FOREIGN KEY `fk_match_id`;
+  ALTER TABLE `sport_user_match` DROP KEY         `fk_match_id`;
+  ALTER TABLE `sport_user_match` DROP FOREIGN KEY `fk_user_id`;
+  ALTER TABLE `sport_user_match` DROP KEY         `fk_user_id`;
+  ALTER TABLE `sport_user_match` DROP FOREIGN KEY `fk_command_id`;
+  ALTER TABLE `sport_user_match` DROP KEY         `fk_command_id`;
+  */
+  
 DROP TABLE IF EXISTS `sport_command`;
 
 CREATE TABLE IF NOT EXISTS `sport_command` (
@@ -29,10 +37,6 @@ CREATE TABLE IF NOT EXISTS `sport_command` (
   `img` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- Структура таблицы `sport_match`
---
 
 DROP TABLE IF EXISTS `sport_match`;
 
@@ -49,11 +53,6 @@ CREATE TABLE IF NOT EXISTS `sport_match` (
   KEY `fk_stadion_id` (`stadion_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
-
---
--- Структура таблицы `sport_user`
---
-
 DROP TABLE IF EXISTS `sport_user`;
 
 CREATE TABLE IF NOT EXISTS `sport_user` (
@@ -69,12 +68,6 @@ CREATE TABLE IF NOT EXISTS `sport_user` (
   UNIQUE KEY `password` (`password`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2;
 
--- --------------------------------------------------------
-
---
--- Структура таблицы `sport_user_profile`
---
-
 DROP TABLE IF EXISTS `sport_user_profile`;
 
 CREATE TABLE IF NOT EXISTS `sport_user_profile` (
@@ -89,19 +82,11 @@ CREATE TABLE IF NOT EXISTS `sport_user_profile` (
   `region` varchar(50) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_user_id` (`user_id`)
+  KEY `ifk_user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
-ALTER TABLE `sport_user_profile`
-  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `sport_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Дамп данных таблицы `sport_user`
---
 
 INSERT INTO `sport_user` (`id`, `username`, `password`, `session_data`, `created_at`, `provider`, `status`) VALUES
 (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', '', '2014-03-31 00:00:00', '', 1);
-
 
 DROP TABLE IF EXISTS `sport_stadion`;
 
@@ -114,7 +99,30 @@ CREATE TABLE IF NOT EXISTS `sport_stadion` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+DROP TABLE IF EXISTS `sport_user_match`;
+
+CREATE TABLE IF NOT EXISTS `sport_user_match` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `match_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `command_id` int(11) unsigned NOT NULL,
+  `type_place_viewing` int(1) unsigned NOT NULL COMMENT '1-дома, 2-стадион, 3-бар',
+  `place_viewing` varchar(75) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_match_id` (`match_id`),
+  KEY `fk_user_id` (`user_id`),
+  KEY `fk_command_id` (`command_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+ALTER TABLE `sport_user_match`
+  ADD CONSTRAINT `fk_match_id` FOREIGN KEY (`match_id`) REFERENCES `sport_match` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `sport_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_command_id` FOREIGN KEY (`command_id`) REFERENCES `sport_command` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
 ALTER TABLE `sport_match`
   ADD CONSTRAINT `fk_id_command_1` FOREIGN KEY (`id_command_1`) REFERENCES `sport_command` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_id_command_2` FOREIGN KEY (`id_command_2`) REFERENCES `sport_command` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_stadion_id` FOREIGN KEY (`stadion_id`) REFERENCES `sport_stadion` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE `sport_user_profile`
+  ADD CONSTRAINT `ifk_user_id` FOREIGN KEY (`user_id`) REFERENCES `sport_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
