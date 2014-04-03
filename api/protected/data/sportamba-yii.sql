@@ -7,9 +7,6 @@
 
 -- --------------------------------------------------------
 
---
--- Структура таблицы `sport_command`
---
 /*
   ALTER TABLE `sport_match` DROP FOREIGN KEY `fk_id_command_1`;
   ALTER TABLE `sport_match` DROP KEY         `fk_id_command_1`;

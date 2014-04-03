@@ -2,39 +2,31 @@
 
 class MatchController extends Controller
 {
+    const JSON_RESPONSE_ROOT_SINGLE='match';
+    const JSON_RESPONSE_ROOT_PLURAL='matches';
+    
     public function actionList(){
         $criteria = new CDbCriteria();
         $criteria->condition = "status=1";
         $matches = Match::model()->findAll($criteria);
-        $matchesToJson = array();
+        $console = array();
         foreach ($matches as $match){
-            $matchesToJson[] = $this->CreationRowMatch($match);
+            $console[] = $this->CreationRowMatch($match);
         }
-        echo '{"matches": ' .CJSON::encode($matchesToJson).'}';
-        Yii::app()->end();
+        $result = array(self::JSON_RESPONSE_ROOT_PLURAL => $console);
+        $this->sendResponse(200, CJSON::encode($result));
     }
     
     public function actionGet($id){
         $match = Match::model()->findByPk($id);
-        $row['id'] = $match->id;
-        $row['command_1'] = array(
-            'id' => $match->command_1->id,
-            'name' => $match->command_1->name,
-            'image' => $match->command_1->img
-        );
-        $row['command_2'] = array(
-            'id' => $match->command_1->id,
-            'name' => $match->command_2->name,
-            'image' => $match->command_2->img
-        );
-        $row['date'] = $match->date;
+        $row = $this->CreationRowMatch($match);
         $row['stadion'] = array(
             'name' => $match->stadion->name,
             'lat' => $match->stadion->lat,
             'long' => $match->stadion->long,
         );
-        echo '{"match": ' .CJSON::encode($row).'}';
-        Yii::app()->end();
+        $result = array(self::JSON_RESPONSE_ROOT_SINGLE => $row);
+        $this->sendResponse(200, CJSON::encode($result));
     }
     
     private function CreationRowMatch($match){
