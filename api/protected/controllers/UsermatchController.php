@@ -19,7 +19,7 @@ class UsermatchController extends Controller
                 ]
             ];
         }
-        echo '{"matches": ' . CJSON::encode($row).'}';
+        echo '{"usermatches": ' . CJSON::encode($row).'}';
         Yii::app()->end();
     }
     
