@@ -45,24 +45,12 @@ class UsermatchController extends Controller
         $row['id'] = $id;
         $row['match'] = [
             'id' => $usermatch->match->id,
-            'command_1' => [
-                'id' => $usermatch->match->command_1->id,
-                'name' => $usermatch->match->command_1->name,
-                'img' => $usermatch->match->command_1->img,
-            ],
-            'command_2' => [
-                'id' => $usermatch->match->command_2->id,
-                'name' => $usermatch->match->command_2->name,
-                'img' => $usermatch->match->command_2->img,
-            ],
+            'command_1' => $usermatch->match->command_1,
+            'command_2' => $usermatch->match->command_1,
             'date' => $usermatch->match->date,
             'stadion' => $usermatch->match->stadion->name,
         ];
-        $row['command'] = [
-            'id' => $usermatch->command->id,
-            'name' => $usermatch->command->name,
-            'img' => $usermatch->command->img,
-        ];
+        $row['command'] = $usermatch->command;
         $row['type_place_viewing'] = $usermatch->type_place_viewing;
         $row['place_viewing'] = $usermatch->place_viewing;
         
