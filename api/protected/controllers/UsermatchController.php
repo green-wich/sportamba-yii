@@ -8,36 +8,27 @@ class UsermatchController extends Controller
     public function actionList(){
         $criteria = new CDbCriteria();
         $criteria->condition = "user_id=".Yii::app()->user->id;
-        
         $usermatches = UserMatch::model()->findAll($criteria);
+        $row = array();
+        $console = array();
         foreach ($usermatches as $usermatch){
-            $row[] = [
-                'id' => $usermatch->id,
-                'match' => [
-                    'id' => $usermatch->match->id,
-                    'command_1' => $usermatch->match->command_1->name,
-                    'command_2' => $usermatch->match->command_2->name,
-                    'date' => $usermatch->match->date,
-                ]
-            ];
+            $row['id'] = $usermatch->id;
+            $row['match'] = $usermatch->match;
+            $console[] = $row;
         }
-        echo '{"usermatches": ' . CJSON::encode($row).'}';
-        Yii::app()->end();
+        $result = array(self::JSON_RESPONSE_ROOT_PLURAL => $console);
+        $this->sendResponse(200, CJSON::encode($result));
     }
     
     public function actionCreate(){
-        $params = $_REQUEST;
-        
-        $usermatch = new UserMatch;
-        $usermatch->match_id = $params['match_id'];
-        $usermatch->user_id = Yii::app()->user->id;
-        $usermatch->command_id = $params['command_id'];
-        $usermatch->type_place_viewing = $params['type_place_viewing'];
-        $usermatch->place_viewing = $params['place_viewing'];
-        
-        if($usermatch->save()){
-            $this->sendResponse(200, TRUE);
+        $consoles=$this->getInputAsJson();
+        $model = new UserMatch();
+        $model->setAttributes($consoles[self::JSON_RESPONSE_ROOT_SINGLE], false);
+        $usermatch = array(self::JSON_RESPONSE_ROOT_SINGLE => $model);
+        if (!$model->save()) {
+            $this->sendResponse(401);
         }
+        $this->sendResponse(200, CJSON::encode($usermatch));
     }
     
     public function actionGet($id){
@@ -56,19 +47,19 @@ class UsermatchController extends Controller
         $row['type_place_viewing'] = $usermatch->type_place_viewing;
         $row['place_viewing'] = $usermatch->place_viewing;
         
-        echo '{"usermatch": ' . CJSON::encode($row).'}';
-        Yii::app()->end();
+        $usermatch = array(self::JSON_RESPONSE_ROOT_SINGLE => $row);
+        $this->sendResponse(200, CJSON::encode($usermatch));
     }
     
     public function actionUpdate($id){
         $consoles=$this->getInputAsJson();
         $model = UserMatch::model()->findByPk($id);
         $model->setAttributes($consoles[self::JSON_RESPONSE_ROOT_SINGLE], false);
-        $data = $this->getInputAsJson();
-        $usermatch = UserMatch::model()->findByPk($id);
-        
-        
-
+        $usermatch = array(self::JSON_RESPONSE_ROOT_SINGLE => $model);
+        if ($model->save()) {
+           echo CJSON::encode($usermatch);
+        }
+        Yii::app()->end();
     }
  
 }

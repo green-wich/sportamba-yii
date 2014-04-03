@@ -11,11 +11,11 @@ class UserMatch extends CActiveRecord
     public function rules()
     {
         return array(
-            array('match_id, user_id, command_id, type_place_viewing, place_viewing', 'required'),
-            array('match_id, user_id, command_id', 'length', 'max'=>11),
+            array('match_id, command_id, type_place_viewing, place_viewing', 'required'),
+            array('match_id, command_id', 'length', 'max'=>11),
             array('type_place_viewing', 'length', 'max'=>1),
             array('place_viewing', 'length', 'max'=>75),
-            array('id, match_id, user_id, command_id, type_place_viewing, place_viewing', 'safe', 'on'=>'search'),
+            array('id, match_id, command_id, type_place_viewing, place_viewing', 'safe', 'on'=>'search'),
         );
     }
 
@@ -61,6 +61,13 @@ class UserMatch extends CActiveRecord
     public static function model($className=__CLASS__)
     {
         return parent::model($className);
+    }
+    
+    public function beforeSave() {
+        if ($this->isNewRecord){
+            $this->user_id = Yii::app()->user->id;
+        } 
+        return parent::beforeSave();
     }
 }
 
