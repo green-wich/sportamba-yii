@@ -10,10 +10,13 @@ class UsermatchController extends Controller
         $usermatches = UserMatch::model()->findAll($criteria);
         foreach ($usermatches as $usermatch){
             $row[] = [
-                'id' => $usermatch->match->id,
-                'command_1' => $usermatch->match->command_1->name,
-                'command_2' => $usermatch->match->command_2->name,
-                'date' => $usermatch->match->date
+                'id' => $usermatch->id,
+                'match' => [
+                    'id' => $usermatch->match->id,
+                    'command_1' => $usermatch->match->command_1->name,
+                    'command_2' => $usermatch->match->command_2->name,
+                    'date' => $usermatch->match->date,
+                ]
             ];
         }
         echo '{"matches": ' . CJSON::encode($row).'}';
