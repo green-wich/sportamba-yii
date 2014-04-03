@@ -1,7 +1,7 @@
 <?php
 
 class UserController extends Controller
-{
+{    
     public function filters()
     {
         return array(
@@ -31,7 +31,7 @@ class UserController extends Controller
     public function actionLogout()
     {
         Yii::app()->user->logout();
-        $this->sendResponse(200, "User not active");
+        $this->homeRedirect();
     }
  
     public function actionEndpoint(){
@@ -41,7 +41,7 @@ class UserController extends Controller
     public function actionLogin($provider){
         
         if(!Yii::app()->user->isGuest){
-            $this->sendResponse(401, 'Error: User is active');
+            $this->homeRedirect();
         }
         if(!$provider || !Yii::app()->hybridAuth->isAllowedProvider($provider))
             $this->sendResponse(401, 'Error: Provider not found');
@@ -84,7 +84,7 @@ class UserController extends Controller
                     $identity->authenticate();
                     if ($identity->errorCode === UserIdentity::ERROR_NONE) {
                         Yii::app()->user->login($identity);
-                        $this->sendResponse(200, TRUE);
+                        $this->homeRedirect();
                     }
                 }else{
                     $this->sendResponse(401, 'Error: User not find');
@@ -101,6 +101,11 @@ class UserController extends Controller
         }else{
             $this->sendResponse(200, FALSE);
         }
+        Yii::app()->end();
+    }
+    
+    private function homeRedirect(){
+        header("Location: " . $_SERVER['SERVER_NAME'], true, 301);
         Yii::app()->end();
     }
     
