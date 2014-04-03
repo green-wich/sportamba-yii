@@ -2,7 +2,9 @@
 
 class UsermatchController extends Controller
 {
-    
+    const JSON_RESPONSE_ROOT_SINGLE='usermatch';
+    const JSON_RESPONSE_ROOT_PLURAL='usermatches';
+   
     public function actionList(){
         $criteria = new CDbCriteria();
         $criteria->condition = "user_id=".Yii::app()->user->id;
@@ -57,4 +59,16 @@ class UsermatchController extends Controller
         echo '{"usermatch": ' . CJSON::encode($row).'}';
         Yii::app()->end();
     }
+    
+    public function actionUpdate($id){
+        $consoles=$this->getInputAsJson();
+        $model = UserMatch::model()->findByPk($id);
+        $model->setAttributes($consoles[self::JSON_RESPONSE_ROOT_SINGLE], false);
+        $data = $this->getInputAsJson();
+        $usermatch = UserMatch::model()->findByPk($id);
+        
+        
+
+    }
+ 
 }

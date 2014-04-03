@@ -20,3 +20,12 @@ sportamba-yii
                            // в баре -> название бара
 4. /api/usermatch      [GET] - список всех матчей которые запланировал пользователь
 5. /api/usermatch/:id  [GET] - информация об добавленном в профайл юзера матче
+6. /api/usermatch/:id  [PUT] - обновление информация об добавленном в профайл юзера матче
+    {"usermatch": {
+            "match_id": :id,
+            "command_id": :id,
+            "type_place_viewing":"",
+            "place_viewing":""
+        }
+    }
+

@@ -7,10 +7,19 @@ $( document ).ready(function() {
 });
 
 function allMatches(){
+    var jsn= JSON.stringify({
+    "id":"1", 
+    "name":"wert", 
+    });
+
+    var dt='{"team": '+jsn+'}';
+    
+    console.log( dt );
+    
     $.ajax({
-        type: 'GET',
-        url: apiURL+'/user/status',
-        dataType: "json", // data type of response
+        type: 'PUT',
+        url: apiURL+'/usermatch/1',
+        data: dt,
         success: function(data){
             console.log( data );
         }

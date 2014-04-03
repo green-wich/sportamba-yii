@@ -40,8 +40,8 @@ class MatchController extends Controller
     private function CreationRowMatch($match){
         $row = array();
         $row['id'] = $match->id;
-        $row['command_1'] = $match->command_1->name;
-        $row['command_2'] = $match->command_2->name;
+        $row['command_1'] = $match->command_1;
+        $row['command_2'] = $match->command_2;
         $row['date'] = $match->date;
         return $row;
     }
