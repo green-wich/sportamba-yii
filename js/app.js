@@ -1,58 +1,50 @@
 var Match = Backbone.Model.extend({
-  defaults: {
-    id_command1 : 'id_command1',
-    id_command2 : 'id_command2',
-    date : 'date',
-    status : 'status',
-    url : 'url',
-    title : 'title',
-    text : 'text',
-    img : 'img'
+    defaults: 
+    {
+      "id":"",
+      "command_1":{
+        "id":"",
+        "name":"",
+        "image":""
+      },
+      "command_2":{
+        "id":"",
+        "name":"",
+        "image":""
+      },
+      "date":"",
+      "stadion":{
+        "name":"",
+        "lat":"",
+        "long":""
+      }
+    }
   }
+);
+
+var Matches = Backbone.Collection.extend({
+    url: "/api/match",
+    model: Match,
+    parse:function(resp){
+      return resp.matches;
+    }
 });
 
 var Friends = Backbone.Model.extend({
   defaults: {
-    id_command1 : 'id_command1',
-    id_command2 : 'id_command2',
-    date : 'date',
-    status : 'status',
-    url : 'url',
-    title : 'title',
-    text : 'text',
-    img : 'img'
+    id_command1 : 'id_command1'
   }
 });
 
-var Matches = Backbone.Collection.extend({
-    model: Match
-});
 
-var matches = new Matches();
-
+var matches = new Matches({toJSON:function(){}});
 var app = new Backbone.Marionette.Application();
-
 app.addInitializer(function(){
-  matches.add([{    
-    id_command1 : '111111',
-    id_command2 : '111111',
-    date : '11111',
-    status : '111111',
-    url : '111111',
-    title : '111111',
-    text : '111111',
-    img : '111111'},{    
-    id_command1 : '2222222',
-    id_command2 : '2222222',
-    date : '2222222',
-    status : '2222222',
-    url : '2222222',
-    title : '2222222',
-    text : '2222222',
-    img : '2222222'}],{parse:true});
+  matches.fetch({
+    success:function(collection, response, options){console.log('success')},
+    error:function(collection, response, options){console.log('error')}
+  })
 });
-
-
 
 var IndexPage = Backbone.Marionette.ItemView.extend({
   template : "#firstScreen",
@@ -61,9 +53,11 @@ var IndexPage = Backbone.Marionette.ItemView.extend({
     'click a' : 'firstScreenNav'
   },
   firstScreenNav: function(e){
+    e.preventDefault();
     window.location = window.location.href + $(e.currentTarget).attr('href');
   }
 });
+
 
 var DisclaimerPage = Backbone.Marionette.ItemView.extend({
   template : "#discPage",
@@ -72,22 +66,24 @@ var DisclaimerPage = Backbone.Marionette.ItemView.extend({
     'click a' : 'discPage'
   },
   discPage: function(e){
-     e.preventDefault();
-    Backbone.history.navigate($(e.currentTarget).attr('href'),true)
-  }
-});
-
-var DashPage = Backbone.Marionette.ItemView.extend({
-  template : "#dashPage",
-  el: '#container',
-  events: {
-    'click a.tab-item' : 'dashPage'
-  },
-  dashPage: function(e){
     e.preventDefault();
     Backbone.history.navigate($(e.currentTarget).attr('href'),true)
   }
 });
+
+
+OneItemView = Backbone.Marionette.ItemView.extend({
+  template: "#row-template"
+});
+
+TableView = Backbone.Marionette.CompositeView.extend({
+  itemView: OneItemView,
+  collection: matches,
+  // specify a jQuery selector to put the itemView instances in to
+  itemViewContainer: "#aaa",
+  template: "#table-template"
+});
+
 
 var MatchesShow = Backbone.Marionette.ItemView.extend({
   template : "#matchesScreen",
@@ -96,11 +92,10 @@ var MatchesShow = Backbone.Marionette.ItemView.extend({
     'click a.tab-item' : 'matchesPage'
   },
   matchesPage: function(e){
-     e.preventDefault();
+    e.preventDefault();
     Backbone.history.navigate($(e.currentTarget).attr('href'),true)
   }
 });
-
 
 var Router = Backbone.Marionette.AppRouter.extend({
   appRoutes : {
@@ -113,19 +108,17 @@ var Router = Backbone.Marionette.AppRouter.extend({
   },
   controller : {
     indexShow : function(param) {
-    $.ajax({
-        type: 'GET',
-        url: 'http://sportamba-yii.loc/api/user/status',
-        dataType: "json", // data type of response
-        success: function(data){
-            if (data == 1){
-              Backbone.history.navigate("disc",true)
-            } else {
-              new IndexPage().render();
-            }
-        }
-    });
-      
+      $.ajax({
+          type: 'GET',
+          url: 'http://sportamba-yii.loc/api/user/status',
+          dataType: "json", 
+          success: function(data){
+            Backbone.history.navigate("disc",true);
+          },
+          error: function(data){
+            new IndexPage().render();
+          }
+      });
     },
     discShow: function(param){
       new DisclaimerPage().render();
