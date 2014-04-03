@@ -25,11 +25,11 @@
   ALTER TABLE `sport_user_match` DROP FOREIGN KEY `fk_command_id`;
   ALTER TABLE `sport_user_match` DROP KEY         `fk_command_id`;
 
-  ALTER TABLE `sport_friend` DROP FOREIGN KEY `fk_user_id_1`;  
-  ALTER TABLE `sport_friend` DROP KEY         `fk_user_id_1`;
-  ALTER TABLE `sport_friend` DROP FOREIGN KEY `fk_user_id_2`;
-  ALTER TABLE `sport_friend` DROP KEY         `fk_user_id_2`;
- */ 
+  ALTER TABLE `sport_connectin` DROP FOREIGN KEY `fk_user_id_1`;  
+  ALTER TABLE `sport_connectin` DROP KEY         `fk_user_id_1`;
+  ALTER TABLE `sport_connectin` DROP FOREIGN KEY `fk_user_id_2`;
+  ALTER TABLE `sport_connectin` DROP KEY         `fk_user_id_2`;
+ */
   
 DROP TABLE IF EXISTS `sport_command`;
 
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `sport_user_match` (
   KEY `fk_command_id` (`command_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-CREATE TABLE IF NOT EXISTS `sport_friend` (
+CREATE TABLE IF NOT EXISTS `sport_connectin` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id_1` int(11) unsigned NOT NULL,
   `user_id_2` int(11) unsigned NOT NULL,
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `sport_friend` (
   KEY `fk_user_id_2` (`user_id_2`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-ALTER TABLE `sport_friend`
+ALTER TABLE `sport_connectin`
   ADD CONSTRAINT `fk_user_id_1` FOREIGN KEY (`user_id_1`) REFERENCES `sport_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_user_id_2` FOREIGN KEY (`user_id_2`) REFERENCES `sport_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 

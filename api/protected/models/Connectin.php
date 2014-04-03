@@ -1,6 +1,6 @@
 <?php
 
-class Friend extends CActiveRecord
+class Connectin extends CActiveRecord
 {
     public function tableName()
     {
