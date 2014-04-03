@@ -1,6 +1,6 @@
 <?php
 
-class ConnectinController extends Controller
+class ConnectionController extends Controller
 {
     
 }

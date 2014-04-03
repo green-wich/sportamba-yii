@@ -1,10 +1,10 @@
 <?php
 
-class Connectin extends CActiveRecord
+class Connection extends CActiveRecord
 {
     public function tableName()
     {
-        return '{{friend}}';
+        return '{{connection}}';
     }
 
     public function rules()
