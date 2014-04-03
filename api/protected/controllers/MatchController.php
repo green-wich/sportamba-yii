@@ -18,10 +18,12 @@ class MatchController extends Controller
         $match = Match::model()->findByPk($id);
         $row['id'] = $match->id;
         $row['command_1'] = array(
+            'id' => $match->command_1->id,
             'name' => $match->command_1->name,
             'image' => $match->command_1->img
         );
         $row['command_2'] = array(
+            'id' => $match->command_1->id,
             'name' => $match->command_2->name,
             'image' => $match->command_2->img
         );
