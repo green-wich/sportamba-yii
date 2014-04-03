@@ -32,3 +32,10 @@ sportamba-yii
         }
     }
 
+Друзья пользователя:
+1. /api/connection [POST] - добавление пользоветеля в друзья
+    {"connection": {
+            "user_id_2": 5
+        }
+    }
+2. /api/connection      [GET] - список моих друзей

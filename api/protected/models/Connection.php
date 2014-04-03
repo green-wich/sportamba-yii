@@ -9,12 +9,18 @@ class Connection extends CActiveRecord
 
     public function rules()
     {
-
+        // "user_id_1" - id current user
         return array(
-            array('user_id_1, user_id_2', 'required'),
-            array('user_id_1, user_id_2', 'length', 'max'=>11),
-            array('id, user_id_1, user_id_2', 'safe', 'on'=>'search'),
+            array('user_id_2', 'required'),
+            array('id, user_id_2', 'safe', 'on'=>'search'),
         );
+    }
+    
+    public function beforeSave() {
+        if ($this->isNewRecord){
+            $this->user_id_1 = Yii::app()->user->id;
+        } 
+        return parent::beforeSave();
     }
 
     public function relations()

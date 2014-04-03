@@ -93,5 +93,10 @@ class User extends CActiveRecord
          ));  
     }
     
+    public function getFullName()
+    {
+        return $this->profile->firstName . ' ' . $this->profile->lastName;
+    }
+    
     
 }
