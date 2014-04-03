@@ -105,7 +105,7 @@ class UserController extends Controller
     }
     
     private function homeRedirect(){
-        header("Location: " . $_SERVER['SERVER_NAME'], true, 301);
+        header("Location: http://" . $_SERVER['SERVER_NAME'] . "/", true, 301);
         Yii::app()->end();
     }
     
