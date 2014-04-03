@@ -24,6 +24,7 @@ class Match extends CActiveRecord
                 'command_1' => array(self::BELONGS_TO, 'Command', 'id_command_1'),
                 'command_2' => array(self::BELONGS_TO, 'Command', 'id_command_2'),
                 'stadion' => array(self::BELONGS_TO, 'Stadion', 'stadion_id'),
+                'usermatch' => array(self::HAS_MANY, 'UserMatch', 'match_id'),
             );
 	}
         

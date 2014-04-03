@@ -97,7 +97,7 @@ class UserController extends Controller
     
     public function actionStatus(){
         if(!Yii::app()->user->isGuest){
-            $this->sendResponse(200, TRUE);
+            $this->sendResponse(200, Yii::app()->user->id);
         }else{
             $this->sendResponse(200, FALSE);
         }
