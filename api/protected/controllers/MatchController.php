@@ -16,7 +16,22 @@ class MatchController extends Controller
     
     public function actionGet($id){
         $match = Match::model()->findByPk($id);
-        echo '{"match": ' .CJSON::encode($this->CreationRowMatch($match)).'}';
+        $row['id'] = $match->id;
+        $row['command_1'] = array(
+            'name' => $match->command_1->name,
+            'image' => $match->command_1->img
+        );
+        $row['command_2'] = array(
+            'name' => $match->command_2->name,
+            'image' => $match->command_2->img
+        );
+        $row['date'] = $match->date;
+        $row['stadion'] = array(
+            'name' => $match->stadion->name,
+            'lat' => $match->stadion->lat,
+            'long' => $match->stadion->long,
+        );
+        echo '{"match": ' .CJSON::encode($row).'}';
         Yii::app()->end();
     }
     
