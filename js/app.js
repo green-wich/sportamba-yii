@@ -50,7 +50,8 @@ var IndexPage = Backbone.Marionette.ItemView.extend({
   template : "#firstScreen",
   el: '#container',
   events: {
-    'click a' : 'firstScreenNav'
+    'click a' : 'firstScreenNav',
+    'touchstart a' : 'firstScreenNav'
   },
   firstScreenNav: function(e){
     e.preventDefault();
@@ -64,13 +65,15 @@ var DisclaimerPage = Backbone.Marionette.ItemView.extend({
   el: '#container',
   events: {
     'click a' : 'discPage',
-    'click .btn': 'btnClick'
+    'click .btn': 'btnClick',
+    'touchstart a' : 'discPage'
   },
   discPage: function(e){
     e.preventDefault();
     Backbone.history.navigate($(e.currentTarget).attr('href'),true)
   },
     btnClick: function(e){
+      e.preventDefault();
       Backbone.history.navigate($(e.currentTarget).attr('href'),true)
     }
 });
@@ -104,7 +107,8 @@ var MatchesShow = Backbone.Marionette.ItemView.extend({
   template : "#matchesScreen",
   el: '#container',
   events: {
-    'click a.tab-item' : 'matchesPage'
+    'click a.tab-item' : 'matchesPage',
+    'touchstart a.tab-item': 'matchesPage'
   },
   matchesPage: function(e){
     e.preventDefault();
