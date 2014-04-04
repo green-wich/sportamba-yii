@@ -21,7 +21,9 @@ var Match = Backbone.Model.extend({
     }
   }
 );
-
+var MatchView = Backbone.Marionette.ItemView.extend({
+  template: '#match'
+})
 var Matches = Backbone.Collection.extend({
     url: "/api/match",
     model: Match,
@@ -93,7 +95,8 @@ TableView = Backbone.Marionette.CompositeView.extend({
 
 var SampleView = Backbone.Marionette.ItemView.extend({
     template : '#sample-template',
-    tagName: 'div'
+    tagName: 'li',
+    className: 'table-view-cell btn-link'
 });
 
 var ahah = Backbone.Marionette.CompositeView.extend({
@@ -108,11 +111,15 @@ var MatchesShow = Backbone.Marionette.ItemView.extend({
   el: '#container',
   events: {
     'click a.tab-item' : 'matchesPage',
-    'touchstart a.tab-item': 'matchesPage'
+    'touchstart a.tab-item': 'matchesPage',
+    'touchstart span.icon.icon-plus.rig':'addMatch'
   },
   matchesPage: function(e){
     e.preventDefault();
     Backbone.history.navigate($(e.currentTarget).attr('href'),true)
+  },
+  addMatch: function(e){
+    model: _.where(this.collection,{id:$(e.currentTarget).data('matchId')})
   }
 });
 
@@ -129,7 +136,7 @@ var Router = Backbone.Marionette.AppRouter.extend({
     indexShow : function(param) {
       $.ajax({
           type: 'GET',
-          url: 'http://sportamba-yii.loc/api/user/status',
+          url: window.location.origin+'/api/user/status',
           dataType: "json", 
           success: function(data){
             Backbone.history.navigate("disc",true);
