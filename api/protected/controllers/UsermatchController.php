@@ -17,7 +17,7 @@ class UsermatchController extends Controller
                 'id' => $usermatch->match->id,
                 'command_1' => $usermatch->match->command_1,
                 'command_2' => $usermatch->match->command_2,
-                'date' => $usermatch->match->date
+                'date' => Yii::app()->dateFormatter->format('dd/MM/yyyy', strtotime($usermatch->match->date)),
             );
             $console[] = $row;
         }
@@ -45,7 +45,7 @@ class UsermatchController extends Controller
             'id' => $usermatch->match->id,
             'command_1' => $usermatch->match->command_1,
             'command_2' => $usermatch->match->command_1,
-            'date' => $usermatch->match->date,
+            'date' => Yii::app()->dateFormatter->format('dd/MM/yyyy', strtotime($usermatch->match->date)),
             'stadion' => $usermatch->match->stadion->name,
         ];
         $row['command'] = $usermatch->command;

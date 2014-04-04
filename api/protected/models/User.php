@@ -26,6 +26,7 @@ class User extends CActiveRecord
         return array(
             'profile' => array(self::HAS_ONE, 'UserProfile', 'user_id'),
             'match' => array(self::HAS_MANY, 'UserMatch', 'match_id'),
+            'connection' => array(self::HAS_MANY, 'Connection', 'user_id_2'),
         );
     }
 
@@ -97,6 +98,6 @@ class User extends CActiveRecord
     {
         return $this->profile->firstName . ' ' . $this->profile->lastName;
     }
-    
+        
     
 }

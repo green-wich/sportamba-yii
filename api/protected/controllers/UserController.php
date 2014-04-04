@@ -13,7 +13,7 @@ class UserController extends Controller
     {
         return array(
             array('allow',
-                'actions'=>array('login', 'endpoint'),
+                'actions'=>array('login', 'endpoint', 'status'),
                 'users'=>array('*'),
             ),
             array('deny',
@@ -23,8 +23,11 @@ class UserController extends Controller
     }
     
     public function actionGet($id){
-        $user = User::model()->findByPk($id);
-        echo '{"user": ' . CJSON::encode($user) . ', "userProfile":'. CJSON::encode($user->profile) .'}';
+        $i=Yii::app()->user->id;
+        $user = Connection::model()->findByAttributes(['user_id_1' => $i]);
+        $r = $user->user2->match;
+        $this->sendResponse(200, CJSON::encode($r));
+      //  echo '{"user": ' . CJSON::encode($user) . ', "userProfile":'. CJSON::encode($user->profile) .'}';
         Yii::app()->end();
     }
     
@@ -107,6 +110,12 @@ class UserController extends Controller
     private function homeRedirect(){
         header("Location: http://" . $_SERVER['SERVER_NAME'] . "/", true, 301);
         Yii::app()->end();
+    }
+    
+    public function actionList(){
+        $connections = User::model()->findAll();
+        
+        $this->sendResponse(200, CJSON::encode($connections));
     }
     
 }
