@@ -26,7 +26,6 @@ class UserController extends Controller
     }
     
     public function actionList(){
-        
         $myFriends = Connection::model()->findAll(array(
                         'select' => "user_id_2",
                         'condition'=>"user_id_1=".Yii::app()->user->id));
@@ -39,29 +38,17 @@ class UserController extends Controller
         $criteria->addNotInCondition('id', $search);
         $users = User::model()->findAll($criteria);
         
-        $row = array();
         $console = array();
         foreach ($users as $user){
-            $row['id'] = $user->id;
-            $row['fullname'] = $user->getFullname();
-            $row['photoUrl'] = $user->profile->photoUrl;
-            $console[] = $row;
+            $console[] = $this->createRow($user);
         }
         $result = array(self::JSON_RESPONSE_ROOT_PLURAL => $console);
         $this->sendResponse(200, CJSON::encode($result));
     }
     
     public function actionCurrent(){
-        $criteria = new CDbCriteria();
-        $criteria->condition = "id=".Yii::app()->user->id;
-        $users = User::model()->findAll($criteria);
-        $row = array();
-        foreach ($users as $user){
-            $row['id'] = $user->id;
-            $row['fullname'] = $user->getFullname();
-            $row['photoUrl'] = $user->profile->photoUrl;
-        }
-        $result = array(self::JSON_RESPONSE_ROOT_SINGLE => $row);
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        $result = array(self::JSON_RESPONSE_ROOT_SINGLE => $this->createRow($user));
         $this->sendResponse(200, CJSON::encode($result));
     }
     
@@ -153,6 +140,13 @@ class UserController extends Controller
     private function homeRedirect(){
         header("Location: http://" . $_SERVER['SERVER_NAME'] . "/", true, 301);
         Yii::app()->end();
+    }
+    
+    private function createRow($params){
+         $row['id'] = $params->id;
+         $row['fullname'] = $params->getFullname();
+         $row['photoUrl'] = $params->profile->photoUrl;
+         return $row;
     }
     
 }
