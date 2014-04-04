@@ -19,16 +19,31 @@ class ConnectionController extends Controller
         $criteria = new CDbCriteria();
         $criteria->condition = "user_id_1=".Yii::app()->user->id;
         $connections = Connection::model()->findAll($criteria);
-        $row = array();
         $console = array();
         foreach ($connections as $connection){
-            $row['id'] = $connection->user_id_2;
-            $row['name'] = $connection->user2->getFullName();
-            $row['photoUrl'] = $connection->user2->profile->photoUrl;
-            $console[] = $row;
+            $console[] = $this->createRow($connection);
         }
         $result = array(self::JSON_RESPONSE_ROOT_PLURAL => $console);
         $this->sendResponse(200, CJSON::encode($result));
+    }
+    
+    public function actionUsers(){
+        $criteria = new CDbCriteria();
+        $criteria->condition = "user_id_2=".Yii::app()->user->id;
+        $connections = Connection::model()->findAll($criteria);
+        $console = array();
+        foreach ($connections as $connection){
+            $console[] = $this->createRow($connection, true);
+        }
+        $result = array(self::JSON_RESPONSE_ROOT_PLURAL => $console);
+        $this->sendResponse(200, CJSON::encode($result));
+    }
+    
+    private function createRow($params, $type = false){
+        $row['id'] = $type ? $params->user_id_1 : $params->user_id_2;
+        $row['name'] = $type ? $params->user1->getFullName() : $params->user2->getFullName();
+        $row['photoUrl'] = $type ? $params->user1->profile->photoUrl : $params->user2->profile->photoUrl;
+        return $row;
     }
     
 }
