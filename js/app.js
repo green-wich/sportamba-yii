@@ -63,12 +63,16 @@ var DisclaimerPage = Backbone.Marionette.ItemView.extend({
   template : "#discPage",
   el: '#container',
   events: {
-    'click a' : 'discPage'
+    'click a' : 'discPage',
+    'click .btn': 'btnClick'
   },
   discPage: function(e){
     e.preventDefault();
     Backbone.history.navigate($(e.currentTarget).attr('href'),true)
-  }
+  },
+    btnClick: function(e){
+      Backbone.history.navigate($(e.currentTarget).attr('href'),true)
+    }
 });
 
 
