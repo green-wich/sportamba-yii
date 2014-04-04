@@ -1,4 +1,4 @@
-#container {
+#info {
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -17,6 +17,7 @@
 	height: 50px;
 	margin-bottom: 60px;
 	width: 160px;
+	text-align: center;
 }
 #btns > div{
 	margin-top: 2px;

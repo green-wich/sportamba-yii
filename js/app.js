@@ -1,22 +1,22 @@
 var Match = Backbone.Model.extend({
     defaults: 
     {
-      "id":"",
-      "command_1":{
-        "id":"",
-        "name":"",
-        "image":""
+      id:"",
+      command_1:{
+        id:"",
+        name:"",
+        image:""
       },
-      "command_2":{
-        "id":"",
-        "name":"",
-        "image":""
+      command_2:{
+        id:"",
+        name:"",
+        image:""
       },
-      "date":"",
-      "stadion":{
-        "name":"",
-        "lat":"",
-        "long":""
+      date:"",
+      stadion:{
+        name:"",
+        lat:"",
+        long:""
       }
     }
   }
@@ -37,7 +37,7 @@ var Friends = Backbone.Model.extend({
 });
 
 
-var matches = new Matches({toJSON:function(){}});
+var matches = new Matches();
 var app = new Backbone.Marionette.Application();
 app.addInitializer(function(){
   matches.fetch({
@@ -78,13 +78,24 @@ OneItemView = Backbone.Marionette.ItemView.extend({
 
 TableView = Backbone.Marionette.CompositeView.extend({
   itemView: OneItemView,
-  collection: matches,
   // specify a jQuery selector to put the itemView instances in to
-  itemViewContainer: "#aaa",
-  template: "#table-template"
+  itemViewContainer: "ul#news",
+  template: "#matchesScreen"
 });
 
 
+var SampleView = Backbone.Marionette.ItemView.extend({
+    template : '#sample-template',
+    tagName: 'div'
+});
+
+var ahah = Backbone.Marionette.CompositeView.extend({
+    template: '#matchesScreen',
+    itemView: SampleView,
+    itemViewContainer: 'ul#news'
+})
+
+var obj = new ahah({collection: matches});
 var MatchesShow = Backbone.Marionette.ItemView.extend({
   template : "#matchesScreen",
   el: '#container',
@@ -127,7 +138,9 @@ var Router = Backbone.Marionette.AppRouter.extend({
       new DashPage().render();
     },
     matchesShow: function(param){
-      new MatchesShow().render();
+      //new MatchesShow().render();
+      obj.render()
+      $('#container').html(obj.el);
     },
     matchShow: function(param){
       var id = Matches.get(param);
