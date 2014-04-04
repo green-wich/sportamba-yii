@@ -6,6 +6,8 @@ sportamba-yii
 2. api/user/login?provider=Facebook  [GET] - авторизация Facebook
 3. api/user/logout                   [GET] - logout
 3. api/user/status                   [GET] - проверяет залогинен пользаватель или нет
+4. api/user/current                  [GET] - информация о текущем пользователе
+5. api/user                          [GET] - все пользователи без учета друзей
 
 Матчи:
 1. /api/match     [GET]  - список всех матчей

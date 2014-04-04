@@ -2,6 +2,9 @@
 
 class UserController extends Controller
 {    
+    const JSON_RESPONSE_ROOT_PLURAL='users';
+    const JSON_RESPONSE_ROOT_SINGLE='user';
+    
     public function filters()
     {
         return array(
@@ -20,6 +23,46 @@ class UserController extends Controller
                 'users'=>array('?'),
             ),
         );
+    }
+    
+    public function actionList(){
+        
+        $myFriends = Connection::model()->findAll(array(
+                        'select' => "user_id_2",
+                        'condition'=>"user_id_1=".Yii::app()->user->id));
+        $search = array();
+        foreach ($myFriends as $friend){
+            $search[] = $friend->user_id_2;
+        }
+        $criteria = new CDbCriteria();
+        $criteria->condition = "id!=1 && id!=".Yii::app()->user->id;
+        $criteria->addNotInCondition('id', $search);
+        $users = User::model()->findAll($criteria);
+        
+        $row = array();
+        $console = array();
+        foreach ($users as $user){
+            $row['id'] = $user->id;
+            $row['fullname'] = $user->getFullname();
+            $row['photoUrl'] = $user->profile->photoUrl;
+            $console[] = $row;
+        }
+        $result = array(self::JSON_RESPONSE_ROOT_PLURAL => $console);
+        $this->sendResponse(200, CJSON::encode($result));
+    }
+    
+    public function actionCurrent(){
+        $criteria = new CDbCriteria();
+        $criteria->condition = "id=".Yii::app()->user->id;
+        $users = User::model()->findAll($criteria);
+        $row = array();
+        foreach ($users as $user){
+            $row['id'] = $user->id;
+            $row['fullname'] = $user->getFullname();
+            $row['photoUrl'] = $user->profile->photoUrl;
+        }
+        $result = array(self::JSON_RESPONSE_ROOT_SINGLE => $row);
+        $this->sendResponse(200, CJSON::encode($result));
     }
     
     public function actionGet($id){
@@ -110,12 +153,6 @@ class UserController extends Controller
     private function homeRedirect(){
         header("Location: http://" . $_SERVER['SERVER_NAME'] . "/", true, 301);
         Yii::app()->end();
-    }
-    
-    public function actionList(){
-        $connections = User::model()->findAll();
-        
-        $this->sendResponse(200, CJSON::encode($connections));
     }
     
 }
