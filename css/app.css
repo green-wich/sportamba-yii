@@ -14,14 +14,25 @@
 	left: 0;
 	right: 0;
 	margin: auto;
-	height: 50px;
+	height: 70px;
 	margin-bottom: 60px;
-	width: 160px;
+	width: 100%;
+	padding: 10px;
 	text-align: center;
 }
 #btns > div{
-	margin-top: 2px;
+	margin-top: 4px;
+	width: 100%;
 }
 .img > img{
 border: 0;
-width: 300px}
+width: 300px
+}
+.tab-item.active.act {
+	background-color: #428bca;
+	color: white;
+}
+.rig {
+	float: right;
+color: green;
+}
