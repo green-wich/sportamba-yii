@@ -6,7 +6,6 @@
 	right: 0;
 	margin: auto;
 	height: 240px;
-	width: 50%;
 	text-align: center;
 }
 #btns {
@@ -22,3 +21,6 @@
 #btns > div{
 	margin-top: 2px;
 }
+.img > img{
+border: 0;
+width: 300px}
