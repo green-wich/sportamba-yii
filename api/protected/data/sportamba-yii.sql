@@ -111,6 +111,8 @@ CREATE TABLE IF NOT EXISTS `sport_user_match` (
   `command_id` int(11) unsigned NOT NULL,
   `type_place_viewing` int(1) unsigned NOT NULL COMMENT '1-дома, 2-стадион, 3-бар',
   `place_viewing` varchar(75) NOT NULL,
+  `permission_post` tinyint(1) DEFAULT NULL COMMENT '1-делаем пост в соц сеть',
+  `result_post` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_match_id` (`match_id`),
   KEY `fk_user_id` (`user_id`),

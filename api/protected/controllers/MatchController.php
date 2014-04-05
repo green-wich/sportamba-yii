@@ -34,7 +34,7 @@ class MatchController extends Controller
         $row['id'] = $match->id;
         $row['command_1'] = $match->command_1;
         $row['command_2'] = $match->command_2;
-        $row['date'] = Yii::app()->dateFormatter->format('dd/MM/yyyy', strtotime($match->date));
+        $row['date'] = $match->getDate();
         return $row;
     }
 }

@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-     <meta charset="utf-8">
-    <?php Yii::app()->bootstrap->register(); ?>
-    <style type="text/css">
-        body {
-            padding-top: <?php echo empty($this->module->sectionMenu) ? '60px' : '96px'?>;
-            padding-bottom: 30px;
-        }
-    </style>
-    <link rel="stylesheet" href="<?php echo $this->getModule()->assets . '/css/admin.css'?>"/>
-    <title><?php echo $this->pageTitle;?></title>
-    <link rel="shortcut icon" href="<?php echo $this->getModule()->assets;?>/favicon.ico"/>
-    <base href="<?php echo Yii::app()->createAbsoluteUrl('/'); ?>/">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta charset="utf-8">
+<?php Yii::app()->bootstrap->register(); ?>
+<style type="text/css">
+    body {
+        padding-top: <?php echo empty($this->module->sectionMenu) ? '60px' : '96px'?>;
+        padding-bottom: 30px;
+    }
+</style>
+<link rel="stylesheet" href="<?php echo $this->getModule()->assets . '/css/admin.css'?>"/>
+<title><?php echo $this->pageTitle;?></title>
+<link rel="shortcut icon" href="<?php echo $this->getModule()->assets;?>/favicon.ico"/>
+<base href="<?php echo Yii::app()->createAbsoluteUrl('/'); ?>/">
 </head>
 <body>
 <div class="navbar navbar-fixed-top" style="z-index: 1031;">

@@ -70,4 +70,12 @@ class Match extends CActiveRecord
             return parent::beforeSave();
         }
         
+        public function getCommands(){
+            return $this->command_1->name . ' - ' . $this->command_2->name;
+        }
+        
+        public function getDate(){
+            return Yii::app()->dateFormatter->format('dd/MM/yyyy', strtotime($this->date));
+        }
+        
 }

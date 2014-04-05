@@ -63,6 +63,9 @@ class UserController extends Controller
     
     public function actionLogout()
     {
+        if(Yii::app()->hybridAuth->getConnectedProviders()){
+            Yii::app()->hybridAuth->logoutAllProviders();
+        }
         Yii::app()->user->logout();
         $this->homeRedirect();
     }

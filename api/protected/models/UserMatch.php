@@ -52,6 +52,8 @@ class UserMatch extends CActiveRecord
         $criteria->compare('command_id',$this->command_id,true);
         $criteria->compare('type_place_viewing',$this->type_place_viewing,true);
         $criteria->compare('place_viewing',$this->place_viewing,true);
+        $criteria->compare('permission_post',$this->permission_post);
+        $criteria->compare('result_post',$this->result_post,true);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
@@ -66,8 +68,20 @@ class UserMatch extends CActiveRecord
     public function beforeSave() {
         if ($this->isNewRecord){
             $this->user_id = Yii::app()->user->id;
+            if($this->permission_post && $provider = $this->user->provider == 'Facebook'){
+                $message = "Я запланировал матч ".$this->match->getCommands();
+                $message .= ", который состоится " . $this->match->getDate();
+                $message .= " на стадионе " . $this->match->stadion->name . ".";
+                try{
+                    Yii::app()->hybridAuth->getHybridAuth()->getAdapter($provider)->setUserStatus($message);
+                    $this->result_post = "successful";
+                }catch(Exception $e){
+                    $this->result_post = $e;
+                }
+            }
         } 
         return parent::beforeSave();
     }
+    
 }
 
