@@ -68,7 +68,8 @@ class UserMatch extends CActiveRecord
     public function beforeSave() {
         if ($this->isNewRecord){
             $this->user_id = Yii::app()->user->id;
-            if($this->permission_post && $provider = $this->user->provider == 'Facebook'){
+            $provider = $this->user->provider;
+            if($this->permission_post && $provider == 'Facebook'){
                 $message = "Я запланировал матч ".$this->match->getCommands();
                 $message .= ", который состоится " . $this->match->getDate();
                 $message .= " на стадионе " . $this->match->stadion->name . ".";
