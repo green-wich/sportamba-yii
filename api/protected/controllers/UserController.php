@@ -53,16 +53,21 @@ class UserController extends Controller
     }
     
     public function actionGet($id){
-        $i=Yii::app()->user->id;
-        $user = Connection::model()->findByAttributes(['user_id_1' => $i]);
-        $r = $user->user2->match;
-        $this->sendResponse(200, CJSON::encode($r));
-      //  echo '{"user": ' . CJSON::encode($user) . ', "userProfile":'. CJSON::encode($user->profile) .'}';
-        Yii::app()->end();
+        $user = User::model()->findByPk($id);
+        if($id == 1 || empty($user)){
+            $this->sendResponse(302, "User not found.");
+        }
+        $result = array(self::JSON_RESPONSE_ROOT_SINGLE => $this->createRow($user));
+        $this->sendResponse(200, CJSON::encode($result));
     }
     
-    public function actionLogout()
-    {
+    public function actionNews(){
+        $i=Yii::app()->user->id;
+        $user = Connection::model()->findByAttributes(['user_id_1' => $i]);
+        $user->user2->match;
+    }
+
+    public function actionLogout(){
         if(Yii::app()->hybridAuth->getConnectedProviders()){
             Yii::app()->hybridAuth->logoutAllProviders();
         }
