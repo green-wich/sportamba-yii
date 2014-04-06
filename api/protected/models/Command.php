@@ -2,6 +2,7 @@
 
 class Command extends CActiveRecord
 {
+        const PATH_TO_IMG = "/../../uploads/commands/";
     
         public function tableName()
 	{
@@ -75,25 +76,18 @@ class Command extends CActiveRecord
             return parent::beforeSave();
         }
         
-        public function addImages( ) 
-        {
+        public function addImages(){
             if( Yii::app( )->user->hasState( 'images' ) ) {
                 $userImages = Yii::app( )->user->getState( 'images' );
                 
-                $path = Yii::app( )->getBasePath( )."/../../uploads/commands/".$this->id."/";
-                if( !is_dir( $path ) ) {
-                    mkdir( $path );
-                    chmod( $path, 0777 );
-                }
-                $thumb_path = Yii::app( )->getBasePath( )."/../../uploads/commands/".$this->id."/thumb/";
-                if( !is_dir( $thumb_path ) ) {
-                    mkdir( $thumb_path );
-                    chmod( $thumb_path, 0777 );
-                }
+                $basePath = Yii::app()->getBasePath() . self::PATH_TO_IMG;
+                $path = $basePath . $this->id . "/";
+                self::createDir($path);
+                $thumb_path = $path . "thumb/";
+                self::createDir($thumb_path);
                 
                 foreach( $userImages as $image ) {
                     if( is_file( $image["path"] ) ) {
-                        $name = $image["path"];
                         if( rename( $image["path"], $path.$image["filename"] ) ) {
                             chmod( $path.$image["filename"], 0777 );
                         }  
@@ -101,20 +95,14 @@ class Command extends CActiveRecord
                         if(rename($thumbs, $thumb_path.$image["filename"])){
                             chmod( $thumb_path.$image["filename"], 0777 );
                         }
-                        
-                    
-                    // save db
-                    $publicPath = "/uploads/commands/".$this->id."/";
-                    self::model()->updateByPk($this->id, array(
-                        'img' => $image["filename"],
-                    ));
-                    
-                    $thumbs_images = array(
-                        array('width'=>180, 'height'=>140, 'folder'=>$path.'thumb/180_140_'.$image["filename"])
-                    );
-                    
-                    $this->manipulate($thumbs_images, $path.$image["filename"]);
-                          
+                        // save to db
+                        self::model()->updateByPk($this->id, array(
+                            'img' => $image["filename"],
+                        ));
+                        $thumbs_images = array(
+                            array('width'=>180, 'height'=>140, 'folder'=>$thumb_path . '180_140_'.$image["filename"])
+                        );
+                        $this->manipulate($thumbs_images, $path.$image["filename"]);
                     } else {
                         //You can also throw an execption here to rollback the transaction
                         Yii::log( $image["path"]." is not a file", CLogger::LEVEL_WARNING );
@@ -137,13 +125,13 @@ class Command extends CActiveRecord
         
         public function beforeDelete()
         {
-            self::deleteImages(Yii::app( )->getBasePath( )."/../../uploads/commands/" . $this->id . '/', TRUE);
+            self::deleteImages(Yii::app( )->getBasePath( ). self::PATH_TO_IMG . $this->id . '/', TRUE);
             return parent::beforeDelete();
         }
         
         public static function deleteImages($dir, $deleteDir = FALSE){
             if (is_dir($dir)) {
-                $list = self::Scandir($dir);
+                $list = self::scanDir($dir);
                 foreach ($list as $file)
                 {
                     if (is_dir($dir.$file)){
@@ -156,9 +144,14 @@ class Command extends CActiveRecord
             }
         }
         
-        public static function Scandir($dir){
+        public static function scanDir($dir){
             $list = scandir($dir);
             unset($list[0],$list[1]);
             return array_values($list);
+        }
+        
+        public static function createDir($path){
+            if( !is_dir( $path ) )
+                mkdir( $path, 0777, TRUE );
         }
 }

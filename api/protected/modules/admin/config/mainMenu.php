@@ -22,26 +22,6 @@ return array(
         ),
     ),
     array(
-        'label' => 'Матчи',
-        'plain' => false,
-        'items' => array(
-            array(
-                'label' => 'Список матчей',
-                'url' => array('/admin/match/index'),
-                'activateOn' => array(
-                    array('route' => '/admin\/match\/index/',),
-                ),
-            ),
-            array(
-                'label' => 'Добавить матч',
-                'url' => array('/admin/match/create'),
-                'activateOn' => array(
-                    array('route' => '/admin\/match\/create/',),
-                ),
-            ),
-        ),
-    ),
-    array(
         'label' => 'Стадионы',
         'plain' => false,
         'items' => array(
@@ -57,6 +37,26 @@ return array(
                 'url' => array('/admin/stadion/create'),
                 'activateOn' => array(
                     array('route' => '/admin\/stadion\/create/',),
+                ),
+            ),
+        ),
+    ),
+    array(
+        'label' => 'Матчи',
+        'plain' => false,
+        'items' => array(
+            array(
+                'label' => 'Список матчей',
+                'url' => array('/admin/match/index'),
+                'activateOn' => array(
+                    array('route' => '/admin\/match\/index/',),
+                ),
+            ),
+            array(
+                'label' => 'Добавить матч',
+                'url' => array('/admin/match/create'),
+                'activateOn' => array(
+                    array('route' => '/admin\/match\/create/',),
                 ),
             ),
         ),

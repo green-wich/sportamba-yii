@@ -64,7 +64,9 @@ class UserController extends Controller
     public function actionNews(){
         $i=Yii::app()->user->id;
         $user = Connection::model()->findByAttributes(['user_id_1' => $i]);
-        $user->user2->match;
+        $result = $user->user2->match;
+        
+        $this->sendResponse(200, CJSON::encode($result));
     }
 
     public function actionLogout(){

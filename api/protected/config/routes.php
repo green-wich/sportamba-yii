@@ -4,6 +4,7 @@ return [
     array('api/user/logout',     'pattern'=>'api/user/logout',           'verb'=>'GET'),
     array('api/user/status',     'pattern'=>'api/user/status',           'verb'=>'GET'),
     array('api/user/current',    'pattern'=>'api/user/current',          'verb'=>'GET'),
+    array('api/user/news',       'pattern'=>'api/user/news',             'verb'=>'GET'),
     array('api/connection/users','pattern'=>'api/connection/users',      'verb'=>'GET'),
     array('<controller>/delete', 'pattern'=>'<controller:\w+>/<id:\d+>', 'verb'=>'DELETE'),
     array('<controller>/update', 'pattern'=>'<controller:\w+>/<id:\d+>', 'verb'=>'PUT'),
