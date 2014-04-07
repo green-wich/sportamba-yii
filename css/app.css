@@ -25,8 +25,8 @@
 	width: 100%;
 }
 .img > img{
-border: 0;
-width: 300px
+	border: 0;
+	width: 300px
 }
 .tab-item.active.act {
 	background-color: #428bca;
@@ -34,5 +34,43 @@ width: 300px
 }
 .rig {
 	float: right;
-color: green;
+	color: green;
 }
+.cen {
+	padding-left: 10%;
+	padding-right: 10%;
+	text-align: center;
+}
+.noPadd{
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.comLogo {
+	height: 100px;
+}
+.rightSide {
+	float: right;
+}
+.leftSide {
+	float: left;
+}
+.inl {
+	display: inline-block;
+}
+.inForm{
+	padding-top: 10px;
+}
+.fir{
+	width: 22%;
+	display: inline-block;
+}
+.sec{
+	width: 33%;
+	display: inline-block;
+}
+.thr {
+	width: 45%;
+	display: inline-block;
+}
+
+
