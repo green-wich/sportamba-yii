@@ -3,7 +3,7 @@
     array(
         'id' => 'employee-grid',
         'type' => TbHtml::GRID_TYPE_BORDERED,
-        'dataProvider' => $model,
+        'dataProvider' => $model->search(),
         'filter' => $model,
         'columns'=>array(
 		'id'=> array(
@@ -11,9 +11,9 @@
                     'headerHtmlOptions' => array('width' => '30px'),
                     'filter' => false
                 ),
-		'name' => array(
-                    'name' => 'username',
-                    'value'=> '$data->getFullName()',
+		array(
+                    'name' => 'profile.firstName',
+                    'value'=> '$data->profile->firstName . " " . $data->profile->lastName',
                     'filter' => false,
                 ),
 		'url' => array(
@@ -39,7 +39,7 @@
                 'provider' => array(
                       'name' => 'provider',
                       'value' => '$data->provider',
-                      'filter' =>  false 
+                      'filter' =>  array(''=>'Все', 'Facebook'=>'Facebook', 'Vkontakte'=>'Vkontakte') 
                       
                 ),
 	),

@@ -3,17 +3,14 @@
 class UserController extends AdminController
 {
     public function actionIndex(){
-        $users=new CActiveDataProvider('User', array(
-            'criteria'=>array(
-                'condition'=>'id!=1',
-                'order'=>'created_at DESC',
-            ),
-            'pagination'=>array(
-                'pageSize'=>20,
-            ),
-        ));
+        $model=new User('search');
+        $model->unsetAttributes();
+        $model->profile = new UserProfile('search');
+        
+        if(isset($_GET['User']))
+                $model->attributes=$_GET['User'];
         $this->render('index',array(
-			'model'=>$users,
+			'model'=>$model,
 		));
     }
 }

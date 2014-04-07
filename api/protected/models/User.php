@@ -4,7 +4,9 @@ class User extends CActiveRecord
 {
     
     private static $_curreent_user;
-    
+    public $firstName;
+    public $lastName;
+
     public static function getCurrentUser(){
         self::$_curreent_user = self::$_curreent_user ? self::$_curreent_user : self::model()->findByPk(Yii::app()->user->id);
         return self::$_curreent_user;
@@ -54,9 +56,7 @@ class User extends CActiveRecord
 
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
-        $criteria=new CDbCriteria;
+        $criteria=new CDbCriteria;        
 
         $criteria->compare('id',$this->id,true);
         $criteria->compare('username',$this->username,true);
@@ -66,6 +66,9 @@ class User extends CActiveRecord
         $criteria->compare('provider',$this->provider,true);
         $criteria->compare('role',$this->role,true);
         $criteria->compare('status',$this->status);
+        $criteria->with = array('profile');
+        $criteria->compare('profile.firstName', $this->firstName, true);
+        $criteria->compare('profile.lastName', $this->lastName, true);        
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
