@@ -118,12 +118,17 @@ var MyPodView = Backbone.Marionette.ItemView.extend({
 
 var FirendsCompos = Backbone.Marionette.CompositeView.extend({
     template: '#usersView',
-    
-    itemViewContainer: 'ul#allFriends',
-    events: {
+    events:{
+      'click a.tab-item' : 'btnCl',
+      'touchstart a.tab-item': 'btnCl',
       'click .icon.icon-plus.rig': 'addU',
       'touchstart .icon.icon-plus.rig': 'addU'
     },
+    btnCl:function(e){
+      e.preventDefault();
+      Backbone.history.navigate($(e.currentTarget).attr('href'),true)
+    },
+    itemViewContainer: 'ul#allFriends',
     addU: function(e){
       console.log($(e.currentTarget));
     }
@@ -258,7 +263,13 @@ var ahah = Backbone.Marionette.CompositeView.extend({
     itemViewContainer: 'ul#news',
     events: {
       'click .icon.icon-plus.rig': 'addM',
-      'touchstart .icon.icon-plus.rig': 'addM'
+      'touchstart .icon.icon-plus.rig': 'addM',
+      'click a.tab-item' : 'btnCli',
+      'touchstart a.tab-item': 'btnCli'
+    },
+    btnCli:function(e){
+      e.preventDefault();
+      Backbone.history.navigate($(e.currentTarget).attr('href'),true)
     },
     addM: function(e){
       console.log($(e.currentTarget));
@@ -339,17 +350,16 @@ var Router = Backbone.Marionette.AppRouter.extend({
       $('#container').html(y.el);
     },
     friendsShow: function(param){
-      var obj = new FirendsCompos({collection: users,itemView: AllUsersView});
-      obj.render()
-      var obj2 = new FirendsCompos({
+      var asd = new FirendsCompos({collection: users,itemView: AllUsersView});
+      asd.render();
+      var asda = new FirendsCompos({
         itemView: AllFriendsView,
         collection: myUsers,
-        template: obj.el,
+        template: asd.el,
         itemViewContainer: 'ul#myFriends'
       })
-      obj2.render();
-
-      $('#container').html(obj2.el);
+      asda.render();
+      $('#container').html(asda.el);
     }
   }
 });
