@@ -9,6 +9,7 @@ sportamba-yii
 4. api/user/current                  [GET] - информация о текущем пользователе
 5. api/user                          [GET] - все пользователи без учета друзей
 6. api/user/:id                      [GET] - информация о пользователе по id
+7. api/user/news                     [GET] - новости пользователя
 
 Матчи:
 1. /api/match     [GET]  - список всех матчей

@@ -16,9 +16,7 @@ class ConnectionController extends Controller
     }
     
     public function actionList(){
-        $criteria = new CDbCriteria();
-        $criteria->condition = "user_id_1=".Yii::app()->user->id;
-        $connections = Connection::model()->findAll($criteria);
+        $connections = Connection::model()->getMyFriends();
         $console = array();
         foreach ($connections as $connection){
             $console[] = $this->createRow($connection);

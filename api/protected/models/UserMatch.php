@@ -65,6 +65,15 @@ class UserMatch extends CActiveRecord
         return parent::model($className);
     }
     
+    public function behaviors() {
+        return array(
+            'news' => array( 
+                'class' => 'NewsBehavior', 
+                'type' => 1
+                )
+            );
+    }
+
     public function beforeSave() {
         if ($this->isNewRecord){
             $this->user_id = Yii::app()->user->id;

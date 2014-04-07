@@ -3,6 +3,13 @@
 class User extends CActiveRecord
 {
     
+    private static $_curreent_user;
+    
+    public static function getCurrentUser(){
+        self::$_curreent_user = self::$_curreent_user ? self::$_curreent_user : self::model()->findByPk(Yii::app()->user->id);
+        return self::$_curreent_user;
+    }
+    
     public function tableName()
     {
         return '{{user}}';
@@ -27,6 +34,7 @@ class User extends CActiveRecord
             'profile' => array(self::HAS_ONE, 'UserProfile', 'user_id'),
             'match' => array(self::HAS_MANY, 'UserMatch', 'match_id'),
             'connection' => array(self::HAS_MANY, 'Connection', 'user_id_2'),
+            'news' => array(self::MANY_MANY, 'News', 'sport_user_news(user_id, news_id)')
         );
     }
 

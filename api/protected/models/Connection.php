@@ -57,4 +57,20 @@ class Connection extends CActiveRecord
     {
         return parent::model($className);
     }
+    
+    public function getMyFriends(){
+        return $this->findAll(array(
+                        'select' => "user_id_2",
+                        'condition'=>"user_id_1=".Yii::app()->user->id
+        ));
+    }
+    
+    public function behaviors() {
+        return array(
+            'news' => array( 
+                'class' => 'NewsBehavior', 
+                'type' => 2,
+                )
+            );
+    }
 }

@@ -26,9 +26,7 @@ class UserController extends Controller
     }
     
     public function actionList(){
-        $myFriends = Connection::model()->findAll(array(
-                        'select' => "user_id_2",
-                        'condition'=>"user_id_1=".Yii::app()->user->id));
+        $myFriends = Connection::model()->getMyFriends();
         $search = array();
         foreach ($myFriends as $friend){
             $search[] = $friend->user_id_2;
@@ -47,7 +45,7 @@ class UserController extends Controller
     }
     
     public function actionCurrent(){
-        $user = User::model()->findByPk(Yii::app()->user->id);
+        $user = User::getCurrentUser();
         $result = array(self::JSON_RESPONSE_ROOT_SINGLE => $this->createRow($user));
         $this->sendResponse(200, CJSON::encode($result));
     }
@@ -62,10 +60,16 @@ class UserController extends Controller
     }
     
     public function actionNews(){
-        $i=Yii::app()->user->id;
-        $user = Connection::model()->findByAttributes(['user_id_1' => $i]);
-        $result = $user->user2->match;
-        
+        $news = User::getCurrentUser()->news;
+        rsort($news);
+        $console = array();
+        foreach ($news as $new){
+            $row['id'] = $new->id;
+            $row['news'] = $new->text;
+            $row['date'] = $new->created_at;
+            $console[] = $row;
+        }
+        $result = array('news' => $console);
         $this->sendResponse(200, CJSON::encode($result));
     }
 
