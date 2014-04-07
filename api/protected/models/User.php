@@ -42,7 +42,7 @@ class User extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'username' => 'Username',
+            'username' => 'Полное имя',
             'password' => 'Password',
             'session_data' => 'Session Data',
             'created_at' => 'Created At',
@@ -69,6 +69,10 @@ class User extends CActiveRecord
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
+            'sort'=>array(
+                          'defaultOrder'=>array(
+                          'created_at'=>"DESC"
+                  ))
         ));
     }
 

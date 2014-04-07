@@ -45,7 +45,7 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><?php echo CHtml::link('Управление пользователями', array('/admin/user/admin'))?></li>
+                            <li><?php echo CHtml::link('Управление пользователями', array('/admin/user/index'))?></li>
                         </ul>
                     </li>
                     <li class="divider-vertical"></li>
