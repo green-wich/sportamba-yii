@@ -27,11 +27,16 @@
 <script type="text/html" id="usersView"><nav class="bar bar-tab"><a class="tab-item active" href="disc">Дашборд</a><a class="tab-item active" href="matches">Матчи</a><a class="tab-item active act" href="friends">Друзья</a></nav><div class="segmented-control"><a class="control-item active" href="#item1mobile">Новости</a><a class="control-item" href="#item2mobile">Мои друзья</a><a class="control-item" href="#item3mobile">Подписки</a><a class="control-item" href="#item4mobile">Все</a></div><div class="card"> <span id="item1mobile" class="control-content active"><ul class="table-view" id="friendsNews"></ul></span> <span id="item2mobile" class="control-content"><ul class="table-view" id="myFriends"></ul></span><span id="item3mobile" class="control-content"><ul class="table-view" id="myPod"></ul></span><span id="item4mobile" class="control-content"><ul class="table-view" id="allFriends"></ul></span></div></script>
 
 <script type="text/html" id="sample-template"><%=command_1.name%> - <%=command_2.name%> <%= date%><span data-num="<%=id%>" class="icon icon-plus rig"></span></script>
-<script type="text/html" id="oneUser"><%=username%> <span data-num="<%=id%>" class="icon icon-plus rig"></span></script>
+<script type="text/html" id="oneUser"><%=name%> <span data-num="<%=id%>" class="icon icon-plus rig"></span></script>
 <script type="text/html" id="sample2-template"><%=match.command_1.name%> - <%=match.command_2.name%> <%= match.date%><span data-num="<%=match.id%>" class="icon icon-plus rig"></span></script>
 <script type="text/html" id="table-template"><div id="aaa"></div></script>
 
 <script type="text/html" id="s">
+    <p>This is an ItemView<p>
+    <%= date %> </br>
+    <%= name %> </br>
+</script>
+<script type="text/html" id="s2">
     <p>This is an ItemView<p>
     <%= date %> </br>
     <%= name %> </br>
