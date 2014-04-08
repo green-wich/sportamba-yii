@@ -158,7 +158,7 @@ class UserController extends Controller
     
     private function createRow($params){
          $row['id'] = $params->id;
-         $row['fullname'] = $params->getFullname();
+         $row['name'] = $params->getFullname();
          $row['photoUrl'] = $params->profile->photoUrl;
          return $row;
     }
