@@ -20,35 +20,26 @@ class User extends CActiveRecord
     public function rules()
     {
         return array(
-            array('username, password, session_data, provider, role', 'required'),
-            array('status', 'numerical', 'integerOnly'=>true),
-            array('username, password', 'length', 'max'=>100),
-            array('provider', 'length', 'max'=>20),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
-            array('id, username, password, session_data, provider, role', 'safe', 'on'=>'search'),
+            array('role', 'required'),
+            array('role', 'length', 'max'=>10),
+            array('id, role, status', 'safe', 'on'=>'search'),
         );
     }
     
     public function relations()
     {
         return array(
-            'profile' => array(self::HAS_ONE, 'UserProfile', 'user_id'),
-            'match' => array(self::HAS_MANY, 'UserMatch', 'match_id'),
-            'connection' => array(self::HAS_MANY, 'Connection', 'user_id_2'),
-            'news' => array(self::MANY_MANY, 'News', 'sport_user_news(user_id, news_id)')
+            'connections' => array(self::HAS_MANY, 'Connection', 'user_id_2'),
+            'login' => array(self::HAS_MANY, 'Login', 'user_id'),
+            'match' => array(self::HAS_MANY, 'UserMatch', 'user_id'),
+            'news' => array(self::MANY_MANY, 'News','sport_user_news(user_id, news_id)'),
         );
     }
 
     public function attributeLabels()
     {
-        return array(
+         return array(
             'id' => 'ID',
-            'username' => 'Полное имя',
-            'password' => 'Password',
-            'session_data' => 'Session Data',
-            'created_at' => 'Created At',
-            'provider' => 'Provider',
             'role' => 'Role',
             'status' => 'Status',
         );
@@ -84,35 +75,12 @@ class User extends CActiveRecord
     {
         return parent::model($className);
     }
-    
-    public function behaviors() {  
-        return array(  
-            'AutoTimestampBehavior' => array(  
-                'class' => 'zii.behaviors.CTimestampBehavior',  
-                'createAttribute' => 'created_at',
-                'updateAttribute' => null,
-                'setUpdateOnCreate' => false,  
-            )
-        );  
-    }
-    
+       
     public function beforeSave() {
         if ($this->isNewRecord){
             $this->status = 1;
         } 
         return parent::beforeSave();
-    }
-    
-    public function findByAuthUser($provider, $identifier){
-        return $this->findByAttributes(array(
-                 'provider' => $provider,
-                 'username' => $identifier,
-         ));  
-    }
-    
-    public function getFullName()
-    {
-        return $this->profile->firstName . ' ' . $this->profile->lastName;
     }
         
     

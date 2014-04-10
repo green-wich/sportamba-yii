@@ -37,10 +37,20 @@ class ConnectionController extends Controller
         $this->sendResponse(200, CJSON::encode($result));
     }
     
+    public function actionDelete($id){
+        $criteria = new CDbCriteria();
+        $criteria->condition = "user_id_1=".Yii::app()->user->id." && user_id_2=".$id;
+        $result = Connection::model()->deleteAll($criteria);
+        if($result)
+            $this->sendResponse(200, TRUE);
+        else 
+            $this->sendResponse(401);
+    }
+    
     private function createRow($params, $type = false){
         $row['id'] = $type ? $params->user_id_1 : $params->user_id_2;
-        $row['name'] = $type ? $params->user1->getFullName() : $params->user2->getFullName();
-        $row['photoUrl'] = $type ? $params->user1->profile->photoUrl : $params->user2->profile->photoUrl;
+        $row['name'] = $type ? $params->user1->login[0]->getFullName() : $params->user2->login[0]->getFullName();
+        $row['photoUrl'] = $type ? $params->user1->login[0]->profile->photoUrl : $params->user2->login[0]->profile->photoUrl;
         return $row;
     }
     

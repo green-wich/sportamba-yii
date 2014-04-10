@@ -60,7 +60,7 @@ class UserController extends Controller
     }
     
     public function actionNews(){
-        $news = User::getCurrentUser()->news;
+        $news = User::getCurrentUser()->login[0]->user->news;
         rsort($news);
         $console = array();
         foreach ($news as $new){
@@ -87,29 +87,37 @@ class UserController extends Controller
     
     public function actionLogin($provider){
         
-        if(!Yii::app()->user->isGuest){
+        $guest = Yii::app()->user->isGuest;
+        
+        if(!$guest && Yii::app()->user->provider == $provider)
             $this->homeRedirect();
-        }
+        
         if(!$provider || !Yii::app()->hybridAuth->isAllowedProvider($provider))
             $this->sendResponse(401, 'Error: Provider not found');
-  
         if(Yii::app()->hybridAuth->isAdapterUserConnected($provider)){
+            
             $socialUser = Yii::app()->hybridAuth->getAdapterUserProfile($provider);
             $sessionData = Yii::app()->hybridAuth->getSessionData();
             
             if(isset($socialUser) && isset($sessionData)){
-                $user = User::model()->findByAuthUser($provider, $socialUser->identifier);
-                if(empty($user)){ 
-                    $user = new User();
-                    $user->username = $socialUser->identifier;
-                    $user->password = md5($socialUser->identifier);
-                    $user->session_data = $sessionData;
-                    $user->provider = $provider;
-                    $user->role = 'user';
-                    $user->save();
+                $login = Login::model()->findByAuthUser($provider, $socialUser->identifier);
+                if(empty($login)){ 
+                    
+                    if($guest){
+                        $user = new User();
+                        $user->role = 'user';
+                        $user->save();
+                    }
+                    $login = new Login();
+                    $login->user_id = $guest ? $user->id : Yii::app()->user->id;
+                    $login->username = $socialUser->identifier;
+                    $login->password = md5($socialUser->identifier);
+                    $login->session_data = $sessionData;
+                    $login->provider = $provider;
+                    $login->save();
                     
                     $userProfile = new UserProfile();
-                    $userProfile->user_id = $user->id;
+                    $userProfile->login_id = $login->id;
                     $userProfile->profileUrl = $socialUser->profileURL;
                     $userProfile->photoUrl = $socialUser->photoURL;
                     $userProfile->displayName = $socialUser->displayName;
@@ -122,19 +130,30 @@ class UserController extends Controller
                     }
                     
                     if(!$userProfile->save()){
-                       $user = false;
+                       $login = false;
+                    }
+                }elseif(!$guest){
+                    $old_user_id = $login->user_id;
+                    $current_id = Yii::app()->user->id;
+                    if($old_user_id != $current_id){
+                        $login->user_id = Yii::app()->user->id;
+                        $login->save();
+                        UserMatch::model()->updateAll(array('user_id'=>$current_id),'user_id="'.$old_user_id.'"');
+                        UserNews::model()->updateAll(array('user_id'=>$current_id),'user_id="'.$old_user_id.'"');
+                        Connection::model()->updateAll(array('user_id_1'=>$current_id),'user_id_1="'.$old_user_id.'"');
+                        User::model()->deleteByPk($old_user_id);
                     }
                 }
  
-                if($user){
-                    $identity = new UserIdentity($user->username, $user->password);
+                if($login && $guest){
+                    $identity = new UserIdentity($login->username, $login->password);
                     $identity->authenticate();
                     if ($identity->errorCode === UserIdentity::ERROR_NONE) {
                         Yii::app()->user->login($identity);
                         $this->homeRedirect();
                     }
                 }else{
-                    $this->sendResponse(401, 'Error: User not find');
+                    $this->homeRedirect();
                 }
             }
         }else{
@@ -158,8 +177,8 @@ class UserController extends Controller
     
     private function createRow($params){
          $row['id'] = $params->id;
-         $row['name'] = $params->getFullname();
-         $row['photoUrl'] = $params->profile->photoUrl;
+         $row['name'] = $params->login[0]->getFullname();
+         $row['photoUrl'] = $params->login[0]->profile->photoUrl;
          return $row;
     }
     

@@ -77,16 +77,21 @@ class UserMatch extends CActiveRecord
     public function beforeSave() {
         if ($this->isNewRecord){
             $this->user_id = Yii::app()->user->id;
-            $provider = $this->user->provider;
-            if($this->permission_post && $provider == 'Facebook'){
-                $message = "Я запланировал матч ".$this->match->getCommands();
-                $message .= ", который состоится " . $this->match->getDate();
-                $message .= " на стадионе " . $this->match->stadion->name . ".";
-                try{
-                    Yii::app()->hybridAuth->getHybridAuth()->getAdapter($provider)->setUserStatus($message);
-                    $this->result_post = "successful";
-                }catch(Exception $e){
-                    $this->result_post = $e;
+            if($this->permission_post){
+                $login = Login::model()->findByAttributes(array(
+                             'provider' => 'Facebook',
+                             'user_id' => Yii::app()->user->id,
+                     ));  
+                if($login){
+                    $message = "Я запланировал матч ".$this->match->getCommands();
+                    $message .= ", который состоится " . $this->match->getDate();
+                    $message .= " на стадионе " . $this->match->stadion->name . ".";
+                    try{
+                        Yii::app()->hybridAuth->getHybridAuth()->getAdapter($login->provider)->setUserStatus($message);
+                        $this->result_post = "successful";
+                    }catch(Exception $e){
+                        $this->result_post = $e;
+                    }
                 }
             }
         } 

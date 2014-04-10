@@ -11,11 +11,12 @@ class UserIdentity extends CUserIdentity
     
     public function authenticate()
     {
-        $user = User::model()->findByAttributes(['username' => $this->username]);
+        $user = Login::model()->findByAttributes(['username' => $this->username]);
                 
         if (isset($user)) {
             if ($this->password == $user->password) {
-                $this->_id = $user->id;
+                $this->_id = $user->user_id;
+                $this->setState('provider', $user->provider);
                 $this->errorCode = self::ERROR_NONE;
             } else {
                 $this->errorCode = self::ERROR_PASSWORD_INVALID;

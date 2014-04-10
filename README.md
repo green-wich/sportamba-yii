@@ -45,3 +45,4 @@ sportamba-yii
     }
 2. /api/connection            [GET] - список моих друзей
 3. /api/connection/users      [GET] - список пользователей которые меня добавили в друзья
+4. /api/connection/:id        [DELETE] - удаление пользователя из друзей (отписаться)

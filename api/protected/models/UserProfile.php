@@ -33,8 +33,8 @@ class UserProfile extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, profileUrl, photoUrl, firstName, lastName, gender', 'required'),
-            array('user_id', 'numerical', 'integerOnly'=>true),
+            array('login_id, profileUrl, photoUrl, firstName, lastName, gender', 'required'),
+            array('login_id', 'numerical', 'integerOnly'=>true),
             array('profileUrl, photoUrl', 'length', 'max'=>200),
             array('displayName, email', 'length', 'max'=>100),
             array('firstName, lastName', 'length', 'max'=>60),
@@ -62,7 +62,7 @@ class UserProfile extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'user_id' => 'User',
+            'login_id' => 'Login',
             'profileUrl' => 'Profile Url',
             'photoUrl' => 'Photo Url',
             'displayName' => 'Display Name',
@@ -93,7 +93,7 @@ class UserProfile extends CActiveRecord
         $criteria=new CDbCriteria;
 
         $criteria->compare('id',$this->id,true);
-        $criteria->compare('user_id',$this->user_id);
+        $criteria->compare('login_id',$this->login_id);
         $criteria->compare('profileUrl',$this->profileUrl,true);
         $criteria->compare('photoUrl',$this->photoUrl,true);
         $criteria->compare('displayName',$this->displayName,true);
