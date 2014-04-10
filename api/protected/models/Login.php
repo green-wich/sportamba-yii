@@ -2,6 +2,9 @@
 
 class Login extends CActiveRecord
 {    
+    public $firstName;
+    public $lastName;
+    
     public function tableName()
     {
         return '{{login}}';
@@ -51,8 +54,17 @@ class Login extends CActiveRecord
         $criteria->compare('created_at',$this->created_at,true);
         $criteria->compare('provider',$this->provider,true);
 
+        $criteria->with = array('profile');
+        $criteria->compare('profile.firstName', $this->firstName, true);
+        $criteria->compare('profile.lastName', $this->lastName, true);        
+
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
+            'pagination'=>array('pageSize'=>'20'),    
+            'sort'=>array(
+                          'defaultOrder'=>array(
+                          'created_at'=>"DESC"
+                  ))
         ));
     }
 

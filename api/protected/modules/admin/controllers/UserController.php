@@ -3,7 +3,7 @@
 class UserController extends AdminController
 {
     public function actionIndex(){
-        $model=new User('search');
+        $model=new Login('search');
         $model->unsetAttributes();
         $model->profile = new UserProfile('search');
         
