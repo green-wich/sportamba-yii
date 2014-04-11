@@ -36,6 +36,7 @@ sportamba-yii
             "place_viewing": "bar-name"
         }
     }
+7. /api/usermatch/:id  [DELETE] - удаление матча из профайла
 
 Друзья пользователя:
 1. /api/connection           [POST] - добавление пользоветеля в друзья

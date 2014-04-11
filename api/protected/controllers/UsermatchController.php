@@ -36,6 +36,14 @@ class UsermatchController extends Controller
         $this->sendResponse(200, CJSON::encode($usermatch));
     }
     
+    public function actionDelete($id){
+        $result = UserMatch::model()->deleteByPk($id);
+        if($result)
+            $this->sendResponse(200, TRUE);
+        else 
+            $this->sendResponse(401);
+    }
+    
     public function actionGet($id){
         $usermatch = UserMatch::model()->findByPk($id);
         
