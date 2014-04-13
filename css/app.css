@@ -32,9 +32,13 @@
 	background-color: #428bca;
 	color: white;
 }
-.rig {
+.addIc {
 	float: right;
 	color: green;
+}
+.delIc {
+	float: right;
+	color: red;
 }
 .cen {
 	padding-left: 10%;
@@ -72,5 +76,18 @@
 	width: 45%;
 	display: inline-block;
 }
-
-
+body { 
+	position: static ;
+}
+div.card {
+	margin-top: 27px;
+	margin-bottom: 56px;
+}
+.segmented-control {
+	position: fixed;
+	top: 0;
+	z-index: 999;
+}
+.segmented-control .control-item {
+	background-color: white;
+}
