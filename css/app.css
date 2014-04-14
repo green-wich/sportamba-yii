@@ -91,3 +91,9 @@ div.card {
 .segmented-control .control-item {
 	background-color: white;
 }
+#matchForm .table-view-cell > .btn.btn-outlined.btn-primary{
+	width: 250px;
+	position: static;
+	display: inline-block;
+	-webkit-transform: none;
+}

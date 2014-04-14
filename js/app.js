@@ -221,7 +221,8 @@ var AllUsersView = Backbone.Marionette.ItemView.extend({
         data:JSON.stringify({"connection": {"user_id_2": num}}),
         success:function(data){
           console.log('suc')
-          var mod = _.find(users.models, function(num){ return _.contains(num.attributes, num)  } )
+          var mod = _.find(users.models, function(numb){ return _.contains(numb.attributes, num)  } )
+          console.log(mod);
           users.remove(mod);
           myUsers.add(mod);
         },
@@ -240,21 +241,24 @@ var AllUsersView = Backbone.Marionette.ItemView.extend({
             url: window.location.origin + '/api/connection/' + num,
             async: false,
             success: function (data) {
+              users.fetch({silent:true,async:false});
+              console.log('aaaaaassssss')
               myUsers.remove(_.where(myUsers.models, {
                 id: "" + num
             }));
-              users.fetch();
             },
             error: function (data) {
                 alert('error');
-                Backbone.history.navigate("matches", true);
+                Backbone.history.navigate("friends", true);
             }
       });
     },
     btnClick: function (e) {
-      console.log('DisclaimerPage')
+      console.log('DisclaimerPage222')
         e.preventDefault();
-        Backbone.history.navigate($(e.currentTarget).attr('href'), true)
+        if ($(e.currentTarget).attr('href')) {
+          Backbone.history.navigate($(e.currentTarget).attr('href'), true)
+        }
     },
     onShow: function(){
       this.listenTo(this.model, 'change', this.render);
@@ -286,12 +290,10 @@ var AllMatchesView = Backbone.Marionette.ItemView.extend({
       var num = $(e.currentTarget).attr('data-num');
       $.ajax({
             type: 'DELETE',
-            url: window.location.origin + '/api/usermatch/' + num,
+            url: window.location.origin + '/api/usermatch/',
             async: false,
             success: function (data) {
-              userMatches.remove(_.where(userMatches.models, {
-                id: "" + num
-            }))
+console.log('suc')
             },
             error: function (data) {
                 alert('error');
@@ -320,7 +322,6 @@ var DisclaimerPage = Backbone.Marionette.ItemView.extend({
         'click div.btn.btn-primary.btn-outlined': 'btnClick',
         'touchstart div.btn.btn-primary.btn-outlined': 'btnClick'
     },
-
     btnClick: function (e) {
       console.log('DisclaimerPage')
         e.preventDefault();
@@ -412,8 +413,10 @@ matches.fetch({
                   app.login = true; 
                 }
             });
-    
-    //firstNews = new AllNews(allNews.first(5));
+    app.vent.on('firstNews',function(){
+      firstNews = new AllNews(allNews.first(5));
+    })
+    app.vent.trigger('firstNews');
 
 });
 
