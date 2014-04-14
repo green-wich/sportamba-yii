@@ -221,7 +221,8 @@ var AllUsersView = Backbone.Marionette.ItemView.extend({
         data:JSON.stringify({"connection": {"user_id_2": num}}),
         success:function(data){
           console.log('suc')
-          var mod = _.find(users.models, function(num){ return _.contains(num.attributes.id, num)  } )
+          var mod = _.find(users.models, function(num){ return _.contains(num.attributes, num)  } )
+          users.remove(mod);
           myUsers.add(mod);
         },
         error:function(data){
@@ -275,7 +276,6 @@ var AllMatchesView = Backbone.Marionette.ItemView.extend({
     },
     addToMyMatches: function(e){
       console.log('aaaaaaaa');
-      alert('addToMyMatches');
       e.preventDefault();
       var num = $(e.currentTarget).attr('data-num');
       Backbone.history.navigate("matches/" + num, true)
