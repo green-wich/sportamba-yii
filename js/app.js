@@ -325,12 +325,17 @@ var DisclaimerPage = Backbone.Marionette.ItemView.extend({
         'click a.tab-item': 'btnClick',
         'touchstart a.tab-item': 'btnClick',
         'click div.btn.btn-primary.btn-outlined': 'btnClick',
-        'touchstart div.btn.btn-primary.btn-outlined': 'btnClick'
+        'touchstart div.btn.btn-primary.btn-outlined': 'btnClick',
+        'click .icon.icon-trash': 'logOut',
+        'touchstart .icon.icon-trash': 'logOut',
     },
     btnClick: function (e) {
       console.log('DisclaimerPage')
         e.preventDefault();
         Backbone.history.navigate($(e.currentTarget).attr('href'), true)
+    },
+    logOut:function(){
+      window.location = window.location.origin + "/api/user/logout";
     }
 
 });
