@@ -214,7 +214,7 @@ var AllUsersView = Backbone.Marionette.ItemView.extend({
       'touchstart #myFriends .icon.icon-close.delIc': 'remToFr'
     },
     addToFr: function(e){
-      console.log('aadd')
+      var that = this;
       e.preventDefault();
       var num = $(e.currentTarget).attr('data-num');
       $.ajax({
@@ -223,11 +223,13 @@ var AllUsersView = Backbone.Marionette.ItemView.extend({
         dataType: "json", 
         data:JSON.stringify({"connection": {"user_id_2": num}}),
         success:function(data){
+          var model = that.model.get('model4');
+          var model2 = that.model.get('model2');
           console.log('suc')
-          var mod = _.find(users.models, function(numb){ return _.contains(numb.attributes, num)  } )
+          var mod = _.find(model.models, function(numb){ return _.contains(numb.attributes, num)  } )
           console.log(mod);
-          users.remove(mod);
-          myUsers.add(mod);
+          model.remove(mod);
+          model2.add(mod);
         },
         error:function(data){
          console.log(data);
@@ -236,6 +238,7 @@ var AllUsersView = Backbone.Marionette.ItemView.extend({
       });
     },
     remToFr: function(e){
+      var that = this;
       console.log('reeem')
       e.preventDefault();
       var num = $(e.currentTarget).attr('data-num');
@@ -244,9 +247,11 @@ var AllUsersView = Backbone.Marionette.ItemView.extend({
             url: window.location.origin + '/api/connection/' + num,
             async: false,
             success: function (data) {
-              users.fetch({silent:true,async:false});
+              var model = that.model.get('model4');
+              var model2 = that.model.get('model2');
+              model.fetch({silent:true,async:false});
               console.log('aaaaaassssss')
-              myUsers.remove(_.where(myUsers.models, {
+              model2.remove(_.where(model2.models, {
                 id: "" + num
             }));
             },
@@ -290,15 +295,22 @@ var AllMatchesView = Backbone.Marionette.ItemView.extend({
     remFromMyMatches: function(e){
       console.log('bbbbbbbbb');
       e.preventDefault();
+      var that = this;
       var num = $(e.currentTarget).attr('data-num');
       $.ajax({
             type: 'DELETE',
             url: window.location.origin + '/api/usermatch/'+num,
             async: false,
             success: function (data) {
-              userMatches.remove(_.where(userMatches.models, {
+              var models = that.model.get('model2');
+
+              models.remove(models.get({
                 id: "" + num
-              }))
+              }));
+              that.model.trigger('change');
+              //that.model.get('model2').trigger('add');
+              //models.trigger('add');
+              console.log(models);
             },
             error: function (data) {
                 alert('error');
@@ -425,6 +437,7 @@ matches.fetch({
     allUsers = new AllUsers({model1:allNews,model2:myUsers,model3:myPod,model4:users});
 
                   app.login = true; 
+                  
                 }
             });
     app.vent.on('firstNews',function(){
@@ -467,7 +480,7 @@ var Router = Backbone.Marionette.AppRouter.extend({
         },
         matchesShow: function (param) {
           console.log('matchesShow');
-            var allMatchesView = new AllMatchesView({model:allMatches});
+          var allMatchesView = new AllMatchesView({model:allMatches});
             region.show(allMatchesView);
         },
         matchShow: function (param) {
@@ -479,7 +492,6 @@ var Router = Backbone.Marionette.AppRouter.extend({
             var y = new MatchView({
                 model: m
             });
-            y.render();
             region.show(y);
         },
         friendsShow: function (param) {
