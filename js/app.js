@@ -141,7 +141,10 @@ var AllNews = Backbone.Collection.extend({
     }
 });
 var allNews = new AllNews();
-
+var FirstNews = Backbone.Model.extend({initialize:function(){
+  var that = this;
+  this.model1 = this.get('model1');
+}})
 var AllUsers = Backbone.Model.extend({initialize:function(){
   var that = this;
   this.model1 = this.get('model1');
@@ -415,6 +418,7 @@ matches.fetch({
             });
     app.vent.on('firstNews',function(){
       firstNews = new AllNews(allNews.first(5));
+      firstNewsMod = new FirstNews({model1:firstNews});
     })
     app.vent.trigger('firstNews');
 
@@ -423,7 +427,8 @@ matches.fetch({
 
 
 var region = new Backbone.Marionette.Region({
-    el: '#container'
+    el: '#container',
+    tagName : "li"
 });
 
 
@@ -447,7 +452,7 @@ var Router = Backbone.Marionette.AppRouter.extend({
           }
         },
         discShow: function (param) {
-          var discPage = new DisclaimerPage();
+          var discPage = new DisclaimerPage({model:firstNewsMod});
           region.show(discPage);
         },
         matchesShow: function (param) {
