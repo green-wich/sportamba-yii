@@ -293,10 +293,12 @@ var AllMatchesView = Backbone.Marionette.ItemView.extend({
       var num = $(e.currentTarget).attr('data-num');
       $.ajax({
             type: 'DELETE',
-            url: window.location.origin + '/api/usermatch/',
+            url: window.location.origin + '/api/usermatch/'+num,
             async: false,
             success: function (data) {
-console.log('suc')
+              userMatches.remove(_.where(userMatches.models, {
+                id: "" + num
+              }))
             },
             error: function (data) {
                 alert('error');
@@ -427,8 +429,7 @@ matches.fetch({
 
 
 var region = new Backbone.Marionette.Region({
-    el: '#container',
-    tagName : "li"
+    el: '#container'
 });
 
 
