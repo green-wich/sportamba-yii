@@ -332,7 +332,6 @@ var DisclaimerPage = Backbone.Marionette.ItemView.extend({
 
 var IndexPage = Backbone.Marionette.ItemView.extend({
     template: "#firstScreen",
-    el: '#container',
     events: {
         'click a': 'firstScreenNav',
         'touchstart a': 'firstScreenNav'
@@ -347,14 +346,19 @@ var IndexPage = Backbone.Marionette.ItemView.extend({
 
 var app = new Backbone.Marionette.Application();
 app.addInitializer(function () {
-  app.vent.on('login',function(){
-    matches.fetch({
+            $.ajax({
+                type: 'GET',
+                url: window.location.origin + '/api/user/status',
+                async:false,
+                dataType: "json",
+                success: function (data) {
+matches.fetch({
         success: function (collection, response, options) {
             console.log('success')
         },
         error: function (collection, response, options) {
             console.log('error')
-        }
+        },async:false,silent:true
     });
     userMatches.fetch({
         success: function (collection, response, options) {
@@ -362,7 +366,7 @@ app.addInitializer(function () {
         },
         error: function (collection, response, options) {
             console.log('error')
-        }
+        },async:false,silent:true
     });
     users.fetch({
         success: function (collection, response, options) {
@@ -371,7 +375,7 @@ app.addInitializer(function () {
         error: function (collection, response, options) {
             console.log('error')
         }
-        ,silent:true
+        ,silent:true,async:false
     });
     myUsers.fetch({
         success: function (collection, response, options) {
@@ -380,7 +384,7 @@ app.addInitializer(function () {
         error: function (collection, response, options) {
             console.log('error')
         }
-        ,silent:true
+        ,silent:true,async:false
     });
 
 
@@ -391,7 +395,7 @@ app.addInitializer(function () {
         error: function (collection, response, options) {
             console.log('error')
         }
-    ,silent:true});
+    ,silent:true,async:false});
     allNews.fetch({
       success: function (collection, response, options) {
             console.log('success')
@@ -399,13 +403,18 @@ app.addInitializer(function () {
         error: function (collection, response, options) {
             console.log('error')
         }
-    ,silent:true
+    ,silent:true,async:false
     })
 
     allMatches = new AllMatches({model1:matches,model2:userMatches})
     allUsers = new AllUsers({model1:allNews,model2:myUsers,model3:myPod,model4:users});
+
+                  app.login = true; 
+                }
+            });
+    
     //firstNews = new AllNews(allNews.first(5));
-  })
+
 });
 
 
@@ -427,19 +436,12 @@ var Router = Backbone.Marionette.AppRouter.extend({
     controller: {
         indexShow: function (param) {
           console.log('indexShow');
-            $.ajax({
-                type: 'GET',
-                url: window.location.origin + '/api/user/status',
-                dataType: "json",
-                success: function (data) {
-
-                    app.vent.trigger('login');
-                    Backbone.history.navigate("disc", true);
-                },
-                error: function (data) {
-                    new IndexPage().render();
-                }
-            });
+          if (app.login == true){
+            Backbone.history.navigate("disc", true);
+          }else {
+            var a = new IndexPage();
+            region.show(a);
+          }
         },
         discShow: function (param) {
           var discPage = new DisclaimerPage();
