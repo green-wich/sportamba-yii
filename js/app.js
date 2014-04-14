@@ -308,7 +308,9 @@ var AllMatchesView = Backbone.Marionette.ItemView.extend({
     },
     btnClick: function (e) {
         e.preventDefault();
-        Backbone.history.navigate($(e.currentTarget).attr('href'), true)
+        if ($(e.currentTarget).attr('href')) {
+          Backbone.history.navigate($(e.currentTarget).attr('href'), true)
+        }
     },
     onShow: function(){
       this.listenTo(this.model, 'change', this.render);
@@ -332,7 +334,9 @@ var DisclaimerPage = Backbone.Marionette.ItemView.extend({
     btnClick: function (e) {
       console.log('DisclaimerPage')
         e.preventDefault();
-        Backbone.history.navigate($(e.currentTarget).attr('href'), true)
+        if ($(e.currentTarget).attr('href')) {
+          Backbone.history.navigate($(e.currentTarget).attr('href'), true)
+        }
     },
     logOut:function(){
       window.location = window.location.origin + "/api/user/logout";
