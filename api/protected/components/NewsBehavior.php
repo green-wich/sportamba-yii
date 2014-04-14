@@ -19,15 +19,14 @@ class NewsBehavior extends CActiveRecordBehavior
     
     public function getText($type){
         $text = '';
+        $main_owner = $this->getOwner();
         switch ($type){
             case 1:
-                $main_owner = $this->getOwner();
                 $text .= $main_owner->user->login[0]->getFullName()." запланировал матч ";
                 $text .= $main_owner->match->getCommands()." ".$main_owner->match->getDate().".";
                 break;
             case 2:
-                $main_owner = $this->getOwner();
-                $text .= $main_owner->user1->login[0]->getFullName()." подписался на ".$main_owner->user2->getFullName().'.';
+                $text .= $main_owner->user1->login[0]->getFullName()." подписался на ".$main_owner->user2->login[0]->getFullName().'.';
                 break;
         }
         return $text;
