@@ -340,8 +340,8 @@ var DisclaimerPage = Backbone.Marionette.ItemView.extend({
         'touchstart a.tab-item': 'btnClick',
         'click div.btn.btn-primary.btn-outlined': 'btnClick',
         'touchstart div.btn.btn-primary.btn-outlined': 'btnClick',
-        'click .icon.icon-trash': 'logOut',
-        'touchstart .icon.icon-trash': 'logOut',
+        'click .icon.icon-share': 'logOut',
+        'touchstart .icon.icon-share': 'logOut',
     },
     btnClick: function (e) {
       console.log('DisclaimerPage')

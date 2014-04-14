@@ -78,7 +78,7 @@
 	display: inline-block;
 }
 body { 
-	position: static ;
+	position: static;
 }
 div.card {
 	margin-top: 27px;
@@ -97,4 +97,7 @@ div.card {
 	position: static;
 	display: inline-block;
 	-webkit-transform: none;
+}
+.table-view-cell {
+	font-size: 13px;
 }
