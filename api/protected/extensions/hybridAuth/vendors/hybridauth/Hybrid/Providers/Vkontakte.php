@@ -14,7 +14,7 @@
 class Hybrid_Providers_Vkontakte extends Hybrid_Provider_Model_OAuth2
 {
 	// default permissions 
-	public $scope = "";
+	public $scope = "email,notify,friends,offline";
 
 	/**
 	* IDp wrappers initializer 
@@ -76,7 +76,7 @@ class Hybrid_Providers_Vkontakte extends Hybrid_Provider_Model_OAuth2
 
 		// Vkontakte requires user id, not just token for api access
 		$params['uid'] = Hybrid_Auth::storage()->get( "hauth_session.{$this->providerId}.user_id" );
-		$params['fields'] = 'first_name,last_name,nickname,screen_name,sex,bdate,timezone,photo_rec,photo_big';
+		$params['fields'] = 'first_name,last_name,nickname,screen_name,sex,bdate,timezone,photo_rec,photo_big,email';
 		// ask vkontakte api for user infos
 		$response = $this->api->api( "https://api.vk.com/method/getProfiles" , 'GET', $params);
 
@@ -112,4 +112,24 @@ class Hybrid_Providers_Vkontakte extends Hybrid_Provider_Model_OAuth2
 
 		return $this->user->profile;
 	}
+        
+        function getUserContacts()
+        {
+            $params['user_id'] = 249600958;
+            $url = 'https://api.vk.com/method/friends.get';
+            $id_contacts = $this->api->api( $url , 'GET', $params);
+            foreach ($id_contacts->response as $uid){
+                $t = $uid;
+            }
+            $url1 = 'https://api.vkontakte.ru/method/secure.sendNotification';
+            $params = array();
+            $params['timestamp'] = time();  
+            $params['client_secret'] = 'yyoMNc4xBkeRt5td6A4A'; 
+           // $params['token'] = '316f1d5e350e140fa5646fb0411e6b07dc59c90f71df63f9902846f6dfa8ddedd20929e1d739717ea5f6b';  
+            $params['random'] = rand();
+            $params['uids'] = '249600958';
+            $params['message'] = urlencode('привет');
+            $t = $this->api->api( $url1 , 'GET', $params);
+            
+        }
 }

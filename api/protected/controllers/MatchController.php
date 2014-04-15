@@ -6,7 +6,6 @@ class MatchController extends Controller
     const JSON_RESPONSE_ROOT_PLURAL='matches';
     
     public function actionList(){
-        $currentDate = Yii::app()->dateFormatter->format('yyyy-MM-dd HH:mm:ss', strtotime(time()));
         $criteria = new CDbCriteria();
         $criteria->condition = "t.status=1";
         $criteria->condition = 'TO_DAYS(date(date)) > (TO_DAYS(date(NOW())))';

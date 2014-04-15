@@ -67,7 +67,8 @@ return array(
                                ),
                                "Vkontakte" => array ( 
                                         "enabled" => true,
-                                        "keys"    => array ( "id" => "4210391", "secret" => "b2IAUDo82cBGiUw2zI8r" ), 
+                                        "keys"    => array ( "id" => "4210391", "secret" => "b2IAUDo82cBGiUw2zI8r" ), // Standalone
+                                       // "keys"    => array ( "id" => "4308448", "secret" => "yyoMNc4xBkeRt5td6A4A" ), //web site
                                 ),
                          ),
                          "debug_mode" => false,
