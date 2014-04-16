@@ -19,6 +19,7 @@ sportamba-yii
 - `/api/match     [GET]`  - список всех матчей
 - `/api/match/:id [GET]`  - информация по конкретному матчу
 - `/api/usermatch [POST]` - добавление матча в профайл юзера
+```javascript
     {"usermatch": {
             "match_id": 2,
             "command_id": 2,
@@ -29,10 +30,12 @@ sportamba-yii
                                         // на стадионе -> название стадиона
                                         // в баре -> название бара
         }
-    }
+    } 
+```
 - `/api/usermatch      [GET]` - список всех матчей которые запланировал пользователь
 - `/api/usermatch/:id  [GET]` - информация об добавленном в профайл юзера матче
 - `/api/usermatch/:id  [PUT]` - обновление информация об добавленном в профайл юзера матче
+ ```javascript   
     {"usermatch": {
             "match_id": 2,
             "command_id": 2,
@@ -40,6 +43,7 @@ sportamba-yii
             "place_viewing": "bar-name"
         }
     }
+```
 - `/api/usermatch/:id  [DELETE]` - удаление матча из профайла
 - `/api/usermatch/:id  [DELETE]` - удаление матча из профайла
 
@@ -47,10 +51,12 @@ sportamba-yii
 ----------------
 
 - `/api/connection           [POST]` - добавление пользоветеля в друзья
-    `{"connection": {
+ ```javascript 
+    {"connection": {
             "user_id_2": 5
         }
-    }`
+    }
+```
 - `/api/connection            [GET]` - список моих друзей
 - `/api/connection/users      [GET]` - список пользователей которые меня добавили в друзья
 - `/api/connection/:id        [DELETE]` - удаление пользователя из друзей (отписаться)
