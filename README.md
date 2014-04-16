@@ -13,10 +13,12 @@ sportamba-yii
 - `api/user/:id                      [GET]` - информация о пользователе по id
 - `api/user/news                     [GET]` - новости пользователя
 
-Матчи:
-1. /api/match     [GET]  - список всех матчей
-2. /api/match/:id [GET]  - информация по конкретному матчу
-3. /api/usermatch [POST] - добавление матча в профайл юзера
+Матчи
+--------------
+
+- `/api/match     [GET]`  - список всех матчей
+- `/api/match/:id [GET]`  - информация по конкретному матчу
+- `/api/usermatch [POST]` - добавление матча в профайл юзера
     {"usermatch": {
             "match_id": 2,
             "command_id": 2,
@@ -28,9 +30,9 @@ sportamba-yii
                                         // в баре -> название бара
         }
     }
-4. /api/usermatch      [GET] - список всех матчей которые запланировал пользователь
-5. /api/usermatch/:id  [GET] - информация об добавленном в профайл юзера матче
-6. /api/usermatch/:id  [PUT] - обновление информация об добавленном в профайл юзера матче
+- `/api/usermatch      [GET]` - список всех матчей которые запланировал пользователь
+- `/api/usermatch/:id  [GET]` - информация об добавленном в профайл юзера матче
+- `/api/usermatch/:id  [PUT]` - обновление информация об добавленном в профайл юзера матче
     {"usermatch": {
             "match_id": 2,
             "command_id": 2,
@@ -38,15 +40,17 @@ sportamba-yii
             "place_viewing": "bar-name"
         }
     }
-7. /api/usermatch/:id  [DELETE] - удаление матча из профайла
-8. /api/usermatch/:id  [DELETE] - удаление матча из профайла
+- `/api/usermatch/:id  [DELETE]` - удаление матча из профайла
+- `/api/usermatch/:id  [DELETE]` - удаление матча из профайла
 
-Друзья пользователя:
-1. /api/connection           [POST] - добавление пользоветеля в друзья
-    {"connection": {
+Друзья пользователя
+----------------
+
+- `/api/connection           [POST]` - добавление пользоветеля в друзья
+    `{"connection": {
             "user_id_2": 5
         }
-    }
-2. /api/connection            [GET] - список моих друзей
-3. /api/connection/users      [GET] - список пользователей которые меня добавили в друзья
-4. /api/connection/:id        [DELETE] - удаление пользователя из друзей (отписаться)
+    }`
+- `/api/connection            [GET]` - список моих друзей
+- `/api/connection/users      [GET]` - список пользователей которые меня добавили в друзья
+- `/api/connection/:id        [DELETE]` - удаление пользователя из друзей (отписаться)
