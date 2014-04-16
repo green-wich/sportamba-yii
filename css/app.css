@@ -101,3 +101,8 @@ div.card {
 .table-view-cell {
 	font-size: 13px;
 }
+.nado {
+	outline:none;
+    border-color:red;
+    box-shadow:0 0 10px red;
+}

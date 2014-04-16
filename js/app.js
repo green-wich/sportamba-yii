@@ -84,7 +84,33 @@ var OneNews = Backbone.Model.extend({
         "news": "",
         "date": ""
     }
-})
+});
+var OneMatch = Backbone.Model.extend({
+  defaults:{
+    "match":{
+      "id":"",
+      "command_1":{
+        "id":"",
+        "name":"",
+        "img":""
+      },
+      "command_2":{
+        "id":"",
+        "name":"",
+        "img":""
+      },
+      "date":"",
+      "stadion":{
+        "name":"",
+        "lat":"",
+        "long":""
+      },
+      "CountUserOnStadion":"",
+      "CountFriendOnStadion":""
+    }
+  }
+});
+
 
 /////               COLLECTIONS 
 ///////////////////////////////
@@ -172,12 +198,73 @@ var MatchView = Backbone.Marionette.ItemView.extend({
     template: '#match',
     events: {
         'click button.btn.btn-outlined.btn-primary': 'addToMy',
-        'touchstart button.btn.btn-outlined.btn-primary': 'addToMy'
-    },
+        'touchstart button.btn.btn-outlined.btn-primary': 'addToMy',
+        'change input[name="type_place_viewing"]:radio' : 'toggleRadio'
 
+    },
+    toggleRadio:function(e){
+            if ($('#home').prop("checked")){
+              $('.inForm').find('input:radio').removeAttr('disabled');
+              $('.inForm').slideDown();
+            } else {
+              $('.inForm').find('input:radio').attr('disabled','disabled');
+              $('.inForm').slideUp();
+            }
+            if ($('#bar').prop("checked")){
+              $('#bar').siblings('[name="place_viewing"]').removeAttr('disabled').slideDown();;
+            } else {
+              $('#bar').siblings('[name="place_viewing"]').attr('disabled','disabled').slideUp();
+            }
+
+
+            if ($('#stad').prop("checked")) {
+                  $('#stad').siblings('[name="place_viewing"]').removeAttr('disabled');
+                  var match = this.model.get('match');
+                  var map_canv = $("#matchForm").find('#map_canvas')[0];
+                  var myLatlng = new google.maps.LatLng(match.stadion.lat, match.stadion.long); // координаты
+                  var myOptions = {
+                      zoom: 8,
+                      center: myLatlng,
+                      panControl: false,
+                      zoomControl: false,
+                      scaleControl: false,
+                      mapTypeId: google.maps.MapTypeId.ROADMAP
+                  }
+                  var map = new google.maps.Map(map_canv, myOptions); 
+                  var contentString = '<p>Стадион '+match.stadion.name+"<br />"
+                                      + "На стадионе смотрят матч " + match.CountUserOnStadion + " юзеров<br />"
+                                      + "и " + match.CountFriendOnStadion + " друзей</p>";
+                  var infowindow = new google.maps.InfoWindow({
+                       content: contentString
+                              
+                  });
+                  var marker = new google.maps.Marker({
+                      position: myLatlng,
+                      map: map,
+                      icon: '/img/map_pin.png',
+                      title: 'Нужный текст'
+                  });
+                  google.maps.event.addListener(marker, 'click', function() {
+                      infowindow.open(map,marker);
+                  });
+                  $('#map_canvas').slideDown("slow",function(){
+                    google.maps.event.trigger(map, "resize"); 
+                    map.setCenter(myLatlng);
+                  });
+                  $('#stad').data('show',true);
+                  
+            } else {
+              $('#stad').siblings('[name="place_viewing"]').attr('disabled','disabled');
+              $('#map_canvas').slideUp();
+            }
+    },
     addToMy: function (e) {
         e.preventDefault();
-        var object = $('#matchForm').serializeObject()
+        if($('#barName').val() == ""){
+          $('#barName').addClass('nado');
+          return;
+        }
+        var object = $('#matchForm').serializeObject();
         $.ajax({
             type: 'POST',
             url: window.location.origin + '/api/usermatch',
@@ -204,19 +291,19 @@ var MatchView = Backbone.Marionette.ItemView.extend({
 var AllUsersView = Backbone.Marionette.ItemView.extend({
     template: '#usersView',
     events: {
-      'click #myPod .icon.icon-plus.addIc': 'addToFr',
-      'touchstart #myPod .icon.icon-plus.addIc': 'addToFr',
+      'click #myPod .table-view-cell': 'addToFr',
+      'touchstart #myPod .table-view-cell': 'addToFr',
       'click a.tab-item': 'btnClick',
       'touchstart a.tab-item': 'btnClick',
-      'click #allFriends .icon.icon-plus.addIc': 'addToFr',
-      'touchstart #allFriends .icon.icon-plus.addIc': 'addToFr',
-      'click #myFriends .icon.icon-close.delIc': 'remToFr',
-      'touchstart #myFriends .icon.icon-close.delIc': 'remToFr'
+      'click #allFriends .table-view-cell': 'addToFr',
+      'touchstart #allFriends .table-view-cell': 'addToFr',
+      'click #myFriends .table-view-cell': 'remToFr',
+      'touchstart #myFriends .table-view-cell': 'remToFr'
     },
     addToFr: function(e){
       var that = this;
       e.preventDefault();
-      var num = $(e.currentTarget).attr('data-num');
+      var num = $(e.currentTarget).find('.icon.icon-plus.addIc').attr('data-num');
       $.ajax({
         type: 'POST',
         url: window.location.origin+'/api/connection',
@@ -241,7 +328,7 @@ var AllUsersView = Backbone.Marionette.ItemView.extend({
       var that = this;
       console.log('reeem')
       e.preventDefault();
-      var num = $(e.currentTarget).attr('data-num');
+      var num = $(e.currentTarget).find('.icon.icon-close.delIc').attr('data-num');
       $.ajax({
             type: 'DELETE',
             url: window.location.origin + '/api/connection/' + num,
@@ -279,24 +366,23 @@ var AllUsersView = Backbone.Marionette.ItemView.extend({
 var AllMatchesView = Backbone.Marionette.ItemView.extend({
     template: '#matchesScreen',
     events: {
-      'click #allMatches .icon.icon-plus.addIc': 'addToMyMatches',
-      'touchstart #allMatches .icon.icon-plus.addIc': 'addToMyMatches',
-      'click #userMatches .icon.icon-close.delIc': 'remFromMyMatches',
-      'touchstart #userMatches .icon.icon-close.delIc': 'remFromMyMatches',
+      'click #allMatches .table-view-cell': 'addToMyMatches',
+      'touchstart #allMatches .table-view-cell': 'addToMyMatches',
+      'click #userMatches .table-view-cell': 'remFromMyMatches',
+      'touchstart #userMatches .table-view-cell': 'remFromMyMatches',
       'click a.tab-item': 'btnClick',
       'touchstart a.tab-item': 'btnClick'
     },
     addToMyMatches: function(e){
-      console.log('aaaaaaaa');
       e.preventDefault();
-      var num = $(e.currentTarget).attr('data-num');
+      console.log($(e.currentTarget));
+      var num = $(e.currentTarget).find('.icon.icon-plus.addIc').attr('data-num');
       Backbone.history.navigate("matches/" + num, true)
     },
     remFromMyMatches: function(e){
-      console.log('bbbbbbbbb');
       e.preventDefault();
       var that = this;
-      var num = $(e.currentTarget).attr('data-num');
+      var num = $(e.currentTarget).find('.icon.icon-close.delIc').attr('data-num');
       $.ajax({
             type: 'DELETE',
             url: window.location.origin + '/api/usermatch/'+num,
@@ -461,7 +547,7 @@ var Router = Backbone.Marionette.AppRouter.extend({
         '(/)': 'indexShow',
         'disc(/)': 'discShow',
         'matches(/)': 'matchesShow',
-        'matches/:id': 'matchShow',
+        'matches/:id(/)': 'matchShow',
         'friends(/)': 'friendsShow'
     },
     controller: {
@@ -485,14 +571,18 @@ var Router = Backbone.Marionette.AppRouter.extend({
         },
         matchShow: function (param) {
           console.log('matchShow');
-            var obj = _.where(matches.models, {
-                id: "" + param
-            })[0].attributes;
-            var m = new Match(obj);
-            var y = new MatchView({
-                model: m
-            });
-            region.show(y);
+            $.ajax({
+              type: 'GET',
+              url: window.location.origin + '/api/match/'+param,
+              async:false,
+              dataType: "json",
+              success: function (data) {
+                console.log(data);
+                var matchModel = new OneMatch(data);
+                var matchView = new MatchView({model:matchModel});
+                region.show(matchView);
+              }
+            })
         },
         friendsShow: function (param) {
           console.log('friendsShow');
