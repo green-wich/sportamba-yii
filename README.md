@@ -1,15 +1,15 @@
 sportamba-yii
 =============
 
-Пользователи:
-1. api/user/login?provider=Vkontakte [GET] - авторизация Vkontakte
-2. api/user/login?provider=Facebook  [GET] - авторизация Facebook
-3. api/user/logout                   [GET] - logout
-3. api/user/status                   [GET] - проверяет залогинен пользаватель или нет
-4. api/user/current                  [GET] - информация о текущем пользователе
-5. api/user                          [GET] - все пользователи без учета друзей
-6. api/user/:id                      [GET] - информация о пользователе по id
-7. api/user/news                     [GET] - новости пользователя
+1. Пользователи:
+- `api/user/login?provider=Vkontakte [GET]` - авторизация Vkontakte
+- `api/user/login?provider=Facebook  [GET]` - авторизация Facebook
+- `api/user/logout                   [GET]` - logout
+- `api/user/status                   [GET]` - проверяет залогинен пользаватель или нет
+- `api/user/current                  [GET]` - информация о текущем пользователе
+- `api/user                          [GET]` - все пользователи без учета друзей
+- `api/user/:id                      [GET]` - информация о пользователе по id
+- `api/user/news                     [GET]` - новости пользователя
 
 Матчи:
 1. /api/match     [GET]  - список всех матчей
@@ -37,6 +37,7 @@ sportamba-yii
         }
     }
 7. /api/usermatch/:id  [DELETE] - удаление матча из профайла
+8. /api/usermatch/:id  [DELETE] - удаление матча из профайла
 
 Друзья пользователя:
 1. /api/connection           [POST] - добавление пользоветеля в друзья
