@@ -35,7 +35,7 @@ sportamba-yii
 - `/api/usermatch      [GET]` - список всех матчей которые запланировал пользователь
 - `/api/usermatch/:id  [GET]` - информация об добавленном в профайл юзера матче
 - `/api/usermatch/:id  [PUT]` - обновление информация об добавленном в профайл юзера матче
- ```javascript   
+```javascript   
     {"usermatch": {
             "match_id": 2,
             "command_id": 2,
@@ -51,7 +51,7 @@ sportamba-yii
 ----------------
 
 - `/api/connection           [POST]` - добавление пользоветеля в друзья
- ```javascript 
+```javascript 
     {"connection": {
             "user_id_2": 5
         }
