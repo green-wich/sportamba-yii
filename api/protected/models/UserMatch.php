@@ -98,5 +98,24 @@ class UserMatch extends CActiveRecord
         return parent::beforeSave();
     }
     
+    public function getCountUserOnStadion($id){
+        return self::model()->count(array(
+                        'select' => "id",
+                        'condition'=>"match_id=".$id."&&type_place_viewing=2"
+        ));
+    }
+    
+    public function getCountFriendOnStadion($id){
+        $myFriends = Connection::model()->getMyFriends();
+        $search = array();
+        foreach ($myFriends as $friend){
+            $search[] = $friend->user_id_2;
+        }
+        $criteria = new CDbCriteria();
+        $criteria->condition = "match_id=".$id."&&type_place_viewing=2";
+        $criteria->addInCondition('user_id', $search);
+        return self::model()->count($criteria);
+    }
+    
 }
 

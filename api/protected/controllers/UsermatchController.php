@@ -74,9 +74,5 @@ class UsermatchController extends Controller
         }
         $this->sendResponse(200, CJSON::encode($usermatch));
     }
-    
-    public function actionAll(){
-        
-    }
  
 }

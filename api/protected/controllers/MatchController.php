@@ -26,6 +26,9 @@ class MatchController extends Controller
             'lat' => $match->stadion->lat,
             'long' => $match->stadion->long,
         );
+        $match_id = $match->id;
+        $row['CountUserOnStadion'] = UserMatch::model()->getCountUserOnStadion($match_id);
+        $row['CountFriendOnStadion'] = UserMatch::model()->getCountFriendOnStadion($match_id);
         $result = array(self::JSON_RESPONSE_ROOT_SINGLE => $row);
         $this->sendResponse(200, CJSON::encode($result));
     }
