@@ -85,7 +85,7 @@ class UserController extends Controller
         Yii::app()->hybridAuth->endPoint();
     }
     
-    public function actionLogin($provider){
+    public function actionLogin($provider, $url = NULL){
         
         $guest = Yii::app()->user->isGuest;
         
@@ -150,7 +150,12 @@ class UserController extends Controller
                     $identity->authenticate();
                     if ($identity->errorCode === UserIdentity::ERROR_NONE) {
                         Yii::app()->user->login($identity);
-                        $this->homeRedirect();
+                        if($url === NULL){
+                            $this->homeRedirect();
+                        }else{
+                            header("Location:" . $url , true, 301);
+                            Yii::app()->end();
+                        }
                     }
                 }else{
                     $this->homeRedirect();
