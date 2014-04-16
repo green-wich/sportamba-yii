@@ -1,7 +1,9 @@
 sportamba-yii
 =============
 
-1. Пользователи:
+Пользователи
+--------------
+
 - `api/user/login?provider=Vkontakte [GET]` - авторизация Vkontakte
 - `api/user/login?provider=Facebook  [GET]` - авторизация Facebook
 - `api/user/logout                   [GET]` - logout
