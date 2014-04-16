@@ -45,7 +45,6 @@ sportamba-yii
     }
 ```
 - `/api/usermatch/:id  [DELETE]` - удаление матча из профайла
-- `/api/usermatch/:id  [DELETE]` - удаление матча из профайла
 
 Друзья пользователя
 ----------------
