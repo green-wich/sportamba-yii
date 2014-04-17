@@ -298,7 +298,9 @@ var AllUsersView = Backbone.Marionette.ItemView.extend({
       'click #allFriends .table-view-cell': 'addToFr',
       'touchstart #allFriends .table-view-cell': 'addToFr',
       'click #myFriends .table-view-cell': 'remToFr',
-      'touchstart #myFriends .table-view-cell': 'remToFr'
+      'touchstart #myFriends .table-view-cell': 'remToFr',
+      'click .icon.icon-share.logout': 'logOut',
+      'touchstart .icon.icon-share.logout': 'logOut'
     },
     addToFr: function(e){
       var that = this;
@@ -355,6 +357,9 @@ var AllUsersView = Backbone.Marionette.ItemView.extend({
           Backbone.history.navigate($(e.currentTarget).attr('href'), true)
         }
     },
+    logOut:function(){
+      window.location = window.location.origin + "/api/user/logout";
+    },
     onShow: function(){
       this.listenTo(this.model, 'change', this.render);
     },
@@ -371,7 +376,9 @@ var AllMatchesView = Backbone.Marionette.ItemView.extend({
       'click #userMatches .table-view-cell': 'remFromMyMatches',
       'touchstart #userMatches .table-view-cell': 'remFromMyMatches',
       'click a.tab-item': 'btnClick',
-      'touchstart a.tab-item': 'btnClick'
+      'touchstart a.tab-item': 'btnClick',
+      'click .icon.icon-share.logout': 'logOut',
+      'touchstart .icon.icon-share.logout': 'logOut'
     },
     addToMyMatches: function(e){
       e.preventDefault();
@@ -410,6 +417,9 @@ var AllMatchesView = Backbone.Marionette.ItemView.extend({
           Backbone.history.navigate($(e.currentTarget).attr('href'), true)
         }
     },
+    logOut:function(){
+      window.location = window.location.origin + "/api/user/logout";
+    },
     onShow: function(){
       this.listenTo(this.model, 'change', this.render);
     },
@@ -426,8 +436,8 @@ var DisclaimerPage = Backbone.Marionette.ItemView.extend({
         'touchstart a.tab-item': 'btnClick',
         'click div.btn.btn-primary.btn-outlined': 'btnClick',
         'touchstart div.btn.btn-primary.btn-outlined': 'btnClick',
-        'click .icon.icon-share': 'logOut',
-        'touchstart .icon.icon-share': 'logOut',
+        'click .icon.icon-share.logout': 'logOut',
+        'touchstart .icon.icon-share.logout': 'logOut',
     },
     btnClick: function (e) {
       console.log('DisclaimerPage')
@@ -554,7 +564,7 @@ var Router = Backbone.Marionette.AppRouter.extend({
         indexShow: function (param) {
           console.log('indexShow');
           if (app.login == true){
-            Backbone.history.navigate("disc", true);
+            Backbone.history.navigate("matches", true);
           }else {
             var a = new IndexPage();
             region.show(a);
