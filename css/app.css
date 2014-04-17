@@ -114,3 +114,9 @@ div.card {
 #matchForm .table-view-cell > .btn.btn-outlined.btn-primary.wi {
 	width: 120px;
 }
+.icon-plus::before{
+	content: '' !important;
+}
+.icon-close::before{
+	content: '' !important;
+}

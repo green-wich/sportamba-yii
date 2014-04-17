@@ -223,7 +223,7 @@ var MatchView = Backbone.Marionette.ItemView.extend({
                   var map_canv = $("#matchForm").find('#map_canvas')[0];
                   var myLatlng = new google.maps.LatLng(match.stadion.lat, match.stadion.long); // координаты
                   var myOptions = {
-                      zoom: 8,
+                      zoom: 16,
                       center: myLatlng,
                       panControl: false,
                       zoomControl: false,
@@ -558,7 +558,8 @@ var Router = Backbone.Marionette.AppRouter.extend({
         'disc(/)': 'discShow',
         'matches(/)': 'matchesShow',
         'matches/:id(/)': 'matchShow',
-        'friends(/)': 'friendsShow'
+        'friends(/)': 'friendsShow',
+        '*s':'toIndex'
     },
     controller: {
         indexShow: function (param) {
@@ -569,6 +570,9 @@ var Router = Backbone.Marionette.AppRouter.extend({
             var a = new IndexPage();
             region.show(a);
           }
+        },
+        toIndex: function(){
+          Backbone.history.navigate("matches", true);
         },
         discShow: function (param) {
           var discPage = new DisclaimerPage({model:firstNewsMod});
