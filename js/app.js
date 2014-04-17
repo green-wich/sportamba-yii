@@ -199,8 +199,12 @@ var MatchView = Backbone.Marionette.ItemView.extend({
     events: {
         'click button.btn.btn-outlined.btn-primary': 'addToMy',
         'touchstart button.btn.btn-outlined.btn-primary': 'addToMy',
-        'change input[name="type_place_viewing"]:radio' : 'toggleRadio'
-
+        'change input[name="type_place_viewing"]:radio' : 'toggleRadio',
+        'click .backArr': 'back',
+        'touchstart .backArr': 'back',
+        'click .wi': 'navigate',
+        'touchstart .wi': 'navigate'
+        
     },
     toggleRadio:function(e){
             if ($('#home').prop("checked")){
@@ -257,6 +261,14 @@ var MatchView = Backbone.Marionette.ItemView.extend({
               $('#stad').siblings('[name="place_viewing"]').attr('disabled','disabled');
               $('#map_canvas').slideUp();
             }
+    },
+    back:function(e){
+      e.preventDefault();
+      Backbone.history.navigate("matches", true);
+    },
+    navigate: function(e){
+      e.preventDefault();
+      Backbone.history.navigate($(e.currentTarget).attr('href'), true);
     },
     addToMy: function (e) {
         e.preventDefault();
@@ -319,6 +331,7 @@ var AllUsersView = Backbone.Marionette.ItemView.extend({
           console.log(mod);
           model.remove(mod);
           model2.add(mod);
+          that.model.trigger('change');
         },
         error:function(data){
          console.log(data);
@@ -343,6 +356,7 @@ var AllUsersView = Backbone.Marionette.ItemView.extend({
               model2.remove(_.where(model2.models, {
                 id: "" + num
             }));
+              that.model.trigger('change');
             },
             error: function (data) {
                 alert('error');
@@ -451,7 +465,77 @@ var DisclaimerPage = Backbone.Marionette.ItemView.extend({
     }
 
 });
+var MapView = Backbone.Marionette.ItemView.extend({
+    template: "#map",
+    events: {
+        'click a.tab-item': 'btnClick',
+        'touchstart a.tab-item': 'btnClick',
+        'click .icon.icon-left-nav.backArr': 'back',
+        'touchstart .icon.icon-left-nav.backArr': 'back',
+        'click .icon.icon-share.logout': 'logOut',
+        'touchstart .icon.icon-share.logout': 'logOut',
+        'click .btn.btn-outlined.btn-primary': 'showMap',
+        'touchstart .btn.btn-outlined.btn-primary': 'showMap'
+    },
+    showMap: function(e){
+      e.preventDefault();
+      Backbone.history.navigate('map/'+$(e.currentTarget).attr('href'), true);
+    },
+    back: function(e){
+      e.preventDefault();
+      Backbone.history.navigate($(e.currentTarget).attr('href'), true);
+    },
+    btnClick: function (e) {
+      console.log('MapView')
+        e.preventDefault();
+        if ($(e.currentTarget).attr('href')) {
+          Backbone.history.navigate($(e.currentTarget).attr('href'), true)
+        }
+    },
+    logOut:function(){
+      window.location = window.location.origin + "/api/user/logout";
+    },
+    onShow: function(){
+      this.$el.find('.backArr').attr('href',"matches/"+this.options.href);
+      var match = this.model.get('match');
+      console.log(match);
+      console.log('match');
+      var map_canv = this.$el.find('#cont')[0];
+      console.log(map_canv);
+      var myLatlng = new google.maps.LatLng(match.stadion.lat, match.stadion.long); // координаты
+      var myOptions = {
+          zoom: 16,
+          center: myLatlng,
+          panControl: false,
+          zoomControl: false,
+          scaleControl: false,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+      console.log('1');
+      var contentString = '<p>Стадион '+match.stadion.name+"<br />"
+                          + "На стадионе смотрят матч " + match.CountUserOnStadion + " юзеров<br />"
+                          + "и " + match.CountFriendOnStadion + " друзей</p>";
+      var infowindow = new google.maps.InfoWindow({
+           content: contentString
+                  
+      });
+      console.log('2');
+      var marker = new google.maps.Marker({
+          position: myLatlng,
+          map: map,
+          icon: '/img/map_pin.png',
+          title: 'Нужный текст'
+      });
+      console.log('3');
+      google.maps.event.addListener(marker, 'click', function() {
+          infowindow.open(map,marker);
+      });
+      console.log('5');
+      var map = new google.maps.Map(map_canv, myOptions);
+      console.log('4');
+    }
 
+});
 
 var IndexPage = Backbone.Marionette.ItemView.extend({
     template: "#firstScreen",
@@ -559,6 +643,7 @@ var Router = Backbone.Marionette.AppRouter.extend({
         'matches(/)': 'matchesShow',
         'matches/:id(/)': 'matchShow',
         'friends(/)': 'friendsShow',
+        'map/:id(/)': 'mapShow',
         '*s':'toIndex'
     },
     controller: {
@@ -581,7 +666,7 @@ var Router = Backbone.Marionette.AppRouter.extend({
         matchesShow: function (param) {
           console.log('matchesShow');
           var allMatchesView = new AllMatchesView({model:allMatches});
-            region.show(allMatchesView);
+          region.show(allMatchesView);
         },
         matchShow: function (param) {
           console.log('matchShow');
@@ -599,9 +684,24 @@ var Router = Backbone.Marionette.AppRouter.extend({
             })
         },
         friendsShow: function (param) {
-          console.log('friendsShow');
+            console.log('friendsShow');
             var allUsersView = new AllUsersView({model:allUsers});
             region.show(allUsersView);
+        },
+        mapShow: function(param){
+            $.ajax({
+              type: 'GET',
+              url: window.location.origin + '/api/match/'+param,
+              async:false,
+              dataType: "json",
+              success: function (data) {
+                console.log(data);
+                var matchModel = new OneMatch(data);
+                var mapView= new MapView({model:matchModel,href:param});
+                region.show(mapView);
+              }
+            })
+
         }
     }
 });

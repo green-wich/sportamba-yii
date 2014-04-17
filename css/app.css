@@ -114,9 +114,21 @@ div.card {
 #matchForm .table-view-cell > .btn.btn-outlined.btn-primary.wi {
 	width: 120px;
 }
-.icon-plus::before{
+#allMatches .icon-plus::before ,#userMatches .icon-plus::before {
 	content: '' !important;
 }
-.icon-close::before{
+#allMatches .icon-close::before, #userMatches .icon-close::before {
 	content: '' !important;
+}
+.backArr{
+	position: fixed;
+	left:10px;
+}
+.backArr.maps {
+	position: fixed;
+	left:10px;
+}
+.mapb {
+	float: none;
+	margin-left: 30px;
 }
