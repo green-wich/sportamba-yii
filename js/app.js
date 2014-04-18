@@ -497,6 +497,9 @@ var MapView = Backbone.Marionette.ItemView.extend({
     },
     onShow: function(){
       this.$el.find('.backArr').attr('href',"matches/"+this.options.href);
+      this.$el.find('.allFriends').attr('href',"map/"+this.options.href);
+      this.$el.find('.allUsers').attr('href',"map/users/"+this.options.href);
+            
       var match = this.model.get('match');
       console.log(match);
       console.log('match');
@@ -520,6 +523,7 @@ var MapView = Backbone.Marionette.ItemView.extend({
                   
       });
       console.log('2');
+      var map = new google.maps.Map(map_canv, myOptions);
       var marker = new google.maps.Marker({
           position: myLatlng,
           map: map,
@@ -531,8 +535,10 @@ var MapView = Backbone.Marionette.ItemView.extend({
           infowindow.open(map,marker);
       });
       console.log('5');
-      var map = new google.maps.Map(map_canv, myOptions);
+      
       console.log('4');
+      google.maps.event.trigger(map, "resize"); 
+      map.setCenter(myLatlng);
     }
 
 });

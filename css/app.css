@@ -132,3 +132,6 @@ div.card {
 	float: none;
 	margin-left: 30px;
 }
+.bar.bar-nav .wi{
+	width: 40%;
+}
